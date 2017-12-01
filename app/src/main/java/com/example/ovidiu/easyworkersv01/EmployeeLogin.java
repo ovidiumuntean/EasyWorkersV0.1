@@ -192,7 +192,8 @@ public class EmployeeLogin extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        EmailValidator emailValidator = new EmailValidator();
+        return emailValidator.validate(email);
     }
 
     private boolean isPasswordValid(String password) {

@@ -51,4 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void login(View v) {
+        Intent loginIntent = new Intent(this, EmployeeLogin.class);
+        startActivity(loginIntent);
+    }
 }
