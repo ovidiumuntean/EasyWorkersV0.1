@@ -26,7 +26,15 @@
         </activity>
         <activity
             android:name=".EmployeeLogin"
-            android:label="@string/title_activity_employee_login"></activity>
+            android:label="@string/title_activity_employee_login" />
+        <activity
+            android:name=".EmployeeRegister"
+            android:label="@string/title_activity_employee_register" />
+        <activity android:name=".EmployeeProfile" />
+        <activity
+            android:name=".EmployeeProfile1"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
