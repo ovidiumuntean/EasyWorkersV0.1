@@ -56,4 +56,9 @@ public class MainActivity extends AppCompatActivity {
         Intent loginIntent = new Intent(this, EmployeeLogin.class);
         startActivity(loginIntent);
     }
+
+    public void link(View v){
+        Intent companyRegIntent = new Intent(this, CompanyReg.class);
+        startActivity(companyRegIntent);
+    }
 }
