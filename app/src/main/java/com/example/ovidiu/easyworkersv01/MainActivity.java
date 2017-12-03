@@ -14,6 +14,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private boolean empBool = true;
+    private boolean compBool = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +61,12 @@ public class MainActivity extends AppCompatActivity {
         if (empBool){
             compEmpQuestion.setText("Are you an employee?");
             empBool = false;
+            compBool = true;
         } else {
             compEmpQuestion.setText("Are you a company?");
             empBool = true;
+            compBool = false;
+
         }
 
     }
@@ -72,7 +76,10 @@ public class MainActivity extends AppCompatActivity {
             Intent empLogIntent = new Intent(this, EmployeeLogin.class);
             startActivity(empLogIntent);
         } else {
-            //TODO: Add you code for open the company intent log in
+            if(compBool){
+                Intent compLogIntent = new Intent(this, CompanyLogin.class);
+                startActivity(compLogIntent);
+            }
         }
     }
 
@@ -81,7 +88,11 @@ public class MainActivity extends AppCompatActivity {
             Intent empRegIntent = new Intent(this, EmployeeRegister.class);
             startActivity(empRegIntent);
         } else {
-            //TODO: ADD YOUR INTENT FOR COMP REGISTER
+            if(compBool){
+                Intent compRegIntent = new Intent(this, CompanyReg.class);
+                startActivity(compRegIntent);
+            }
+
         }
     }
 

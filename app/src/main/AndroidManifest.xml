@@ -34,7 +34,10 @@
         <activity
             android:name=".EmployeeProfile1"
             android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CompanyLogin"
+            android:label="@string/title_activity_company_login"></activity>
     </application>
 
 </manifest>
