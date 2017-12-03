@@ -9,8 +9,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+
+    private boolean empBool = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +55,34 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void login(View v) {
-        Intent loginIntent = new Intent(this, EmployeeLogin.class);
-        startActivity(loginIntent);
+    public void onCompany(View v){
+        TextView compEmpQuestion = (TextView) findViewById(R.id.textView4);
+        if (empBool){
+            compEmpQuestion.setText("Are you an employee?");
+            empBool = false;
+        } else {
+            compEmpQuestion.setText("Are you a company?");
+            empBool = true;
+        }
+
+    }
+
+    public void onLogin(View v) {
+        if (empBool) {
+            Intent empLogIntent = new Intent(this, EmployeeLogin.class);
+            startActivity(empLogIntent);
+        } else {
+            //TODO: Add you code for open the company intent log in
+        }
+    }
+
+    public void onRegister(View v){
+        if(empBool) {
+            Intent empRegIntent = new Intent(this, EmployeeRegister.class);
+            startActivity(empRegIntent);
+        } else {
+            //TODO: ADD YOUR INTENT FOR COMP REGISTER
+        }
     }
 
     public void link(View v){

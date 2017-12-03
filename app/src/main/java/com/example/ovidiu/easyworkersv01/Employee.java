@@ -14,9 +14,10 @@ public class Employee {
     private String address;
     private String phone_no;
     private String email;
+    private String password;
     private int status;
 
-    public Employee(int id, String first_name, String surname, Date birthday, String address, String phone_no, String email, int status) {
+    public Employee(int id, String first_name, String surname, Date birthday, String address, String phone_no, String email, String pass, int status) {
         this.id = id;
         this.first_name = first_name;
         this.surname = surname;
@@ -24,6 +25,7 @@ public class Employee {
         this.address = address;
         this.phone_no = phone_no;
         this.email = email;
+        this.password = pass;
         this.status = status;
     }
 
@@ -84,6 +86,14 @@ public class Employee {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getStatus() {

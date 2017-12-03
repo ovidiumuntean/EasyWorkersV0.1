@@ -17,20 +17,25 @@ public class EmployeeTable {
     private static final String COL_PHONE_NO = "PHONE_NO";
     private static final String COL_STATUS = "STATUS";
     private static final String COL_EMAIL = "EMAIL";
+    private static final String COL_PASSWORD = "PASSWORD";
+    private static final String COL_COMPANY = "COMPANY_ID";
+
 
     public EmployeeTable() {
     }
 
     public String createTableQuery(){
-        String createEmployeeTable = "CREATE TABLE " + TABLE_NAME + " ( " +
-                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL" +
+        String createEmployeeTable = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( " +
+                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ," +
                 COL_FIRST_NAME + " TEXT NOT NULL, " +
                 COL_SURNAME + " TEXT NOT NULL, " +
-                COL_BIRTHDAY + " DATE NOT NULL," +
-                COL_ADDRESS + " TEXT," +
-                COL_PHONE_NO + " TEXT NOT NULL" +
+                COL_BIRTHDAY + " DATE NOT NULL, " +
+                COL_ADDRESS + " TEXT, " +
+                COL_PHONE_NO + " TEXT NOT NULL, " +
                 COL_EMAIL + " TEXT NOT NULL, " +
-                COL_STATUS + " BOOLEAN DEFAULT 1";
+                COL_STATUS + " BOOLEAN DEFAULT 1, " +
+                COL_PASSWORD + " TEXT NOT NULL , " +
+                COL_COMPANY + " );";
         return createEmployeeTable;
     }
 
@@ -43,6 +48,7 @@ public class EmployeeTable {
         values.put(COL_PHONE_NO, employee.getPhone_no());
         values.put(COL_EMAIL, employee.getEmail());
         values.put(COL_STATUS, employee.getStatus());
+        values.put(COL_PASSWORD, employee.getPassword());
         return values;
     }
 
@@ -80,5 +86,9 @@ public class EmployeeTable {
 
     public static String getColEmail() {
         return COL_EMAIL;
+    }
+
+    public static String getColPassword() {
+        return COL_PASSWORD;
     }
 }
