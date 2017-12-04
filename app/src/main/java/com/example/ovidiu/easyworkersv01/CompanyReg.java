@@ -76,7 +76,6 @@ public class CompanyReg extends AppCompatActivity implements LoaderCallbacks<Cur
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_reg);
-        // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mNameView = (EditText) findViewById(R.id.companyName);
         mPhoneNoView = (EditText) findViewById(R.id.phone);
