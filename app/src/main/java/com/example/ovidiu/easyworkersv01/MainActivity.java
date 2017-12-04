@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             Intent empRegIntent = new Intent(this, EmployeeRegister.class);
             startActivity(empRegIntent);
         } else {
-            Intent compRegIntent = new Intent(this, CompanyReg.class);
+            Intent compRegIntent = new Intent(this, CompanyRegister.class);
             startActivity(compRegIntent);
 
         }

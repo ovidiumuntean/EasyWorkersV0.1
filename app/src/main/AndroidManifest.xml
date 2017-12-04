@@ -36,11 +36,11 @@
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".CompanyReg"
-            android:label="@string/title_activity_company_register" />
-        <activity
             android:name=".CompanyLogin"
-            android:label="@string/title_activity_company_login"></activity>
+            android:label="@string/title_activity_company_login" />
+        <activity
+            android:name=".CompanyRegister"
+            android:label="@string/title_activity_company_register"></activity>
     </application>
 
 </manifest>
