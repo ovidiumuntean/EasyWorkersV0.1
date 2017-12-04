@@ -23,7 +23,11 @@ public class EmployeeProfile1 extends AppCompatActivity {
     private EditText mFirstNameView;
     private EditText mSurnameView;
     private EditText mPhoneNoView;
-    private EditText mBirthDay;
+    private EditText mEmailView;
+    private EditText mBirthDayView;
+    private EditText mAddressView;
+    private EditText mIdView;
+    private EditText mStatusView;
 
     // Session Manager Class
     SessionManager session;
@@ -61,18 +65,45 @@ public class EmployeeProfile1 extends AppCompatActivity {
          * logged in
          * */
         session.checkLogin();
-
-        if(session.isLoggedIn()){
-//            mFirstNameView = (EditText) findViewById(R.id.firstNameRegE);
-            mPhoneNoView = (EditText) findViewById(R.id.phoneNoProfE);
-//            mSurnameView = (EditText) findViewById(R.id.surnameRegE);
-//            mBirthDay = (EditText) findViewById(R.id.birthdayRegE);
-            employee = myDb.searchEmployeeByEmail(session.getUserDetails().get(SessionManager.KEY_EMAIL));
-            mPhoneNoView.setText(employee.getPhone_no());
-            this.setTitle(employee.getFirst_name() + " " + employee.getSurname());
+        // Get user Details from DB
+        employee = myDb.searchEmployeeByEmail(session.getUserDetails().get(SessionManager.KEY_EMAIL));
+        if(employee != null && session.isLoggedIn()) {
+            this.setTitle(employee.getFirst_name());
+            this.setEmpProfileData();
         } else {
-            Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
+            session.logoutUser();
+            finish();
         }
+
+    }
+
+    public void setEmpProfileData(){
+
+                // GETTING THE EDIT TEXT FROM VIEW
+                mIdView = (EditText) findViewById(R.id.idProfE);
+                mFirstNameView = (EditText) findViewById(R.id.firstNameProfE);
+                mPhoneNoView = (EditText) findViewById(R.id.phoneNoProfE);
+                mEmailView = (EditText) findViewById(R.id.emailProfE);
+                mSurnameView = (EditText) findViewById(R.id.surnameProfE);
+                mBirthDayView = (EditText) findViewById(R.id.birthdayProfE);
+                mAddressView = (EditText) findViewById(R.id.addressProfE);
+                mStatusView = (EditText) findViewById(R.id.statusProfE);
+
+                //SETTING THE EDIT TEXTS CONTENT
+                mIdView.setText(String.valueOf(employee.getId()));
+                mFirstNameView.setText(employee.getFirst_name());
+                mSurnameView.setText(employee.getSurname());
+                mBirthDayView.setText(employee.getBirthday().toString());
+                if(!employee.getAddress().equals("")){
+                    mAddressView.setText(employee.getAddress());
+                }
+                mPhoneNoView.setText(employee.getPhone_no());
+                mEmailView.setText(employee.getEmail());
+                if(employee.getStatus() == 1) {
+                    mStatusView.setText("Employed");
+                } else {
+                    mStatusView.setText("Unemployed");
+                }
     }
 
     public void onEditPhone(View v) {

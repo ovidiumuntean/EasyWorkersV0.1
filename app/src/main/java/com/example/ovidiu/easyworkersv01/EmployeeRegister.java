@@ -419,7 +419,7 @@ public class EmployeeRegister extends AppCompatActivity implements LoaderCallbac
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
+            AlertDialogManager alert = new AlertDialogManager();
             if (success) {
                 if(myDb.addEmployee(employee)) {
                     if (session.isLoggedIn()) {
@@ -427,16 +427,16 @@ public class EmployeeRegister extends AppCompatActivity implements LoaderCallbac
                     }
                     session.createLoginSession(employee.getFirst_name(), employee.getEmail());
                     Toast.makeText(EmployeeRegister.this, "User " + employee.getFirst_name() + " successfully logged in!", Toast.LENGTH_SHORT).show();
+                    alert.showAlertDialog(EmployeeRegister.this, "Registration successfully..", "User " + employee.getFirst_name() + " successfully registered!", false);
                     Intent empProfIntent = new Intent(EmployeeRegister.this, EmployeeProfile1.class);
                     startActivity(empProfIntent);
                 } else {
-                    AlertDialogManager alert = new AlertDialogManager();
+
                     alert.showAlertDialog(EmployeeRegister.this, "Registration failed..", "Invalid Data!", false);
                 }
 
             } else {
                 //Toast.makeText(this, "Please Try Again!", Toast.LENGTH_SHORT).show();
-                AlertDialogManager alert = new AlertDialogManager();
                 alert.showAlertDialog(EmployeeRegister.this, "Registration failed..", "You are already registered! Please Login!", false);
             }
         }

@@ -19,7 +19,7 @@ public class AlertDialogManager {
      * */
     public void showAlertDialog(Context context, String title, String message,
                                 Boolean status) {
-        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        AlertDialog alertDialog = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert).create();
 
         // Setting Dialog Title
         alertDialog.setTitle(title);
