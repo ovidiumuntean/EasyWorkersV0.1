@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String ENTITY_KEY;
     private boolean empBool = true;
 
     @Override
@@ -69,13 +70,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onLogin(View v) {
+        String entityString;
         if (empBool) {
-            Intent empLogIntent = new Intent(this, EmployeeLogin.class);
-            startActivity(empLogIntent);
+            entityString = "EMPLOYEE";
         } else {
-                Intent compLogIntent = new Intent(this, CompanyLogin.class);
-                startActivity(compLogIntent);
+            entityString = "COMPANY";
         }
+        Intent empLogIntent = new Intent(this, EmployeeLogin.class);
+        empLogIntent.putExtra(ENTITY_KEY, entityString);
+        startActivity(empLogIntent);
     }
 
     public void onRegister(View v){

@@ -1,6 +1,8 @@
-package com.example.ovidiu.easyworkersv01;
+package com.example.ovidiu.easyworkersv01.Tables;
 
 import android.content.ContentValues;
+
+import com.example.ovidiu.easyworkersv01.Entity.Company;
 
 /**
  * Created by anamali on 01/12/2017.
@@ -25,10 +27,10 @@ public class CompanyTable {
                 COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL" +
                 COL_REGNUM + " TEXT NOT NULL, " +
                 COL_NAME + " TEXT NOT NULL, " +
-                COL_PHONE_NO + " NUMBER NOT NULL," +
+                COL_PHONE_NO + " NUMBER NOT NULL UNIQUE," +
                 COL_ADDRESS + " TEXT," +
                 COL_PASSWORD + " TEXT NOT NULL," +
-                COL_EMAIL + " TEXT NOT NULL )";
+                COL_EMAIL + " TEXT NOT NULL UNIQUE)";
 
 
         return createCompanyTable;

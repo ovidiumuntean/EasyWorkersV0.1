@@ -4,10 +4,6 @@ package com.example.ovidiu.easyworkersv01;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -31,12 +27,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.ConcurrentMap;
+import com.example.ovidiu.easyworkersv01.Entity.Company;
+import com.example.ovidiu.easyworkersv01.Util.DatabaseManager;
+import com.example.ovidiu.easyworkersv01.Util.EmailValidator;
 
-import static android.Manifest.permission.READ_CONTACTS;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A login screen that offers login via email/password.

@@ -4,9 +4,7 @@ package com.example.ovidiu.easyworkersv01;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -29,12 +27,17 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.ovidiu.easyworkersv01.Entity.Employee;
+import com.example.ovidiu.easyworkersv01.Util.AlertDialogManager;
+import com.example.ovidiu.easyworkersv01.Util.DatabaseManager;
+import com.example.ovidiu.easyworkersv01.Util.EmailValidator;
+import com.example.ovidiu.easyworkersv01.Util.SessionManager;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
@@ -68,35 +71,35 @@ public class EmployeeRegister extends AppCompatActivity implements LoaderCallbac
     private EditText mBirthDay;
     private View mProgressView;
     private View mLoginFormView;
+
+
+    // Database Manager Class
     private DatabaseManager myDb;
+
+    // Session Manager Class
+    SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_register);
+
+        // Session Manager
+        session = new SessionManager(getApplicationContext());
+        //Database Manager
+        myDb = new DatabaseManager(this, null, null, 1);
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.emailRegE);
         mFirstNameView = (EditText) findViewById(R.id.firstNameRegE);
         mPhoneNoView = (EditText) findViewById(R.id.phoneNoRegE);
         mSurnameView = (EditText) findViewById(R.id.surnameRegE);
         mBirthDay = (EditText) findViewById(R.id.birthdayRegE);
-        myDb = new DatabaseManager(this, null, null, 1);
+
         //populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.passwordRegE);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptRegister();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        mConfPasswordView = (EditText) findViewById(R.id.password_confirmedRegE);
-//        mConfPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 //            @Override
 //            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
 //                if (id == R.id.login || id == EditorInfo.IME_NULL) {
@@ -106,6 +109,18 @@ public class EmployeeRegister extends AppCompatActivity implements LoaderCallbac
 //                return false;
 //            }
 //        });
+
+        mConfPasswordView = (EditText) findViewById(R.id.password_confirmedRegE);
+        mConfPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                    attemptRegister();
+                    return true;
+                }
+                return false;
+            }
+        });
 
 //        mConfPasswordView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 //            @Override
@@ -260,9 +275,8 @@ public class EmployeeRegister extends AppCompatActivity implements LoaderCallbac
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            Employee employee = new Employee(0 , firstName, surname, new Date(birthDay), "", phoneNo, email, password, 1);
-            mAuthTask = new UserLoginTask(employee);
-            mAuthTask.doInBackground();
+            Employee newEmployee = new Employee(0 , firstName, surname, new Date(birthDay), "", phoneNo, email, password, 1);
+            mAuthTask = new UserLoginTask(newEmployee);
             mAuthTask.execute((Void) null);
         }
     }
@@ -383,24 +397,22 @@ public class EmployeeRegister extends AppCompatActivity implements LoaderCallbac
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+            Employee emp1;
+            try {
+                // Simulate network access.
+                emp1 = myDb.searchEmployeeByEmail(employee.getEmail());
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                return false;
+            }
 
-//            try {
-//                // Simulate network access.
-//                Thread.sleep(2000);
-//            } catch (InterruptedException e) {
-//                return false;
-//            }
-//
-//            for (String credential : DUMMY_CREDENTIALS) {
-//                String[] pieces = credential.split(":");
-//                if (pieces[0].equals(mEmail)) {
-//                    // Account exists, return true if the password matches.
-//                    return pieces[1].equals(mPassword);
-//                }
-//            }
-
+            if(emp1 == null){
+                return true;
+            } else {
+                return false;
+            }
             // TODO: register the new account here.
-           return myDb.addEmployee(employee);
+
         }
 
         @Override
@@ -409,10 +421,23 @@ public class EmployeeRegister extends AppCompatActivity implements LoaderCallbac
             showProgress(false);
 
             if (success) {
-                finish();
+                if(myDb.addEmployee(employee)) {
+                    if (session.isLoggedIn()) {
+                        session.logoutUser();
+                    }
+                    session.createLoginSession(employee.getFirst_name(), employee.getEmail());
+                    Toast.makeText(EmployeeRegister.this, "User " + employee.getFirst_name() + " successfully logged in!", Toast.LENGTH_SHORT).show();
+                    Intent empProfIntent = new Intent(EmployeeRegister.this, EmployeeProfile1.class);
+                    startActivity(empProfIntent);
+                } else {
+                    AlertDialogManager alert = new AlertDialogManager();
+                    alert.showAlertDialog(EmployeeRegister.this, "Registration failed..", "Invalid Data!", false);
+                }
+
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                //Toast.makeText(this, "Please Try Again!", Toast.LENGTH_SHORT).show();
+                AlertDialogManager alert = new AlertDialogManager();
+                alert.showAlertDialog(EmployeeRegister.this, "Registration failed..", "You are already registered! Please Login!", false);
             }
         }
 

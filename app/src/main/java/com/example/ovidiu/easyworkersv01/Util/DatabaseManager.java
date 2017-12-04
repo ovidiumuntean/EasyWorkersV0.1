@@ -1,10 +1,15 @@
-package com.example.ovidiu.easyworkersv01;
+package com.example.ovidiu.easyworkersv01.Util;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.ovidiu.easyworkersv01.Tables.CompanyTable;
+import com.example.ovidiu.easyworkersv01.Tables.EmployeeTable;
+import com.example.ovidiu.easyworkersv01.Entity.Company;
+import com.example.ovidiu.easyworkersv01.Entity.Employee;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,7 +50,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     public boolean addEmployee(Employee employee) { // can haveparameters if needed
         Employee emp = searchEmployeeByEmail(employee.getEmail());
-        if(emp != null) {
+        if(emp == null) {
             SQLiteDatabase db = getWritableDatabase();
             ContentValues values = empTable.createValues(employee);
             long result = db.insert(empTable.getTableName(), null, values);
@@ -116,7 +121,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public Employee  employeeLogin(String email, String password){
         SQLiteDatabase db = getReadableDatabase();
         String query = "SELECT * FROM " + empTable.getTableName() + " WHERE " + empTable.getColEmail() + "=\'" + email +
-                "\' AND " + empTable.getColPassword() + " =  \'" + password + "\' AND " + empTable.getColStatus() + " = 1;";
+                "\' AND " + empTable.getColPassword() + "= \'" + password + "\' AND " + empTable.getColStatus() + " = 1;";
         Employee employee = new Employee();
         Cursor c = db.rawQuery(query, null);
 

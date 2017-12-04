@@ -29,8 +29,8 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:src="@drawable/ic_phone_black" />
 
-            <TextView
-                android:id="@+id/tvNumber1"
+            <EditText
+                android:id="@+id/phoneNoProfE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -38,13 +38,14 @@
                 android:layout_toEndOf="@id/ivContactItem1"
                 android:layout_toRightOf="@id/ivContactItem1"
                 android:text="(123) 456-7890"
+                android:enabled="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvNumber1"
+                android:layout_below="@id/phoneNoProfE"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
@@ -66,6 +67,7 @@
                 android:background="@android:drawable/ic_menu_edit"
                 android:checked="true"
                 android:padding="6dp"
+                android:onClick="onEditPhone"
                 android:textOff=""
                 android:textOn="" />
 
@@ -88,7 +90,7 @@
                 android:src="@drawable/ic_phone_black"
                 android:visibility="invisible" />
 
-            <TextView
+            <EditText
                 android:id="@+id/tvNumber2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,6 +99,7 @@
                 android:layout_toEndOf="@id/ivContactItem2"
                 android:layout_toRightOf="@id/ivContactItem2"
                 android:text="(321) 654-0987"
+                android:editable="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
 
@@ -290,7 +293,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
 
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvNumber5"
@@ -300,6 +303,7 @@
                 android:layout_toEndOf="@id/ivContactItem5"
                 android:layout_toRightOf="@id/ivContactItem5"
                 android:text="Home"
+                android:editable="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="#727272" />
 
