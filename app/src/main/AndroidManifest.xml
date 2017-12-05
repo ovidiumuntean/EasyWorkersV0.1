@@ -40,7 +40,11 @@
             android:label="@string/title_activity_company_login" />
         <activity
             android:name=".CompanyRegister"
-            android:label="@string/title_activity_company_register"></activity>
+            android:label="@string/title_activity_company_register" />
+        <activity
+            android:name=".CompanyProfile"
+            android:label="@string/title_activity_company_profile"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
