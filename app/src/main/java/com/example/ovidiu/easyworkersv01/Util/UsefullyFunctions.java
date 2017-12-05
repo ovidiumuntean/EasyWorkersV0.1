@@ -17,20 +17,20 @@ public class UsefullyFunctions {
     public String convertDateToString(Date indate)
     {
         String dateString = null;
-        SimpleDateFormat sdfr = new SimpleDateFormat("dd/MMM/yyyy");
+        SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
    /*you can also use DateFormat reference instead of SimpleDateFormat
     * like this: DateFormat df = new SimpleDateFormat("dd/MMM/yyyy");
     */
         try{
             dateString = sdfr.format( indate );
         }catch (Exception ex ){
-            System.out.println(ex);
+            return null;
         }
         return dateString;
     }
 
     public Date convertStringToDate(String dateString){
-        SimpleDateFormat sdfr = new SimpleDateFormat("dd/MMM/yyyy");
+        SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
 
         try {
             Date date = sdfr.parse(dateString);

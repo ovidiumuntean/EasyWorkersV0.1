@@ -94,9 +94,9 @@ public class EmployeeLogin extends AppCompatActivity implements LoaderCallbacks<
         myDb = new DatabaseManager(this, null, null, 1);
 
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = (AutoCompleteTextView) findViewById(R.id.emailLogE);
         populateAutoComplete();
-        mPasswordView = (EditText) findViewById(R.id.password);
+        mPasswordView = (EditText) findViewById(R.id.passwordLogE);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {

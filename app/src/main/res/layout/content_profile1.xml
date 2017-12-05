@@ -224,7 +224,6 @@
                 android:layout_toRightOf="@id/ivBirthdayItem"
                 android:hint="@string/updateField"
                 android:enabled="false"
-                android:onClick="onBirthday"
                 android:inputType="date"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
