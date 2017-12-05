@@ -380,14 +380,15 @@ public class EmployeeLogin extends AppCompatActivity implements LoaderCallbacks<
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
+            AlertDialogManager alert = new AlertDialogManager();
             if (success) {
                 if(session.isLoggedIn()){
                     session.logoutUser();
                 }
                 session.createLoginSession(mName, mEmail);
                 if(entityKey.equalsIgnoreCase("EMPLOYEE")) {
-                    Toast.makeText(EmployeeLogin.this, "User " + mName + " successfully logged in!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(EmployeeLogin.this, "User " + mName + " successfully logged in!", Toast.LENGTH_SHORT).show();
+                    //alert.showAlertDialog(EmployeeLogin.this, "Login successfully..", "User " + mName + " successfully registered!", true);
                     Intent empProfIntent = new Intent(EmployeeLogin.this, EmployeeProfile1.class);
                     startActivity(empProfIntent);
                 } else if(entityKey.equalsIgnoreCase("COMPANY")){
@@ -398,7 +399,6 @@ public class EmployeeLogin extends AppCompatActivity implements LoaderCallbacks<
                     finish();
                 }
             } else {
-                AlertDialogManager alert = new AlertDialogManager();
                 alert.showAlertDialog(EmployeeLogin.this, "Login failed..", "Username/Password is incorrect", false);
             }
         }
