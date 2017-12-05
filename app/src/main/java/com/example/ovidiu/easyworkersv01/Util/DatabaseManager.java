@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteBlobTooBigException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.media.Image;
@@ -165,7 +166,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(empTable.getColPicture(), img);
-        int res = db.update(empTable.getTableName(), values, empTable.getColId(), new String[]{"" + id});
+        int res = -10;
+        try {
+            res = db.update(empTable.getTableName(), values, empTable.getColId() + "=?", new String[]{"" + id});
+        } catch (SQLiteBlobTooBigException e){
+            return -1;
+        }
         db.close();
         return res;
     }

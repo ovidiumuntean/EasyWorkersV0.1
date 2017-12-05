@@ -29,10 +29,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Date;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class EmployeeProfile1 extends AppCompatActivity {
 
     private Employee employee;
-    private EditText mPasswordView;
     private EditText mConfPasswordView;
     private EditText mFirstNameView;
     private EditText mSurnameView;
@@ -45,7 +46,7 @@ public class EmployeeProfile1 extends AppCompatActivity {
     private boolean empUpdate = false;
     private UsefullyFunctions util;
 
-    private ImageView imageViewLoad;
+    private CircleImageView imageViewLoad;
     private Intent intent;
     private static int IMG_RESULT = 1;
     private String ImageDecode;
@@ -63,7 +64,7 @@ public class EmployeeProfile1 extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        imageViewLoad = (ImageView) findViewById(R.id.profile_image);
+        imageViewLoad = (CircleImageView) findViewById(R.id.profile_image);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -129,12 +130,14 @@ public class EmployeeProfile1 extends AppCompatActivity {
                 int columnIndex = cursor.getColumnIndex(FILE[0]);
                 ImageDecode = cursor.getString(columnIndex);
                 try {
+                    myDb.verifyStoragePermissions(this);
                     FileInputStream fis = new FileInputStream(ImageDecode);
                     byte[] image = new byte[fis.available()];
-                    fis.read(image);
-                    myDb.addEmpPicture(employee.getId(), image);
                     Bitmap bmp = BitmapFactory.decodeByteArray(image, 0 , image.length);
                     imageViewLoad.setImageBitmap(bmp);
+                    fis.read(image);
+                    int dbRes = myDb.addEmpPicture(employee.getId(), image);
+
                     fis.close();
                 } catch (IOException e){
                     e.printStackTrace();
