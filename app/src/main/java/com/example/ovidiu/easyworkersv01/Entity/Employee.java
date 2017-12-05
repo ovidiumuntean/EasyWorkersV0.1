@@ -1,4 +1,4 @@
-package com.example.ovidiu.easyworkersv01;
+package com.example.ovidiu.easyworkersv01.Entity;
 
 import java.util.Date;
 

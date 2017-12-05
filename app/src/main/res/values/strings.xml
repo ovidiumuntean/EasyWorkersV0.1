@@ -5,6 +5,7 @@
     <string name="title_activity_company_login">company_login</string>
     <string name="title_activity_company_register">company_register</string>
     <string name="title_activity_employee_login">Employee Sign in</string>
+    <string name="forgot_password">Forgot Password</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -14,7 +15,7 @@
     <string name="prompt_phoneNo">Phone No.</string>
     <string name="prompt_birthday">Birthday</string>
     <string name="prompt_confirmPassword">Confirm Password</string>
-    <string name="prompt_registrationNumber">Registeration number</string>
+    <string name="prompt_registrationNumber">Registration number</string>
     <string name="prompt_name">Name</string>
     <string name="prompt_address">Address</string>
     <string name="prompt_phone">Phone Number</string>

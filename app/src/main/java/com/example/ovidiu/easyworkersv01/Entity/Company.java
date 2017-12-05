@@ -1,4 +1,4 @@
-package com.example.ovidiu.easyworkersv01;
+package com.example.ovidiu.easyworkersv01.Entity;
 
 /**
  * Created by anamali on 01/12/2017.

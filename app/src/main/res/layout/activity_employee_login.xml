@@ -49,6 +49,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <TextView
+                    android:id="@+id/forgotPass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/forgot_password"
+                    android:inputType="text"
+                    android:textColor="?android:attr/textColorLink"
+                    android:gravity="right"
+                    android:maxLines="1"
+                    android:onClick="onForgotPassword"
+                    android:singleLine="true" />
+
                 <EditText
                     android:id="@+id/password"
                     android:layout_width="match_parent"
@@ -60,6 +72,7 @@
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true" />
+
 
             </android.support.design.widget.TextInputLayout>
 

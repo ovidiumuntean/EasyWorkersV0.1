@@ -1,4 +1,4 @@
-package com.example.ovidiu.easyworkersv01;
+package com.example.ovidiu.easyworkersv01.Util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
