@@ -24,7 +24,7 @@ public class CompanyTable {
     public String createCompanyTable() {
 
         String createCompanyTable = "CREATE TABLE " + TABLE_NAME + " ( " +
-                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL" +
+                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 COL_REGNUM + " TEXT NOT NULL, " +
                 COL_NAME + " TEXT NOT NULL, " +
                 COL_PHONE_NO + " NUMBER NOT NULL UNIQUE," +

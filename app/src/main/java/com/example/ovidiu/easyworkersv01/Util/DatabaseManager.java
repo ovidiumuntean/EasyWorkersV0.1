@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by Ovidiu on 20/11/2017.
+ * Created by ovidiu on 20/11/2017.
  */
 
 public class DatabaseManager extends SQLiteOpenHelper {

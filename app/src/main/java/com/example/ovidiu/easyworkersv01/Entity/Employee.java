@@ -3,7 +3,7 @@ package com.example.ovidiu.easyworkersv01.Entity;
 import java.util.Date;
 
 /**
- * Created by Ovidiu on 30/11/2017.
+ * Created by ovidiu on 30/11/2017.
  */
 
 public class Employee {

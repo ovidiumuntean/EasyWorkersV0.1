@@ -5,7 +5,7 @@ import android.content.ContentValues;
 import com.example.ovidiu.easyworkersv01.Entity.Employee;
 
 /**
- * Created by Ovidiu on 01/12/2017.
+ * Created by ovidiu on 01/12/2017.
  */
 
 public class EmployeeTable {
