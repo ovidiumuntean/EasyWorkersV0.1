@@ -13,7 +13,11 @@ import android.widget.Toast;
 
 import com.example.ovidiu.easyworkersv01.Entity.Employee;
 import com.example.ovidiu.easyworkersv01.Util.DatabaseManager;
+import com.example.ovidiu.easyworkersv01.Util.EmailValidator;
 import com.example.ovidiu.easyworkersv01.Util.SessionManager;
+import com.example.ovidiu.easyworkersv01.Util.UsefullyFunctions;
+
+import java.util.Date;
 
 public class EmployeeProfile1 extends AppCompatActivity {
 
@@ -28,6 +32,8 @@ public class EmployeeProfile1 extends AppCompatActivity {
     private EditText mAddressView;
     private EditText mIdView;
     private EditText mStatusView;
+    private boolean empUpdate = false;
+    private UsefullyFunctions util;
 
     // Session Manager Class
     SessionManager session;
@@ -55,6 +61,8 @@ public class EmployeeProfile1 extends AppCompatActivity {
         session = new SessionManager(getApplicationContext());
         //Database Manager
         myDb = new DatabaseManager(this, null, null, 1);
+
+        util = new UsefullyFunctions();
 
         Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
 
@@ -93,7 +101,7 @@ public class EmployeeProfile1 extends AppCompatActivity {
                 mIdView.setText(String.valueOf(employee.getId()));
                 mFirstNameView.setText(employee.getFirst_name());
                 mSurnameView.setText(employee.getSurname());
-                mBirthDayView.setText(employee.getBirthday().toString());
+                mBirthDayView.setText(util.convertDateToString(employee.getBirthday()));
                 if(!employee.getAddress().equals("")){
                     mAddressView.setText(employee.getAddress());
                 }
@@ -106,12 +114,100 @@ public class EmployeeProfile1 extends AppCompatActivity {
                 }
     }
 
-    public void onEditPhone(View v) {
+    public void onEditPhoneE(View v) {
         if (mPhoneNoView.isEnabled()) {
             mPhoneNoView.setEnabled(false);
+            String newPhone = mPhoneNoView.getText().toString();
+            if(!employee.getPhone_no().equals(newPhone)){
+                employee.setPhone_no(newPhone);
+                empUpdate = true;
+            }
         } else {
             mPhoneNoView.setEnabled(true);
             mPhoneNoView.requestFocus();
+        }
+    }
+
+    public void onEditFirstNameE(View v){
+        if(mFirstNameView.isEnabled()){
+            mFirstNameView.setEnabled(false);
+            String newFirstName = mFirstNameView.getText().toString();
+            if(!employee.getFirst_name().equals(newFirstName)){
+                employee.setFirst_name(newFirstName);
+                empUpdate = true;
+            }
+        } else {
+            mFirstNameView.setEnabled(true);
+            mFirstNameView.requestFocus();
+        }
+    }
+
+    public void onEditSurnameE(View v){
+        if(mSurnameView.isEnabled()){
+            mSurnameView.setEnabled(false);
+            String newValue = mSurnameView.getText().toString();
+            if(!employee.getSurname().equals(newValue)){
+                employee.setSurname(newValue);
+                empUpdate = true;
+            }
+        } else {
+            mSurnameView.setEnabled(true);
+            mSurnameView.requestFocus();
+        }
+    }
+
+    public void onEditBirthdayE(View v){
+        if(mBirthDayView.isEnabled()){
+            mBirthDayView.setEnabled(false);
+            Date newValue = util.convertStringToDate(mBirthDayView.getText().toString());
+            if(newValue != null) {
+                if (employee.getBirthday().compareTo(newValue) != 0) {
+                    employee.setBirthday(newValue);
+                    empUpdate = true;
+                }
+            } else {
+                mBirthDayView.setError(getString(R.string.error_invalid_date));
+                mBirthDayView.requestFocus();
+                mBirthDayView.setText("");
+                mBirthDayView.setEnabled(false);
+            }
+        } else {
+            mBirthDayView.setEnabled(true);
+            mBirthDayView.requestFocus();
+        }
+    }
+
+    public void onEditAddressE(View v){
+        if(mAddressView.isEnabled()){
+            mAddressView.setEnabled(false);
+            String newValue = mAddressView.getText().toString();
+            if(!employee.getAddress().equals(newValue)){
+                employee.setAddress(newValue);
+                empUpdate = true;
+            }
+        } else {
+            mAddressView.setEnabled(true);
+            mAddressView.requestFocus();
+        }
+    }
+
+    public void onEditEmailE (View v){
+        if(mEmailView.isEnabled()){
+            mEmailView.setEnabled(false);
+            String newValue = mEmailView.getText().toString();
+            EmailValidator emailValidator = new EmailValidator();
+            if(emailValidator.validate(newValue)) {
+                if (!employee.getAddress().equals(newValue)) {
+                    employee.setAddress(newValue);
+                    empUpdate = true;
+                }
+            } else {
+                mEmailView.setError(getString(R.string.error_invalid_email));
+                mEmailView.requestFocus();
+            }
+        } else {
+            mEmailView.setEnabled(true);
+            mEmailView.requestFocus();
         }
     }
 }

@@ -28,7 +28,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:src="@android:drawable/ic_secure" />
+            android:src="@android:drawable/ic_menu_camera" />
 
         <EditText
             android:id="@+id/idProfE"
@@ -38,7 +38,7 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_toEndOf="@id/ivEmpIdContactItem"
             android:layout_toRightOf="@id/ivEmpIdContactItem"
-            android:text="@string/updateField"
+            android:hint="@string/updateField"
             android:enabled="false"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="#212121" />
@@ -97,7 +97,7 @@
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_toEndOf="@id/ivFNameContactItem"
                 android:layout_toRightOf="@id/ivFNameContactItem"
-                android:text="@string/updateField"
+                android:hint="@string/updateField"
                 android:enabled="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
@@ -127,7 +127,7 @@
                 android:background="@android:drawable/ic_menu_edit"
                 android:checked="true"
                 android:padding="6dp"
-                android:onClick="onEditPhone"
+                android:onClick="onEditFirstNameE"
                 android:textOff=""
                 android:textOn="" />
 
@@ -158,7 +158,7 @@
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_toEndOf="@id/ivSurnameContactItem"
                 android:layout_toRightOf="@id/ivSurnameContactItem"
-                android:text="@string/updateField"
+                android:hint="@string/updateField"
                 android:editable="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
@@ -188,6 +188,7 @@
                 android:background="@android:drawable/ic_menu_edit"
                 android:checked="false"
                 android:padding="6dp"
+                android:onClick="onEditSurnameE"
                 android:textOff=""
                 android:textOn="" />
 
@@ -221,7 +222,7 @@
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_toEndOf="@id/ivBirthdayItem"
                 android:layout_toRightOf="@id/ivBirthdayItem"
-                android:text="@string/updateField"
+                android:hint="@string/updateField"
                 android:enabled="false"
                 android:onClick="onBirthday"
                 android:inputType="date"
@@ -253,7 +254,7 @@
                 android:background="@android:drawable/ic_menu_edit"
                 android:checked="true"
                 android:padding="6dp"
-                android:onClick="onEditBirthday"
+                android:onClick="onEditBirthdayE"
                 android:textOff=""
                 android:textOn="" />
 
@@ -287,7 +288,7 @@
                 android:layout_toStartOf="@+id/chkAddress"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@string/updateField"
+                android:hint="@string/updateField"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
 
@@ -317,6 +318,7 @@
                 android:background="@android:drawable/ic_menu_edit"
                 android:checked="true"
                 android:padding="6dp"
+                android:onClick="onEditAddressE"
                 android:textOff=""
                 android:textOn="" />
 
@@ -350,7 +352,7 @@
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_toEndOf="@id/ivPhoneItem"
                 android:layout_toRightOf="@id/ivPhoneItem"
-                android:text="@string/updateField"
+                android:hint="@string/updateField"
                 android:enabled="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
@@ -380,7 +382,7 @@
                 android:background="@android:drawable/ic_menu_edit"
                 android:checked="true"
                 android:padding="6dp"
-                android:onClick="onEditPhone"
+                android:onClick="onEditPhoneE"
                 android:textOff=""
                 android:textOn="" />
 
@@ -415,7 +417,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:enabled="false"
-                android:text="@string/updateField"
+                android:hint="@string/updateField"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
 
@@ -442,7 +444,7 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:background="@android:drawable/ic_menu_edit"
-                android:onClick="onEmail"
+                android:onClick="onEditEmailE"
                 android:checked="true"
                 android:padding="6dp"
                 android:textOff=""
@@ -484,7 +486,7 @@
                 android:layout_toStartOf="@+id/chkStatus"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="pratik@letsnurture.com"
+                android:hint="@string/updateField"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
 

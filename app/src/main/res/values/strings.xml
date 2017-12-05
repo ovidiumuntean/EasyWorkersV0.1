@@ -6,7 +6,7 @@
     <string name="title_activity_company_register">company_register</string>
     <string name="title_activity_employee_login">Employee Sign in</string>
     <string name="forgot_password">Forgot Password</string>
-    <string name="updateField">Please update field!</string>
+    <string name="updateField">Please update this field!</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -30,6 +30,7 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_invalid_confirmed_password">Passwords do not match</string>
     <string name="error_field_required">This field is required</string>
+    <string name="error_invalid_date">This date is invalid</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
