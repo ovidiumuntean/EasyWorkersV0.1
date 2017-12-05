@@ -1,18 +1,25 @@
 package com.example.ovidiu.easyworkersv01.Util;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.media.Image;
+import android.support.v4.app.ActivityCompat;
 
 import com.example.ovidiu.easyworkersv01.Tables.CompanyTable;
 import com.example.ovidiu.easyworkersv01.Tables.EmployeeTable;
 import com.example.ovidiu.easyworkersv01.Entity.Company;
 import com.example.ovidiu.easyworkersv01.Entity.Employee;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.zip.DataFormatException;
 
 /**
  * Created by Ovidiu on 20/11/2017.
@@ -24,6 +31,14 @@ public class DatabaseManager extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final EmployeeTable empTable = new EmployeeTable();
     private static final CompanyTable compTable = new CompanyTable();
+
+    // Storage Permissions
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
     /*******/
     // the constructor of this class must call the super class(i.e.
     //SQLiteHelper)
@@ -146,6 +161,15 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     }
 
+    public int addEmpPicture(int id, byte[] img){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(empTable.getColPicture(), img);
+        int res = db.update(empTable.getTableName(), values, empTable.getColId(), new String[]{"" + id});
+        db.close();
+        return res;
+    }
+
     public Company  searchCompanyByEmail(String name){
         SQLiteDatabase db = getReadableDatabase();
         String query = "SELECT * FROM " + compTable.getTableName() + " WHERE " + compTable.getColName() + "='" + name+ "'";
@@ -224,6 +248,27 @@ public class DatabaseManager extends SQLiteOpenHelper {
         }
         db.close();
         return dbString;
+    }
+
+    /**
+     * Checks if the app has permission to write to device storage
+     *
+     * If the app does not has permission then the user will be prompted to grant permissions
+     *
+     * @param activity
+     */
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
     }
 
 }

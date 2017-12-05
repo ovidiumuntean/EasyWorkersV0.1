@@ -427,11 +427,12 @@ public class EmployeeRegister extends AppCompatActivity implements LoaderCallbac
                     }
                     session.createLoginSession(employee.getFirst_name(), employee.getEmail());
                     Toast.makeText(EmployeeRegister.this, "User " + employee.getFirst_name() + " successfully logged in!", Toast.LENGTH_SHORT).show();
-                    alert.showAlertDialog(EmployeeRegister.this, "Registration successfully..", "User " + employee.getFirst_name() + " successfully registered!", false);
+                    //alert.showAlertDialog(EmployeeRegister.this, "Registration successfully..", "User " + employee.getFirst_name() + " successfully registered!", false);
+                    EmployeeRegister.super.onDestroy();
                     Intent empProfIntent = new Intent(EmployeeRegister.this, EmployeeProfile1.class);
                     startActivity(empProfIntent);
                 } else {
-
+                    mConfPasswordView.requestFocus();
                     alert.showAlertDialog(EmployeeRegister.this, "Registration failed..", "Invalid Data!", false);
                 }
 

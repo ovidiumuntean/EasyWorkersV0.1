@@ -3,6 +3,7 @@ package com.example.ovidiu.easyworkersv01.Tables;
 import android.content.ContentValues;
 
 import com.example.ovidiu.easyworkersv01.Entity.Employee;
+import com.example.ovidiu.easyworkersv01.Util.UsefullyFunctions;
 
 /**
  * Created by Ovidiu on 01/12/2017.
@@ -38,16 +39,17 @@ public class EmployeeTable {
                 COL_EMAIL + " TEXT NOT NULL UNIQUE, " +
                 COL_STATUS + " BOOLEAN DEFAULT 1, " +
                 COL_PASSWORD + " TEXT NOT NULL , " +
-                COL_PICTURE + " BLOB, " +
-                COL_COMPANY + " );";
+                COL_PICTURE + " BLOB);";
+                //COL_COMPANY + " );";
         return createEmployeeTable;
     }
 
     public ContentValues createValues(Employee employee) {
+        UsefullyFunctions util = new UsefullyFunctions();
         ContentValues values = new ContentValues();
         values.put(COL_FIRST_NAME, employee.getFirst_name());
         values.put(COL_SURNAME, employee.getSurname());
-        values.put(COL_BIRTHDAY, employee.getBirthday().toString());
+        values.put(COL_BIRTHDAY, util.convertDateToString(employee.getBirthday()));
         values.put(COL_ADDRESS, employee.getAddress());
         values.put(COL_PHONE_NO, employee.getPhone_no());
         values.put(COL_EMAIL, employee.getEmail());
