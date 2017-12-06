@@ -16,6 +16,7 @@ public class Employee {
     private String email;
     private String password;
     private int status;
+    private byte[] image;
 
     public Employee(int id, String first_name, String surname, Date birthday, String address, String phone_no, String email, String pass, int status) {
         this.id = id;
@@ -102,5 +103,13 @@ public class Employee {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

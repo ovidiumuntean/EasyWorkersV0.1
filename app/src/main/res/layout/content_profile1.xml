@@ -52,7 +52,7 @@
             android:layout_marginTop="8dp"
             android:layout_toEndOf="@id/ivEmpIdContactItem"
             android:layout_toRightOf="@id/ivEmpIdContactItem"
-            android:text="@string/prompt_employeeNo"
+            android:text="@string/prompt_employeeId"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="#727272" />
 
@@ -527,30 +527,17 @@
             android:padding="@dimen/activity_horizontal_margin">
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Send SMS" />
-
-            <Button
-                android:layout_width="wrap_content"
+                android:id="@+id/saveButtonProfE"
+                style="?android:textAppearanceSmall"
+                android:backgroundTint="@android:color/holo_green_light"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:text="Call" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:text="Email" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:text="Remove Contact" />
+                android:textStyle="bold"
+                android:text="@string/action_save_changes"
+                android:drawableLeft="@android:drawable/ic_menu_save"
+                android:onClick="onUpdateEmp"/>
 
         </LinearLayout>
     </LinearLayout>

@@ -1,5 +1,7 @@
 package com.example.ovidiu.easyworkersv01;
 
+import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -19,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.ovidiu.easyworkersv01.Entity.Employee;
+import com.example.ovidiu.easyworkersv01.Tables.EmployeeTable;
 import com.example.ovidiu.easyworkersv01.Util.AlertDialogManager;
 import com.example.ovidiu.easyworkersv01.Util.DatabaseManager;
 import com.example.ovidiu.easyworkersv01.Util.EmailValidator;
@@ -44,8 +47,13 @@ public class EmployeeProfile1 extends AppCompatActivity {
     private EditText mIdView;
     private EditText mStatusView;
     private boolean empUpdate = false;
+
+    // used for util functions
     private UsefullyFunctions util;
 
+    // used for update the emp in database in one go
+    private ContentValues values;
+    private EmployeeTable empTable;
     private CircleImageView imageViewLoad;
     private Intent intent;
     private static int IMG_RESULT = 1;
@@ -71,12 +79,12 @@ public class EmployeeProfile1 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                    intent = new Intent(Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-                    startActivityForResult(intent, IMG_RESULT);
+                startActivityForResult(intent, IMG_RESULT);
 
-                }
+            }
 
         });
 
@@ -84,6 +92,8 @@ public class EmployeeProfile1 extends AppCompatActivity {
         session = new SessionManager(getApplicationContext());
         //Database Manager
         myDb = new DatabaseManager(this, null, null, 1);
+        empTable = new EmployeeTable();
+        values = new ContentValues();
 
         util = new UsefullyFunctions();
 
@@ -96,15 +106,8 @@ public class EmployeeProfile1 extends AppCompatActivity {
          * logged in
          * */
         session.checkLogin();
-        // Get user Details from DB
-        employee = myDb.searchEmployeeByEmail(session.getUserDetails().get(SessionManager.KEY_EMAIL));
-        if(employee != null && session.isLoggedIn()) {
-            this.setTitle(employee.getFirst_name());
-            this.setEmpProfileData();
-        } else {
-            session.logoutUser();
-            finish();
-        }
+        //Setting the Employee view Data
+        this.setEmpProfileData();
 
     }
 
@@ -118,7 +121,7 @@ public class EmployeeProfile1 extends AppCompatActivity {
 
 
                 Uri URI = data.getData();
-                String[] FILE = { MediaStore.Images.Media.DATA };
+                String[] FILE = {MediaStore.Images.Media.DATA};
 
 
                 Cursor cursor = getContentResolver().query(URI,
@@ -133,13 +136,16 @@ public class EmployeeProfile1 extends AppCompatActivity {
                     myDb.verifyStoragePermissions(this);
                     FileInputStream fis = new FileInputStream(ImageDecode);
                     byte[] image = new byte[fis.available()];
-                    Bitmap bmp = BitmapFactory.decodeByteArray(image, 0 , image.length);
+                    Bitmap bmp = BitmapFactory.decodeByteArray(image, 0, image.length);
                     imageViewLoad.setImageBitmap(bmp);
+                    imageViewLoad.refreshDrawableState();
                     fis.read(image);
                     int dbRes = myDb.addEmpPicture(employee.getId(), image);
-
+                    if(dbRes > 0){
+                        this.setEmpProfileData();
+                    }
                     fis.close();
-                } catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                     alert.showAlertDialog(this, "Invalid File..", "Please choose a png file!", false);
                 }
@@ -163,42 +169,56 @@ public class EmployeeProfile1 extends AppCompatActivity {
         startActivity(mainAct);
     }
 
-    public void setEmpProfileData(){
+    private void setEmpProfileData() {
+        // Get user Details from DB
+        employee = myDb.searchEmployeeByEmail(session.getUserDetails().get(SessionManager.KEY_EMAIL));
+        if (employee != null && session.isLoggedIn()) {
+            this.setTitle(employee.getFirst_name());
+        } else {
+            session.logoutUser();
+            finish();
+        }
+        // GETTING THE EDIT TEXT FROM VIEW
+        mIdView = (EditText) findViewById(R.id.idProfE);
+        mFirstNameView = (EditText) findViewById(R.id.firstNameProfE);
+        mPhoneNoView = (EditText) findViewById(R.id.phoneNoProfE);
+        mEmailView = (EditText) findViewById(R.id.emailProfE);
+        mSurnameView = (EditText) findViewById(R.id.surnameProfE);
+        mBirthDayView = (EditText) findViewById(R.id.birthdayProfE);
+        mAddressView = (EditText) findViewById(R.id.addressProfE);
+        mStatusView = (EditText) findViewById(R.id.statusProfE);
 
-                // GETTING THE EDIT TEXT FROM VIEW
-                mIdView = (EditText) findViewById(R.id.idProfE);
-                mFirstNameView = (EditText) findViewById(R.id.firstNameProfE);
-                mPhoneNoView = (EditText) findViewById(R.id.phoneNoProfE);
-                mEmailView = (EditText) findViewById(R.id.emailProfE);
-                mSurnameView = (EditText) findViewById(R.id.surnameProfE);
-                mBirthDayView = (EditText) findViewById(R.id.birthdayProfE);
-                mAddressView = (EditText) findViewById(R.id.addressProfE);
-                mStatusView = (EditText) findViewById(R.id.statusProfE);
+        //SETTING THE EDIT TEXTS CONTENT
+        mIdView.setText(String.valueOf(employee.getId()));
+        mFirstNameView.setText(employee.getFirst_name());
+        mSurnameView.setText(employee.getSurname());
+        mBirthDayView.setText(util.convertDateToString(employee.getBirthday()));
+        if (!employee.getAddress().equals("")) {
+            mAddressView.setText(employee.getAddress());
+        }
+        mPhoneNoView.setText(employee.getPhone_no());
+        mEmailView.setText(employee.getEmail());
+        if (employee.getStatus() == 1) {
+            mStatusView.setText("Employed");
+        } else {
+            mStatusView.setText("Unemployed");
+        }
+        if (employee.getImage() != null) {
+            Bitmap bmp = BitmapFactory.decodeByteArray(employee.getImage(), 0, employee.getImage().length);
+            imageViewLoad.refreshDrawableState();
+            imageViewLoad.setImageBitmap(bmp);
+        }
 
-                //SETTING THE EDIT TEXTS CONTENT
-                mIdView.setText(String.valueOf(employee.getId()));
-                mFirstNameView.setText(employee.getFirst_name());
-                mSurnameView.setText(employee.getSurname());
-                mBirthDayView.setText(util.convertDateToString(employee.getBirthday()));
-                if(!employee.getAddress().equals("")){
-                    mAddressView.setText(employee.getAddress());
-                }
-                mPhoneNoView.setText(employee.getPhone_no());
-                mEmailView.setText(employee.getEmail());
-                if(employee.getStatus() == 1) {
-                    mStatusView.setText("Employed");
-                } else {
-                    mStatusView.setText("Unemployed");
-                }
     }
 
     public void onEditPhoneE(View v) {
         if (mPhoneNoView.isEnabled()) {
             mPhoneNoView.setEnabled(false);
             String newPhone = mPhoneNoView.getText().toString();
-            if(!employee.getPhone_no().equals(newPhone)){
+            if (!employee.getPhone_no().equals(newPhone)) {
                 employee.setPhone_no(newPhone);
                 empUpdate = true;
+                values.put(empTable.getColPhoneNo(), newPhone);
             }
         } else {
             mPhoneNoView.setEnabled(true);
@@ -206,25 +226,26 @@ public class EmployeeProfile1 extends AppCompatActivity {
         }
     }
 
-    public void onEditFirstNameE(View v){
-        if(mFirstNameView.isEnabled()){
+    public void onEditFirstNameE(View v) {
+        if (mFirstNameView.isEnabled()) {
             mFirstNameView.setEnabled(false);
             String newFirstName = mFirstNameView.getText().toString();
-            if(!employee.getFirst_name().equals(newFirstName)){
+            if (!employee.getFirst_name().equals(newFirstName)) {
                 employee.setFirst_name(newFirstName);
                 empUpdate = true;
+                values.put(empTable.getColFirstName(), newFirstName);
             }
         } else {
             mFirstNameView.setEnabled(true);
-            mFirstNameView.requestFocus();
+            mFirstNameView.requestFocus(employee.getFirst_name().length());
         }
     }
 
-    public void onEditSurnameE(View v){
-        if(mSurnameView.isEnabled()){
+    public void onEditSurnameE(View v) {
+        if (mSurnameView.isEnabled()) {
             mSurnameView.setEnabled(false);
             String newValue = mSurnameView.getText().toString();
-            if(!employee.getSurname().equals(newValue)){
+            if (!employee.getSurname().equals(newValue)) {
                 employee.setSurname(newValue);
                 empUpdate = true;
             }
@@ -234,20 +255,21 @@ public class EmployeeProfile1 extends AppCompatActivity {
         }
     }
 
-    public void onEditBirthdayE(View v){
-        if(mBirthDayView.isEnabled()){
+    public void onEditBirthdayE(View v) {
+        if (mBirthDayView.isEnabled()) {
             mBirthDayView.setEnabled(false);
             Date newValue = util.convertStringToDate(mBirthDayView.getText().toString());
-            if(newValue != null) {
+            if (newValue != null) {
                 if (employee.getBirthday().compareTo(newValue) != 0) {
                     employee.setBirthday(newValue);
                     empUpdate = true;
+                    values.put(empTable.getColBirthday(), util.convertDateToString(employee.getBirthday()));
                 }
             } else {
                 mBirthDayView.setError(getString(R.string.error_invalid_date));
                 mBirthDayView.requestFocus();
                 mBirthDayView.setText("");
-                mBirthDayView.setEnabled(false);
+                mBirthDayView.setEnabled(true);
             }
         } else {
             mBirthDayView.setEnabled(true);
@@ -255,13 +277,14 @@ public class EmployeeProfile1 extends AppCompatActivity {
         }
     }
 
-    public void onEditAddressE(View v){
-        if(mAddressView.isEnabled()){
+    public void onEditAddressE(View v) {
+        if (mAddressView.isEnabled()) {
             mAddressView.setEnabled(false);
             String newValue = mAddressView.getText().toString();
-            if(!employee.getAddress().equals(newValue)){
+            if (!employee.getAddress().equals(newValue)) {
                 employee.setAddress(newValue);
                 empUpdate = true;
+                values.put(empTable.getColAddress(), newValue);
             }
         } else {
             mAddressView.setEnabled(true);
@@ -269,15 +292,16 @@ public class EmployeeProfile1 extends AppCompatActivity {
         }
     }
 
-    public void onEditEmailE (View v){
-        if(mEmailView.isEnabled()){
+    public void onEditEmailE(View v) {
+        if (mEmailView.isEnabled()) {
             mEmailView.setEnabled(false);
             String newValue = mEmailView.getText().toString();
             EmailValidator emailValidator = new EmailValidator();
-            if(emailValidator.validate(newValue)) {
+            if (emailValidator.validate(newValue)) {
                 if (!employee.getAddress().equals(newValue)) {
                     employee.setAddress(newValue);
                     empUpdate = true;
+                    values.put(empTable.getColEmail(), newValue);
                 }
             } else {
                 mEmailView.setError(getString(R.string.error_invalid_email));
@@ -287,5 +311,22 @@ public class EmployeeProfile1 extends AppCompatActivity {
             mEmailView.setEnabled(true);
             mEmailView.requestFocus();
         }
+    }
+
+    public void onUpdateEmp(View v) {
+        AlertDialogManager alert = new AlertDialogManager();
+        if (empUpdate) {
+            if (myDb.updateEmployee(values, employee.getId())) {
+                this.setEmpProfileData();
+                alert.showAlertDialog(this, "Update Successfully..", "New data was added to your profile!", true);
+                empUpdate = false;
+                values.clear();
+            } else {
+                alert.showAlertDialog(this, "Error..", "Something went wrong. Please contact our support team for details!", false);
+            }
+        } else {
+            alert.showAlertDialog(this, "No changes..", "No changes were made!", true);
+        }
+
     }
 }

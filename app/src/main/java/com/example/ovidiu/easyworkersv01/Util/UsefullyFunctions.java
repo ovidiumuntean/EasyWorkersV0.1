@@ -30,13 +30,21 @@ public class UsefullyFunctions {
     }
 
     public Date convertStringToDate(String dateString){
-        SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
+        Date date = null;
         try {
-            Date date = sdfr.parse(dateString);
-            return date;
-        } catch (ParseException e) {
+            date = sdf.parse(dateString);
+            if (!dateString.equals(sdf.format(date))) {
+                date = null;
+            }
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        if (date == null) {
             return null;
+        } else {
+            return date;
         }
     }
 
