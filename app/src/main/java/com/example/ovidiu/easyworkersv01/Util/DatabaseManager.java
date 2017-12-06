@@ -192,6 +192,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 company.setEmail(c.getString(c.getColumnIndex(empTable.getColEmail())).toString());
 
             }
+        } else {
+            db.close();
+            return null;
         }
         db.close();
         return company;

@@ -384,7 +384,7 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:background="@android:drawable/ic_menu_edit"
-                android:onClick="onEditEmailE"
+                android:onClick="onEditEmailC"
                 android:checked="true"
                 android:padding="6dp"
                 android:textOff=""

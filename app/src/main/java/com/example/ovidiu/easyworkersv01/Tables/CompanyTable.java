@@ -42,10 +42,10 @@ public class CompanyTable {
         ContentValues values = new ContentValues();
         values.put(COL_REGNUM, company.getRegNum());
         values.put(COL_NAME, company.getName());
-        values.put(COL_PASSWORD, company.getPassword());
-        values.put(COL_ADDRESS, company.getAddress());
-        values.put(COL_PHONE_NO, company.getPhoneNum());
+        values.put(COL_PHONE_NO, company.getAddress());
+        values.put(COL_ADDRESS, company.getPhoneNum());
         values.put(COL_EMAIL, company.getEmail());
+        values.put(COL_PASSWORD, company.getPassword());
 
         return values;
     }

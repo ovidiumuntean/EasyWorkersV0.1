@@ -1,12 +1,10 @@
+
 package com.example.ovidiu.easyworkersv01;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -39,9 +37,8 @@ import com.example.ovidiu.easyworkersv01.Util.EmailValidator;
 import com.example.ovidiu.easyworkersv01.Util.SessionManager;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
@@ -52,7 +49,6 @@ public class CompanyRegister extends AppCompatActivity implements LoaderCallback
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-    SessionManager session;
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -71,28 +67,39 @@ public class CompanyRegister extends AppCompatActivity implements LoaderCallback
     private EditText mPasswordView;
     private EditText mConfPasswordView;
     private EditText mNameView;
-    private EditText mRegNumView;
+    private EditText mRegView;
     private EditText mPhoneNoView;
     private EditText mAddress;
     private View mProgressView;
     private View mLoginFormView;
+
+
+    // Database Manager Class
     private DatabaseManager myDb;
+
+    // Session Manager Class
+    SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_register);
+
+        // Session Manager
         session = new SessionManager(getApplicationContext());
+        //Database Manager
+        myDb = new DatabaseManager(this, null, null, 1);
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mNameView = (EditText) findViewById(R.id.companyName);
         mPhoneNoView = (EditText) findViewById(R.id.phone);
+        mRegView = (EditText) findViewById(R.id.registerationNumber);
         mAddress = (EditText) findViewById(R.id.Address);
-        mRegNumView = (EditText) findViewById(R.id.registerationNumber);
-        myDb = new DatabaseManager(this, null, null, 1);
         mPasswordView = (EditText) findViewById(R.id.password);
-        mConfPasswordView = (EditText) findViewById(R.id.password_confirmedRegE);
 
+
+        mConfPasswordView = (EditText) findViewById(R.id.password_confirmedRegE);
         mConfPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -117,7 +124,6 @@ public class CompanyRegister extends AppCompatActivity implements LoaderCallback
         mProgressView = findViewById(R.id.login_progress);
     }
 
-
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
@@ -130,22 +136,23 @@ public class CompanyRegister extends AppCompatActivity implements LoaderCallback
 
         // Reset errors.
         mEmailView.setError(null);
-        mPasswordView.setError(null);
+       // mPasswordView.setError(null);
         mNameView.setError(null);
-        mRegNumView.setError(null);
+        mRegView.setError(null);
         mPhoneNoView.setError(null);
 
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
         String confirmPassword = mConfPasswordView.getText().toString();
-        String Name = mNameView.getText().toString();
-        String regNo = mRegNumView.getText().toString();
+        String name = mNameView.getText().toString();
+        String regno = mRegView.getText().toString();
         String phoneNo = mPhoneNoView.getText().toString();
-        String Address = mAddress.getText().toString();
+        String address = mAddress.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
+
 
 
         // Check for a valid password, if the user entered one.
@@ -161,7 +168,7 @@ public class CompanyRegister extends AppCompatActivity implements LoaderCallback
             focusView = mConfPasswordView;
             cancel = true;
         } else {
-            if (!confirmPassword.equals(password)) {
+            if(!confirmPassword.equals(password)){
                 mConfPasswordView.setError(getString(R.string.error_invalid_confirmed_password));
                 focusView = mConfPasswordView;
                 cancel = true;
@@ -179,19 +186,19 @@ public class CompanyRegister extends AppCompatActivity implements LoaderCallback
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(Name)) {
+        if(TextUtils.isEmpty(name)){
             mNameView.setError(getString(R.string.error_field_required));
             focusView = mNameView;
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(regNo)) {
-            mRegNumView.setError(getString(R.string.error_field_required));
-            focusView = mRegNumView;
+        if(TextUtils.isEmpty(regno)){
+            mRegView.setError(getString(R.string.error_field_required));
+            focusView = mRegView;
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(phoneNo)) {
+        if(TextUtils.isEmpty(phoneNo)){
             mPhoneNoView.setError(getString(R.string.error_field_required));
             focusView = mPhoneNoView;
             cancel = true;
@@ -205,9 +212,8 @@ public class CompanyRegister extends AppCompatActivity implements LoaderCallback
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            Company company = new Company(0, regNo, Name, phoneNo, Address, email, password);
-            mAuthTask = new UserLoginTask(company);
-            mAuthTask.doInBackground();
+            Company newCompany = new Company(0 , regno, name, phoneNo, address, email, password);
+            mAuthTask = new UserLoginTask(newCompany);
             mAuthTask.execute((Void) null);
         }
     }
@@ -223,6 +229,9 @@ public class CompanyRegister extends AppCompatActivity implements LoaderCallback
         return password.length() > 4;
     }
 
+    /**
+     * Shows the progress UI and hides the login form.
+     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
@@ -261,7 +270,7 @@ public class CompanyRegister extends AppCompatActivity implements LoaderCallback
         return new CursorLoader(this,
                 // Retrieve data rows for the device user's 'profile' contact.
                 Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
-                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), CompanyRegister.ProfileQuery.PROJECTION,
+                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
 
                 // Select only email addresses.
                 ContactsContract.Contacts.Data.MIMETYPE +
@@ -278,7 +287,7 @@ public class CompanyRegister extends AppCompatActivity implements LoaderCallback
         List<String> emails = new ArrayList<>();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            emails.add(cursor.getString(CompanyRegister.ProfileQuery.ADDRESS));
+            emails.add(cursor.getString(ProfileQuery.ADDRESS));
             cursor.moveToNext();
         }
 
@@ -318,30 +327,32 @@ public class CompanyRegister extends AppCompatActivity implements LoaderCallback
 
         private Company company;
 
-        UserLoginTask(Company company) {
-            this.company = company;
+        UserLoginTask(Company comp) {
+            this.company = comp;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            Company comp;
+            Company company1;
             try {
                 // Simulate network access.
-                comp = myDb.searchCompanyByEmail(company.getEmail());
+                company1 = myDb.searchCompanyByEmail(company.getName());
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return false;
             }
 
-            if(comp == null){
+            if(company1 == null){
                 return true;
             } else {
                 return false;
             }
+            // TODO: register the new account here.
 
         }
 
+        @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
@@ -351,13 +362,14 @@ public class CompanyRegister extends AppCompatActivity implements LoaderCallback
                     if (session.isLoggedIn()) {
                         session.logoutUser();
                     }
-                    session.createLoginSession(company.getName(), company.getEmail());
+                    session.createLoginSession(company.getName(),company.getEmail());
                     Toast.makeText(CompanyRegister.this, "User " + company.getName() + " successfully logged in!", Toast.LENGTH_SHORT).show();
-                    alert.showAlertDialog(CompanyRegister.this, "Registration successfully..", "User " + company.getName() + " successfully registered!", false);
-                    Intent compProfIntent = new Intent(CompanyRegister.this, CompanyProfile.class);
-                    startActivity(compProfIntent);
+                    //alert.showAlertDialog(EmployeeRegister.this, "Registration successfully..", "User " + employee.getFirst_name() + " successfully registered!", false);
+                    CompanyRegister.super.finish();
+                    Intent compRegIntent = new Intent(CompanyRegister.this, CompanyProfile.class);
+                    startActivity(compRegIntent);
                 } else {
-
+                    mConfPasswordView.requestFocus();
                     alert.showAlertDialog(CompanyRegister.this, "Registration failed..", "Invalid Data!", false);
                 }
 
@@ -374,6 +386,4 @@ public class CompanyRegister extends AppCompatActivity implements LoaderCallback
         }
     }
 }
-
-
 
