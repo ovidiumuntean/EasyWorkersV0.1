@@ -20,12 +20,13 @@
     <string name="prompt_name">Name</string>
     <string name="prompt_address">Address</string>
     <string name="prompt_phone">Phone Number</string>
-    <string name="prompt_employeeNo">Employee Number</string>
+    <string name="prompt_employeeId">Employee ID</string>
     <string name="prompt_CompanyNumber">Company  Number</string>
     <string name="prompt_status">Status</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_register">Register</string>
+    <string name="action_save_changes">Save Changes</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -35,7 +36,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="title_activity_employee_register">Employee Register</string>
+    <string name="title_activity_employee_register">EMPLOYEE Register</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"

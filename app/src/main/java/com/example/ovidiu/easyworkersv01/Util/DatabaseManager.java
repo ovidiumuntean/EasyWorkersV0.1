@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.zip.DataFormatException;
 
 /**
- * Created by ovidiu on 20/11/2017.
+ * Created by Ovidiu on 20/11/2017.
  */
 
 public class DatabaseManager extends SQLiteOpenHelper {
@@ -124,6 +124,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 employee.setEmail(c.getString(c.getColumnIndex(empTable.getColEmail())).toString());
                 employee.setPassword(c.getString(c.getColumnIndex(empTable.getColPassword())).toString());
                 employee.setStatus(c.getInt(c.getColumnIndex(empTable.getColStatus())));
+                employee.setImage(c.getBlob(c.getColumnIndex(empTable.getColPicture())));
             }
             db.close();
             return employee;
@@ -152,6 +153,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 employee.setEmail(c.getString(c.getColumnIndex(empTable.getColEmail())).toString());
                 employee.setPassword(c.getString(c.getColumnIndex(empTable.getColPassword())).toString());
                 employee.setStatus(c.getInt(c.getColumnIndex(empTable.getColStatus())));
+                employee.setImage(c.getBlob(c.getColumnIndex(empTable.getColPicture())));
             }
             db.close();
             return employee;
@@ -170,15 +172,25 @@ public class DatabaseManager extends SQLiteOpenHelper {
         try {
             res = db.update(empTable.getTableName(), values, empTable.getColId() + "=?", new String[]{"" + id});
         } catch (SQLiteBlobTooBigException e){
+            db.close();
             return -1;
         }
         db.close();
         return res;
     }
 
-    public Company  searchCompanyByEmail(String name){
+    public boolean updateEmployee(ContentValues values, int id){
+        SQLiteDatabase db = getWritableDatabase();
+        try {
+            return (db.update(empTable.getTableName(), values, empTable.getColId() + "=?", new String[]{"" + id}) > 0);
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    public Company  searchCompanyByEmail(String email){
         SQLiteDatabase db = getReadableDatabase();
-        String query = "SELECT * FROM " + compTable.getTableName() + " WHERE " + compTable.getColName() + "='" + name+ "'";
+        String query = "SELECT * FROM " + compTable.getTableName() + " WHERE " + compTable.getColEmail() + "='" + email+ "'";
         Company company = new Company();
         Cursor c = db.rawQuery(query, null);
 

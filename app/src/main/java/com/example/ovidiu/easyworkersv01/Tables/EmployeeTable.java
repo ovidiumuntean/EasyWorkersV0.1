@@ -55,6 +55,7 @@ public class EmployeeTable {
         values.put(COL_EMAIL, employee.getEmail());
         values.put(COL_STATUS, employee.getStatus());
         values.put(COL_PASSWORD, employee.getPassword());
+        values.put(COL_PICTURE, employee.getImage());
         return values;
     }
 

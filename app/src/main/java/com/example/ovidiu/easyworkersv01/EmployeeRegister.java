@@ -34,6 +34,7 @@ import com.example.ovidiu.easyworkersv01.Util.AlertDialogManager;
 import com.example.ovidiu.easyworkersv01.Util.DatabaseManager;
 import com.example.ovidiu.easyworkersv01.Util.EmailValidator;
 import com.example.ovidiu.easyworkersv01.Util.SessionManager;
+import com.example.ovidiu.easyworkersv01.Util.UsefullyFunctions;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -151,6 +152,7 @@ public class EmployeeRegister extends AppCompatActivity implements LoaderCallbac
 
         boolean cancel = false;
         View focusView = null;
+        UsefullyFunctions util = new UsefullyFunctions();
 
 
 
@@ -201,6 +203,18 @@ public class EmployeeRegister extends AppCompatActivity implements LoaderCallbac
             mPhoneNoView.setError(getString(R.string.error_field_required));
             focusView = mPhoneNoView;
             cancel = true;
+        }
+
+        if(TextUtils.isEmpty(birthDay)){
+            mBirthDay.setError(getString(R.string.error_field_required));
+            focusView = mBirthDay;
+            cancel = true;
+        } else {
+            if(util.convertStringToDate(birthDay) == null){
+                mBirthDay.setError(getString(R.string.error_invalid_date));
+                focusView = mBirthDay;
+                cancel = true;
+            }
         }
 
         if (cancel) {
