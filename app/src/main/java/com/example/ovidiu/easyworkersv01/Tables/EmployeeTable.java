@@ -49,7 +49,7 @@ public class EmployeeTable {
         ContentValues values = new ContentValues();
         values.put(COL_FIRST_NAME, employee.getFirst_name());
         values.put(COL_SURNAME, employee.getSurname());
-        values.put(COL_BIRTHDAY, util.convertDateToString(employee.getBirthday()));
+        values.put(COL_BIRTHDAY, util.convertDateToString(employee.getBirthday(), "dd/MM/yyyy"));
         values.put(COL_ADDRESS, employee.getAddress());
         values.put(COL_PHONE_NO, employee.getPhone_no());
         values.put(COL_EMAIL, employee.getEmail());

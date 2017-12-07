@@ -14,10 +14,10 @@ public class UsefullyFunctions {
     }
 
     // Converts the date to dd/mm/yyyy
-    public String convertDateToString(Date indate)
+    public String convertDateToString(Date indate, String format)
     {
         String dateString = null;
-        SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdfr = new SimpleDateFormat(format);
    /*you can also use DateFormat reference instead of SimpleDateFormat
     * like this: DateFormat df = new SimpleDateFormat("dd/MMM/yyyy");
     */

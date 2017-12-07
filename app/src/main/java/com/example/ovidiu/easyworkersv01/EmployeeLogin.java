@@ -90,8 +90,9 @@ public class EmployeeLogin extends AppCompatActivity implements LoaderCallbacks<
 
         // Session Manager
         session = new SessionManager(getApplicationContext());
-        if(session.isLoggedIn()){
-            session.logoutUser();
+        if(session.isLoggedIn() && entityKey.equals("EMPLOYEE")){
+            Intent empProfIntent = new Intent(EmployeeLogin.this, EmployeeProfile1.class);
+            startActivity(empProfIntent);
         }
         //Database Manager
         myDb = new DatabaseManager(this, null, null, 1);

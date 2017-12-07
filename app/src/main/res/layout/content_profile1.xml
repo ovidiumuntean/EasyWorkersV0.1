@@ -28,7 +28,9 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:src="@android:drawable/ic_menu_camera" />
+            android:src="@android:drawable/ic_menu_info_details"
+            android:tint="@color/colorPrimary"
+            android:tintMode="multiply"/>
 
         <EditText
             android:id="@+id/idProfE"
@@ -87,7 +89,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:src="@android:drawable/ic_menu_camera" />
+                android:src="@android:drawable/ic_menu_info_details"
+                android:tint="@color/colorPrimaryDark"
+                android:tintMode="multiply"/>
 
             <EditText
                 android:id="@+id/firstNameProfE"
@@ -147,7 +151,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:src="@android:drawable/ic_menu_camera"
+                android:src="@android:drawable/ic_menu_info_details"
                 android:visibility="invisible" />
 
             <EditText
@@ -186,6 +190,8 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:background="@android:drawable/ic_menu_edit"
+                android:tint="@color/colorPrimary"
+                android:tintMode="multiply"
                 android:checked="false"
                 android:padding="6dp"
                 android:onClick="onEditSurnameE"
@@ -212,7 +218,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:src="@android:drawable/ic_menu_my_calendar" />
+                android:src="@android:drawable/ic_menu_my_calendar"
+                android:tint="@color/colorPrimary"
+                android:tintMode="multiply"/>
 
             <EditText
                 android:id="@+id/birthdayProfE"

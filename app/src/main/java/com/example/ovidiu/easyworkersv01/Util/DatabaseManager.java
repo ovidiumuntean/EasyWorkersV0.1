@@ -6,11 +6,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteBlobTooBigException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.media.Image;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 import com.example.ovidiu.easyworkersv01.Tables.CompanyTable;
 import com.example.ovidiu.easyworkersv01.Tables.EmployeeTable;
@@ -29,7 +31,7 @@ import java.util.zip.DataFormatException;
 public class DatabaseManager extends SQLiteOpenHelper {
     // define constants related to DB schema such as DB name,
     private static final String DATABASE_NAME = "EasyWorkers.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final EmployeeTable empTable = new EmployeeTable();
     private static final CompanyTable compTable = new CompanyTable();
 
@@ -69,13 +71,22 @@ public class DatabaseManager extends SQLiteOpenHelper {
         if(emp == null) {
             SQLiteDatabase db = getWritableDatabase();
             ContentValues values = empTable.createValues(employee);
-            long result = db.insert(empTable.getTableName(), null, values);
-            db.close();
-            if (result == -1) {
-                return false;
-            } else {
+            long result;
+            try {
+                db.insert(empTable.getTableName(), null, values);
+                db.close();
                 return true;
+            }catch (SQLException e){
+                db.close();
+                e.printStackTrace();
+                return false;
             }
+
+//            if (result == -1) {
+//                return false;
+//            } else {
+//                return true;
+//            }
         } else {
             return false;
         }
