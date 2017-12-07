@@ -200,7 +200,7 @@ public class CompanyProfile extends AppCompatActivity {
 
     }
 
-    public void onEditPhoneE(View v) {
+    public void onEditPhoneC(View v) {
         if (mPhoneNoView.isEnabled()) {
             mPhoneNoView.setEnabled(false);
             String newPhone = mPhoneNoView.getText().toString();

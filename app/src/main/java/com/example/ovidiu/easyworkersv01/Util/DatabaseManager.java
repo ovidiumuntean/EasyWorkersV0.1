@@ -201,7 +201,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     public Company  searchCompanyByEmail(String email){
         SQLiteDatabase db = getReadableDatabase();
-        String query = "SELECT * FROM " + compTable.getTableName() + " WHERE " + compTable.getColEmail() + "='" + email+ "'";
+        String query = "SELECT * FROM " + compTable.getTableName() + " WHERE " + compTable.getColEmail() + "='" + email+ "';";
         Company company = new Company();
         Cursor c = db.rawQuery(query, null);
 
