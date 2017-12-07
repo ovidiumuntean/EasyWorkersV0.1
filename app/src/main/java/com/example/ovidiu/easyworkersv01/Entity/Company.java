@@ -18,14 +18,15 @@ public class Company {
 
     }
 
-    public Company(int id, String regNum, String name, String phoneNum, String password, String email, String address){
+    public Company(int id, String regNum, String name, String phoneNum, String address, String email,String password){
         this.id = id;
         this.regNum = regNum;
         this.name = name;
         this.phoneNum = phoneNum;
+        this.address = address;
         this.email = email;
         this.password = password;
-        this.address = address;
+
     }
 
     public int getId() {

@@ -136,7 +136,7 @@ public class CompanyRegister extends AppCompatActivity implements LoaderCallback
 
         // Reset errors.
         mEmailView.setError(null);
-       // mPasswordView.setError(null);
+        // mPasswordView.setError(null);
         mNameView.setError(null);
         mRegView.setError(null);
         mPhoneNoView.setError(null);
@@ -212,6 +212,7 @@ public class CompanyRegister extends AppCompatActivity implements LoaderCallback
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
+
             Company newCompany = new Company(0 , regno, name, phoneNo, address, email, password);
             mAuthTask = new UserLoginTask(newCompany);
             mAuthTask.execute((Void) null);
@@ -337,7 +338,9 @@ public class CompanyRegister extends AppCompatActivity implements LoaderCallback
             Company company1;
             try {
                 // Simulate network access.
-                company1 = myDb.searchCompanyByEmail(company.getName());
+
+                        company1 = myDb.searchCompanyByEmail(company.getEmail());
+
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return false;
@@ -365,7 +368,7 @@ public class CompanyRegister extends AppCompatActivity implements LoaderCallback
                     session.createLoginSession(company.getName(),company.getEmail());
                     Toast.makeText(CompanyRegister.this, "User " + company.getName() + " successfully logged in!", Toast.LENGTH_SHORT).show();
                     //alert.showAlertDialog(EmployeeRegister.this, "Registration successfully..", "User " + employee.getFirst_name() + " successfully registered!", false);
-                    CompanyRegister.super.finish();
+
                     Intent compRegIntent = new Intent(CompanyRegister.this, CompanyProfile.class);
                     startActivity(compRegIntent);
                 } else {

@@ -1,5 +1,7 @@
 package com.example.ovidiu.easyworkersv01;
 
+import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -20,6 +22,8 @@ import android.widget.Toast;
 
 import com.example.ovidiu.easyworkersv01.Entity.Company;
 import com.example.ovidiu.easyworkersv01.Entity.Employee;
+import com.example.ovidiu.easyworkersv01.Tables.CompanyTable;
+import com.example.ovidiu.easyworkersv01.Tables.EmployeeTable;
 import com.example.ovidiu.easyworkersv01.Util.AlertDialogManager;
 import com.example.ovidiu.easyworkersv01.Util.DatabaseManager;
 import com.example.ovidiu.easyworkersv01.Util.EmailValidator;
@@ -35,6 +39,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CompanyProfile extends AppCompatActivity {
 
     private Company company;
+
     private EditText mConfPasswordView;
     private EditText mNameView;
     private EditText mRegView;
@@ -43,8 +48,13 @@ public class CompanyProfile extends AppCompatActivity {
     private EditText mAddressView;
     private EditText mIdView;
     private boolean compUpdate = false;
+
+    // used for util functions
     private UsefullyFunctions util;
 
+    // used for update the emp in database in one go
+    private ContentValues values;
+    private CompanyTable compTable;
     private CircleImageView imageViewLoad;
     private Intent intent;
     private static int IMG_RESULT = 1;
@@ -63,12 +73,28 @@ public class CompanyProfile extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        imageViewLoad = (CircleImageView) findViewById(R.id.profile_image);
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                startActivityForResult(intent, IMG_RESULT);
+
+            }
+
+        });
 
         // Session Manager
         session = new SessionManager(getApplicationContext());
         //Database Manager
         myDb = new DatabaseManager(this, null, null, 1);
+        compTable = new CompanyTable();
+        values = new ContentValues();
 
         util = new UsefullyFunctions();
 
@@ -81,15 +107,8 @@ public class CompanyProfile extends AppCompatActivity {
          * logged in
          * */
         session.checkLogin();
-        // Get user Details from DB
-        company = myDb.searchCompanyByEmail(session.getUserDetails().get(SessionManager.KEY_EMAIL));
-        if(company != null && session.isLoggedIn()) {
-            this.setTitle(company.getName());
-            this.setEmpProfileData();
-        } else {
-            session.logoutUser();
-            finish();
-        }
+        //Setting the Employee view Data
+        this.setEmpProfileData();
 
     }
 
@@ -103,7 +122,7 @@ public class CompanyProfile extends AppCompatActivity {
 
 
                 Uri URI = data.getData();
-                String[] FILE = { MediaStore.Images.Media.DATA };
+                String[] FILE = {MediaStore.Images.Media.DATA};
 
 
                 Cursor cursor = getContentResolver().query(URI,
@@ -118,13 +137,16 @@ public class CompanyProfile extends AppCompatActivity {
                     myDb.verifyStoragePermissions(this);
                     FileInputStream fis = new FileInputStream(ImageDecode);
                     byte[] image = new byte[fis.available()];
-                    Bitmap bmp = BitmapFactory.decodeByteArray(image, 0 , image.length);
+                    Bitmap bmp = BitmapFactory.decodeByteArray(image, 0, image.length);
                     imageViewLoad.setImageBitmap(bmp);
+                    imageViewLoad.refreshDrawableState();
                     fis.read(image);
                     int dbRes = myDb.addEmpPicture(company.getId(), image);
-
+                    if(dbRes > 0){
+                        this.setEmpProfileData();
+                    }
                     fis.close();
-                } catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                     alert.showAlertDialog(this, "Invalid File..", "Please choose a png file!", false);
                 }
@@ -148,36 +170,44 @@ public class CompanyProfile extends AppCompatActivity {
         startActivity(mainAct);
     }
 
-    public void setEmpProfileData(){
-
+    private void setEmpProfileData() {
+        // Get user Details from DB
+        company= myDb.searchCompanyByEmail(session.getUserDetails().get(SessionManager.KEY_EMAIL));
+        if (company != null && session.isLoggedIn()) {
+            this.setTitle(company.getName());
+        } else {
+            session.logoutUser();
+            finish();
+        }
         // GETTING THE EDIT TEXT FROM VIEW
-        mIdView = (EditText) findViewById(R.id.idProfE);
+        mIdView = (EditText) findViewById(R.id.idProfC);
         mNameView = (EditText) findViewById(R.id.NameProfC);
         mPhoneNoView = (EditText) findViewById(R.id.phoneNoProfC);
-        mEmailView = (EditText) findViewById(R.id.emailProfE);
-        mRegView = (EditText) findViewById(R.id.registerationNumber);
-        mAddressView = (EditText) findViewById(R.id.addressProfE);
+        mEmailView = (EditText) findViewById(R.id.emailProfC);
+        mRegView = (EditText) findViewById(R.id.RegNumProfC);
+        mAddressView = (EditText) findViewById(R.id.addressProfC);
+
 
         //SETTING THE EDIT TEXTS CONTENT
         mIdView.setText(String.valueOf(company.getId()));
         mNameView.setText(company.getName());
         mRegView.setText(company.getRegNum());
-
-
-        if(!company.getAddress().equals("")){
+        if (!company.getAddress().equals("")) {
             mAddressView.setText(company.getAddress());
         }
         mPhoneNoView.setText(company.getPhoneNum());
         mEmailView.setText(company.getEmail());
+
     }
 
     public void onEditPhoneE(View v) {
         if (mPhoneNoView.isEnabled()) {
             mPhoneNoView.setEnabled(false);
             String newPhone = mPhoneNoView.getText().toString();
-            if(!company.getPhoneNum().equals(newPhone)){
+            if (!company.getPhoneNum().equals(newPhone)) {
                 company.setPhoneNum(newPhone);
                 compUpdate = true;
+                values.put(compTable.getColPhoneNo(), newPhone);
             }
         } else {
             mPhoneNoView.setEnabled(true);
@@ -185,25 +215,26 @@ public class CompanyProfile extends AppCompatActivity {
         }
     }
 
-    public void onEditNameC(View v){
-        if(mNameView.isEnabled()){
+    public void onEditNameC(View v) {
+        if (mNameView.isEnabled()) {
             mNameView.setEnabled(false);
             String newName = mNameView.getText().toString();
-            if(!company.getName().equals(newName)){
+            if (!company.getName().equals(newName)) {
                 company.setName(newName);
                 compUpdate = true;
+                values.put(compTable.getColName(), newName);
             }
         } else {
             mNameView.setEnabled(true);
-            mNameView.requestFocus();
+            mNameView.requestFocus(company.getName().length());
         }
     }
 
-    public void onEditRegNoC(View v){
-        if(mRegView.isEnabled()){
+    public void onEditRegNoC(View v) {
+        if (mRegView.isEnabled()) {
             mRegView.setEnabled(false);
             String newValue = mRegView.getText().toString();
-            if(!company.getRegNum().equals(newValue)){
+            if (!company.getRegNum().equals(newValue)) {
                 company.setRegNum(newValue);
                 compUpdate = true;
             }
@@ -213,14 +244,14 @@ public class CompanyProfile extends AppCompatActivity {
         }
     }
 
-
-    public void onEditAddressC(View v){
-        if(mAddressView.isEnabled()){
+    public void onEditAddressC(View v) {
+        if (mAddressView.isEnabled()) {
             mAddressView.setEnabled(false);
             String newValue = mAddressView.getText().toString();
-            if(!company.getAddress().equals(newValue)){
+            if (!company.getAddress().equals(newValue)) {
                 company.setAddress(newValue);
                 compUpdate = true;
+                values.put(compTable.getColAddress(), newValue);
             }
         } else {
             mAddressView.setEnabled(true);
@@ -228,15 +259,16 @@ public class CompanyProfile extends AppCompatActivity {
         }
     }
 
-    public void onEditEmailC (View v){
-        if(mEmailView.isEnabled()){
+    public void onEditEmailC(View v) {
+        if (mEmailView.isEnabled()) {
             mEmailView.setEnabled(false);
             String newValue = mEmailView.getText().toString();
             EmailValidator emailValidator = new EmailValidator();
-            if(emailValidator.validate(newValue)) {
+            if (emailValidator.validate(newValue)) {
                 if (!company.getAddress().equals(newValue)) {
                     company.setAddress(newValue);
                     compUpdate = true;
+                    values.put(compTable.getColEmail(), newValue);
                 }
             } else {
                 mEmailView.setError(getString(R.string.error_invalid_email));
@@ -246,5 +278,22 @@ public class CompanyProfile extends AppCompatActivity {
             mEmailView.setEnabled(true);
             mEmailView.requestFocus();
         }
+    }
+
+    public void onUpdateEmp(View v) {
+        AlertDialogManager alert = new AlertDialogManager();
+        if (compUpdate) {
+            if (myDb.updateEmployee(values, company.getId())) {
+                this.setEmpProfileData();
+                alert.showAlertDialog(this, "Update Successfully..", "New data was added to your profile!", true);
+                compUpdate = false;
+                values.clear();
+            } else {
+                alert.showAlertDialog(this, "Error..", "Something went wrong. Please contact our support team for details!", false);
+            }
+        } else {
+            alert.showAlertDialog(this, "No changes..", "No changes were made!", true);
+        }
+
     }
 }
