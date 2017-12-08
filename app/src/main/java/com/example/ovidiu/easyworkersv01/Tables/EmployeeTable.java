@@ -16,6 +16,7 @@ public class EmployeeTable {
     private static final String COL_FIRST_NAME = "FIRST_NAME";
     private static final String COL_SURNAME = "SURNAME";
     private static final String COL_BIRTHDAY = "BIRTHDAY";
+    private static final String COL_GENDER = "GENDER";
     private static final String COL_ADDRESS = "ADDRESS";
     private static final String COL_PHONE_NO = "PHONE_NO";
     private static final String COL_STATUS = "STATUS";
@@ -34,10 +35,11 @@ public class EmployeeTable {
                 COL_FIRST_NAME + " TEXT NOT NULL, " +
                 COL_SURNAME + " TEXT NOT NULL, " +
                 COL_BIRTHDAY + " DATE NOT NULL, " +
+                COL_GENDER + " BOOLEAN, " +
                 COL_ADDRESS + " TEXT, " +
                 COL_PHONE_NO + " TEXT NOT NULL UNIQUE, " +
                 COL_EMAIL + " TEXT NOT NULL UNIQUE, " +
-                COL_STATUS + " BOOLEAN DEFAULT 1, " +
+                COL_STATUS + " BOOLEAN DEFAULT 0, " +
                 COL_PASSWORD + " TEXT NOT NULL , " +
                 COL_PICTURE + " BLOB);";
                 //COL_COMPANY + " );";
@@ -50,6 +52,7 @@ public class EmployeeTable {
         values.put(COL_FIRST_NAME, employee.getFirst_name());
         values.put(COL_SURNAME, employee.getSurname());
         values.put(COL_BIRTHDAY, util.convertDateToString(employee.getBirthday(), "dd/MM/yyyy"));
+        values.put(COL_GENDER, employee.getGender());
         values.put(COL_ADDRESS, employee.getAddress());
         values.put(COL_PHONE_NO, employee.getPhone_no());
         values.put(COL_EMAIL, employee.getEmail());
@@ -105,5 +108,9 @@ public class EmployeeTable {
 
     public static String getColPicture() {
         return COL_PICTURE;
+    }
+
+    public static String getColGender() {
+        return COL_GENDER;
     }
 }

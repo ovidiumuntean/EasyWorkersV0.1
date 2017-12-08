@@ -22,7 +22,7 @@
         android:padding="@dimen/activity_horizontal_margin">
 
         <ImageView
-            android:id="@+id/ivEmpIdContactItem"
+            android:id="@+id/ivEmpIdContactItemE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -32,14 +32,14 @@
             android:tint="@color/colorPrimary"
             android:tintMode="multiply"/>
 
-        <EditText
+        <TextView
             android:id="@+id/idProfE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_toEndOf="@id/ivEmpIdContactItem"
-            android:layout_toRightOf="@id/ivEmpIdContactItem"
+            android:layout_toEndOf="@id/ivEmpIdContactItemE"
+            android:layout_toRightOf="@id/ivEmpIdContactItemE"
             android:hint="@string/updateField"
             android:enabled="false"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -52,14 +52,14 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="8dp"
-            android:layout_toEndOf="@id/ivEmpIdContactItem"
-            android:layout_toRightOf="@id/ivEmpIdContactItem"
+            android:layout_toEndOf="@id/ivEmpIdContactItemE"
+            android:layout_toRightOf="@id/ivEmpIdContactItemE"
             android:text="@string/prompt_employeeId"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="#727272" />
 
         <ToggleButton
-            android:id="@+id/chkId"
+            android:id="@+id/chkIdE"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentEnd="true"
@@ -83,7 +83,7 @@
             android:padding="@dimen/activity_horizontal_margin">
 
             <ImageView
-                android:id="@+id/ivFNameContactItem"
+                android:id="@+id/ivFNameContactItemR"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -99,10 +99,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_toEndOf="@id/ivFNameContactItem"
-                android:layout_toRightOf="@id/ivFNameContactItem"
+                android:layout_toEndOf="@id/ivFNameContactItemR"
+                android:layout_toRightOf="@id/ivFNameContactItemR"
                 android:hint="@string/updateField"
                 android:enabled="false"
+                android:inputType="textCapWords"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
 
@@ -113,14 +114,14 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
-                android:layout_toEndOf="@id/ivFNameContactItem"
-                android:layout_toRightOf="@id/ivFNameContactItem"
+                android:layout_toEndOf="@id/ivFNameContactItemR"
+                android:layout_toRightOf="@id/ivFNameContactItemR"
                 android:text="@string/prompt_firstName"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="#727272" />
 
             <ToggleButton
-                android:id="@+id/chkFirstName"
+                android:id="@+id/chkFirstNameE"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
@@ -145,7 +146,7 @@
             android:padding="@dimen/activity_horizontal_margin">
 
             <ImageView
-                android:id="@+id/ivSurnameContactItem"
+                android:id="@+id/ivSurnameContactItemE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -160,10 +161,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_toEndOf="@id/ivSurnameContactItem"
-                android:layout_toRightOf="@id/ivSurnameContactItem"
+                android:layout_toEndOf="@id/ivSurnameContactItemE"
+                android:layout_toRightOf="@id/ivSurnameContactItemE"
                 android:hint="@string/updateField"
-                android:editable="false"
+                android:enabled="false"
+                android:inputType="textCapWords"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
 
@@ -174,14 +176,14 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
-                android:layout_toEndOf="@id/ivSurnameContactItem"
-                android:layout_toRightOf="@id/ivSurnameContactItem"
+                android:layout_toEndOf="@id/ivSurnameContactItemE"
+                android:layout_toRightOf="@id/ivSurnameContactItemE"
                 android:text="@string/prompt_surname"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="#727272" />
 
             <ToggleButton
-                android:id="@+id/surnameState"
+                android:id="@+id/chkSurnameE"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
@@ -212,7 +214,7 @@
             android:padding="@dimen/activity_horizontal_margin">
 
             <ImageView
-                android:id="@+id/ivBirthdayItem"
+                android:id="@+id/ivBirthdayItemE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -228,11 +230,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_toEndOf="@id/ivBirthdayItem"
-                android:layout_toRightOf="@id/ivBirthdayItem"
+                android:layout_toEndOf="@id/ivBirthdayItemE"
+                android:layout_toRightOf="@id/ivBirthdayItemE"
                 android:hint="@string/updateField"
                 android:enabled="false"
-                android:inputType="date"
+                android:inputType="none"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
 
@@ -243,14 +245,14 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
-                android:layout_toEndOf="@id/ivBirthdayItem"
-                android:layout_toRightOf="@id/ivBirthdayItem"
+                android:layout_toEndOf="@id/ivBirthdayItemE"
+                android:layout_toRightOf="@id/ivBirthdayItemE"
                 android:text="@string/prompt_birthday"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="#727272" />
 
             <ToggleButton
-                android:id="@+id/chkBirthday"
+                android:id="@+id/chkBirthdayE"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
@@ -267,6 +269,7 @@
 
         </RelativeLayout>
 
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -275,7 +278,83 @@
             android:padding="@dimen/activity_horizontal_margin">
 
             <ImageView
-                android:id="@+id/ivAddressItem"
+                android:id="@+id/ivGenderItemE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:src="@drawable/gender_icon24" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupGenderProfE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_toEndOf="@id/ivGenderItemE"
+                android:layout_toRightOf="@id/ivGenderItemE"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButtonMaleProfE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/prompt_male" />
+
+
+                <RadioButton
+                    android:id="@+id/radioButtonFemaleProfE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/radioGroupGenderProfE"
+                    android:layout_below="@+id/radioGroupGenderProfE"
+                    android:text="@string/prompt_female" />
+
+
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/radioGroupGenderProfE"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@id/ivGenderItemE"
+                android:layout_toRightOf="@id/ivGenderItemE"
+                android:text="@string/prompt_gender"
+                android:inputType="none"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="#727272" />
+
+            <ToggleButton
+                android:id="@+id/chkGenderE"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:background="@android:drawable/ic_menu_edit"
+                android:checked="true"
+                android:padding="6dp"
+                android:textOff=""
+                android:textOn="" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:padding="@dimen/activity_horizontal_margin">
+
+            <ImageView
+                android:id="@+id/ivAddressItemE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -289,12 +368,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_toEndOf="@id/ivAddressItem"
-                android:layout_toLeftOf="@+id/chkAddress"
-                android:layout_toRightOf="@id/ivAddressItem"
-                android:layout_toStartOf="@+id/chkAddress"
+                android:layout_toEndOf="@id/ivAddressItemE"
+                android:layout_toLeftOf="@+id/chkAddressE"
+                android:layout_toRightOf="@id/ivAddressItemE"
+                android:layout_toStartOf="@+id/chkAddressE"
+                android:enabled="false"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:inputType="textCapWords"
                 android:hint="@string/updateField"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
@@ -306,15 +387,15 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
-                android:layout_toEndOf="@id/ivAddressItem"
-                android:layout_toRightOf="@id/ivAddressItem"
+                android:layout_toEndOf="@id/ivAddressItemE"
+                android:layout_toRightOf="@id/ivAddressItemE"
                 android:text="@string/prompt_address"
                 android:editable="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="#727272" />
 
             <ToggleButton
-                android:id="@+id/chkAddress"
+                android:id="@+id/chkAddressE"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
@@ -343,7 +424,7 @@
             android:padding="@dimen/activity_horizontal_margin">
 
             <ImageView
-                android:id="@+id/ivPhoneItem"
+                android:id="@+id/ivPhoneItemE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -357,10 +438,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_toEndOf="@id/ivPhoneItem"
-                android:layout_toRightOf="@id/ivPhoneItem"
+                android:layout_toEndOf="@id/ivPhoneItemE"
+                android:layout_toRightOf="@id/ivPhoneItemE"
                 android:hint="@string/updateField"
                 android:enabled="false"
+                android:inputType="phone"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
 
@@ -371,14 +453,14 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
-                android:layout_toEndOf="@id/ivPhoneItem"
-                android:layout_toRightOf="@id/ivPhoneItem"
+                android:layout_toEndOf="@id/ivPhoneItemE"
+                android:layout_toRightOf="@id/ivPhoneItemE"
                 android:text="Mobile Number"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="#727272" />
 
             <ToggleButton
-                android:id="@+id/chkState1"
+                android:id="@+id/chkPhoneE"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
@@ -403,7 +485,7 @@
             android:padding="@dimen/activity_horizontal_margin">
 
             <ImageView
-                android:id="@+id/ivEmailItem"
+                android:id="@+id/ivEmailItemE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -417,10 +499,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_toEndOf="@id/ivEmailItem"
-                android:layout_toLeftOf="@+id/chkEmail"
-                android:layout_toRightOf="@id/ivEmailItem"
-                android:layout_toStartOf="@+id/chkEmail"
+                android:layout_toEndOf="@id/ivEmailItemE"
+                android:layout_toLeftOf="@+id/chkEmailE"
+                android:layout_toRightOf="@id/ivEmailItemE"
+                android:layout_toStartOf="@+id/chkEmailE"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:enabled="false"
@@ -435,14 +517,14 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
-                android:layout_toEndOf="@id/ivEmailItem"
-                android:layout_toRightOf="@id/ivEmailItem"
+                android:layout_toEndOf="@id/ivEmailItemE"
+                android:layout_toRightOf="@id/ivEmailItemE"
                 android:text="Email"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="#727272" />
 
             <ToggleButton
-                android:id="@+id/chkEmail"
+                android:id="@+id/chkEmailE"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
@@ -472,7 +554,7 @@
             android:padding="@dimen/activity_horizontal_margin">
 
             <ImageView
-                android:id="@+id/ivStatusItem"
+                android:id="@+id/ivStatusItemE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -481,18 +563,19 @@
                 android:src="@drawable/ic_email_black"
                 android:visibility="invisible" />
 
-            <EditText
+            <TextView
                 android:id="@+id/statusProfE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_toEndOf="@id/ivStatusItem"
-                android:layout_toLeftOf="@+id/chkStatus"
-                android:layout_toRightOf="@id/ivStatusItem"
-                android:layout_toStartOf="@+id/chkStatus"
+                android:layout_toEndOf="@id/ivStatusItemE"
+                android:layout_toLeftOf="@+id/chkStatusE"
+                android:layout_toRightOf="@id/ivStatusItemE"
+                android:layout_toStartOf="@+id/chkStatusE"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:enabled="false"
                 android:hint="@string/updateField"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
@@ -504,14 +587,14 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
-                android:layout_toEndOf="@id/ivStatusItem"
-                android:layout_toRightOf="@id/ivStatusItem"
+                android:layout_toEndOf="@id/ivStatusItemE"
+                android:layout_toRightOf="@id/ivStatusItemE"
                 android:text="@string/prompt_status"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="#727272" />
 
             <ToggleButton
-                android:id="@+id/chkStatus"
+                android:id="@+id/chkStatusE"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"

@@ -23,6 +23,9 @@
     <string name="prompt_employeeId">Employee ID</string>
     <string name="prompt_CompanyNumber">Company Number</string>
     <string name="prompt_status">Status</string>
+    <string name="prompt_gender">Gender</string>
+    <string name="prompt_male">Male</string>
+    <string name="prompt_female">Female</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_register">Register</string>

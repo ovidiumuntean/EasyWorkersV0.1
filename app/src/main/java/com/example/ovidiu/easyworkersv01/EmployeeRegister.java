@@ -4,6 +4,7 @@ package com.example.ovidiu.easyworkersv01;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -25,6 +26,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +39,7 @@ import com.example.ovidiu.easyworkersv01.Util.SessionManager;
 import com.example.ovidiu.easyworkersv01.Util.UsefullyFunctions;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -72,6 +75,7 @@ public class EmployeeRegister extends AppCompatActivity implements LoaderCallbac
     private EditText mBirthDay;
     private View mProgressView;
     private View mLoginFormView;
+    private DatePickerDialog datePickerDialog;
 
 
     // Database Manager Class
@@ -95,7 +99,45 @@ public class EmployeeRegister extends AppCompatActivity implements LoaderCallbac
         mFirstNameView = (EditText) findViewById(R.id.firstNameRegE);
         mPhoneNoView = (EditText) findViewById(R.id.phoneNoRegE);
         mSurnameView = (EditText) findViewById(R.id.surnameRegE);
+
         mBirthDay = (EditText) findViewById(R.id.birthdayRegE);
+        mBirthDay.setTag(mBirthDay.getKeyListener());
+        mBirthDay.setKeyListener(null);
+        mBirthDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // calender class's instance and get current date , month and year from calender
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR) -18; // current year
+                final int mMonth = c.get(Calendar.MONTH); // current month
+                int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+                // date picker dialog
+                datePickerDialog = new DatePickerDialog(EmployeeRegister.this,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                // set day of month , month and year value in the edit text
+                                String month = String.valueOf(monthOfYear + 1);
+                                String day = String.valueOf(dayOfMonth);
+                                if (day.length() == 1) {
+                                    day = "0" + day;
+                                }
+                                if (month.length() == 1) {
+                                    month = "0" + month;
+                                }
+
+                                mBirthDay.setText(day + "/"
+                                        + (month) + "/" + year);
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
+
+
         mPasswordView = (EditText) findViewById(R.id.passwordRegE);
 
 
@@ -225,7 +267,7 @@ public class EmployeeRegister extends AppCompatActivity implements LoaderCallbac
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            Employee newEmployee = new Employee(0 , firstName, surname, new Date(birthDay), "", phoneNo, email, password, 1);
+            Employee newEmployee = new Employee(0 , firstName, surname, new Date(birthDay), 0, "", phoneNo, email, password, 1);
             mAuthTask = new UserLoginTask(newEmployee);
             mAuthTask.execute((Void) null);
         }

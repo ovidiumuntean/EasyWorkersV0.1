@@ -15,10 +15,11 @@ public class Employee {
     private String phone_no;
     private String email;
     private String password;
+    private int gender;
     private int status;
     private byte[] image;
 
-    public Employee(int id, String first_name, String surname, Date birthday, String address, String phone_no, String email, String pass, int status) {
+    public Employee(int id, String first_name, String surname, Date birthday, int gender, String address, String phone_no, String email, String pass, int status) {
         this.id = id;
         this.first_name = first_name;
         this.surname = surname;
@@ -103,6 +104,14 @@ public class Employee {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
     }
 
     public byte[] getImage() {

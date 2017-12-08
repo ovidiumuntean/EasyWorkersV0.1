@@ -31,7 +31,7 @@ import java.util.zip.DataFormatException;
 public class DatabaseManager extends SQLiteOpenHelper {
     // define constants related to DB schema such as DB name,
     private static final String DATABASE_NAME = "EasyWorkers.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final EmployeeTable empTable = new EmployeeTable();
     private static final CompanyTable compTable = new CompanyTable();
 
@@ -130,6 +130,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 employee.setFirst_name(c.getString(c.getColumnIndex(empTable.getColFirstName())).toString());
                 employee.setSurname(c.getString(c.getColumnIndex(empTable.getColSurname())).toString());
                 employee.setBirthday(new Date(c.getString(c.getColumnIndex(empTable.getColBirthday())).toString()));
+                employee.setGender(c.getInt(c.getColumnIndex(empTable.getColGender())));
                 employee.setAddress(c.getString(c.getColumnIndex(empTable.getColAddress())).toString());
                 employee.setPhone_no(c.getString(c.getColumnIndex(empTable.getColPhoneNo())).toString());
                 employee.setEmail(c.getString(c.getColumnIndex(empTable.getColEmail())).toString());
@@ -159,6 +160,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 employee.setFirst_name(c.getString(c.getColumnIndex(empTable.getColFirstName())).toString());
                 employee.setSurname(c.getString(c.getColumnIndex(empTable.getColSurname())).toString());
                 employee.setBirthday(new Date(c.getString(c.getColumnIndex(empTable.getColBirthday())).toString()));
+                employee.setGender(c.getColumnIndex(empTable.getColGender()));
                 employee.setAddress(c.getString(c.getColumnIndex(empTable.getColAddress())).toString());
                 employee.setPhone_no(c.getString(c.getColumnIndex(empTable.getColPhoneNo())).toString());
                 employee.setEmail(c.getString(c.getColumnIndex(empTable.getColEmail())).toString());
@@ -224,7 +226,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
 
     //Get all Employees
-    public ArrayList<Employee> getEmployee(){
+    public ArrayList<Employee> getEmployees(){
         String query = "SELECT * FROM " + empTable.getTableName();
         ArrayList<Employee> employees = new ArrayList<Employee>();
         SQLiteDatabase db = getReadableDatabase();
@@ -234,8 +236,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
             c.moveToFirst();
             do {
                 employees.add(new Employee(c.getInt(0), c.getString(1).toString(), c.getString(2).toString(),
-                        new Date(c.getString(3).toString()), c.getString(4).toString(), c.getString(5).toString(), c.getString(6).toString(),
-                        c.getString(7).toString(), c.getInt(8)));
+                        new Date(c.getString(3).toString()), c.getInt(4), c.getString(5).toString(), c.getString(6).toString(),
+                        c.getString(7).toString(), c.getString(8).toString(), c.getInt(9)));
             } while (c.moveToNext());
         }
         c.close();
