@@ -75,17 +75,17 @@ public class CompanyProfile extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        imageViewLoad = (CircleImageView) findViewById(R.id.profile_image);
+        //imageViewLoad = (CircleImageView) findViewById(R.id.profile_image);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                intent = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                startActivityForResult(intent, IMG_RESULT);
+//                intent = new Intent(Intent.ACTION_PICK,
+//                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//
+//                startActivityForResult(intent, IMG_RESULT);
 
             }
 

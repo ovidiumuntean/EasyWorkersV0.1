@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.ovidiu.easyworkersv01.EmployeeProfile1"
-    tools:showIn="@layout/employee_profile1">
+    tools:context="com.example.ovidiu.easyworkersv01.EmployeeProfile"
+    tools:showIn="@layout/activity_employee_profile">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,65 +15,65 @@
 
         <!--NAME FIELDS WITH ID-->
         <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:padding="@dimen/activity_horizontal_margin">
-
-        <ImageView
-            android:id="@+id/ivEmpIdContactItemE"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:src="@android:drawable/ic_menu_info_details"
-            android:tint="@color/colorPrimary"
-            android:tintMode="multiply"/>
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:padding="@dimen/activity_horizontal_margin">
 
-        <TextView
-            android:id="@+id/idProfE"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_toEndOf="@id/ivEmpIdContactItemE"
-            android:layout_toRightOf="@id/ivEmpIdContactItemE"
-            android:hint="@string/updateField"
-            android:enabled="false"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="#212121" />
+            <ImageView
+                android:id="@+id/ivEmpIdContactItemE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:src="@android:drawable/ic_menu_info_details"
+                android:tint="@color/colorPrimary"
+                android:tintMode="multiply"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/idProfE"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="8dp"
-            android:layout_toEndOf="@id/ivEmpIdContactItemE"
-            android:layout_toRightOf="@id/ivEmpIdContactItemE"
-            android:text="@string/prompt_employeeId"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="#727272" />
+            <TextView
+                android:id="@+id/idProfE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_toEndOf="@id/ivEmpIdContactItemE"
+                android:layout_toRightOf="@id/ivEmpIdContactItemE"
+                android:hint="@string/updateField"
+                android:enabled="false"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#212121" />
 
-        <ToggleButton
-            android:id="@+id/chkIdE"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:background="@android:drawable/ic_secure"
-            android:checked="true"
-            android:padding="6dp"
-            android:textOff=""
-            android:textOn="" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/idProfE"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@id/ivEmpIdContactItemE"
+                android:layout_toRightOf="@id/ivEmpIdContactItemE"
+                android:text="@string/prompt_employeeId"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="#727272" />
 
-    </RelativeLayout>
+            <ToggleButton
+                android:id="@+id/chkIdE"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:background="@android:drawable/ic_secure"
+                android:checked="true"
+                android:padding="6dp"
+                android:textOff=""
+                android:textOn="" />
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
