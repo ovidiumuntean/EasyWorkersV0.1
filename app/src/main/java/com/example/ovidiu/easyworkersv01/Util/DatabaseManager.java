@@ -14,11 +14,13 @@ import android.media.Image;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
+import com.example.ovidiu.easyworkersv01.Entity.Job;
 import com.example.ovidiu.easyworkersv01.Entity.Qualification;
 import com.example.ovidiu.easyworkersv01.Tables.CompanyTable;
 import com.example.ovidiu.easyworkersv01.Tables.EmployeeTable;
 import com.example.ovidiu.easyworkersv01.Entity.Company;
 import com.example.ovidiu.easyworkersv01.Entity.Employee;
+import com.example.ovidiu.easyworkersv01.Tables.JobTable;
 import com.example.ovidiu.easyworkersv01.Tables.QualificationTable;
 
 import java.text.ParseException;
@@ -37,6 +39,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
     private static final EmployeeTable empTable = new EmployeeTable();
     private static final CompanyTable compTable = new CompanyTable();
     private static final QualificationTable qualTable = new QualificationTable();
+    private static final JobTable jobTable = new JobTable();
+
 
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -59,6 +63,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         // build sql create statement to create tables in DB BookDB
         db.execSQL(empTable.createTableQuery());
         db.execSQL(compTable.createCompanyTable());
+        db.execSQL(jobTable.createTableQuery());
     }
 
     @Override
@@ -139,6 +144,21 @@ public class DatabaseManager extends SQLiteOpenHelper {
         }
     }
 
+    //ADD JOB
+    public boolean addJob(Job job){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = jobTable.createValues(job);
+        try {
+            db.insert(jobTable.getTableName(), null, values);
+            db.close();
+            return true;
+        }catch (SQLException e){
+            db.close();
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     // *******************************   DELETE METHODS  *******************************************
     //DELETE EMPLOYEE BY EMAIL
     public void deleteEmployee(String employeeEmail){
@@ -151,6 +171,10 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + compTable.getTableName() + " WHERE " + compTable.getColEmail() + "=\'" + companyEmail + "\';");
     }
+
+
+
+
 
 
     // **************************    SEARCH METHODS       ************************************
@@ -276,6 +300,26 @@ public class DatabaseManager extends SQLiteOpenHelper {
         c.close();
         db.close();
         return companies;
+    }
+
+    //Get all jobs
+    public ArrayList<Job> getJob() {
+        String query = "SELECT * FROM " + jobTable.getTableName();
+        ArrayList<Job> jobs = new ArrayList<Job>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(query, null);
+ /*
+        if (c.getCount() > 0) {
+            c.moveToFirst();
+       /*     do {
+                jobs.add(new Job(c.getInt(0), c.getString(1).toString(), c.getString(2).toString(),
+                        c.getInt(3), c.getLong(4), new Date(c.getString(3).toString()), c.getString(6).toString());
+            } while (c.moveToNext());
+        }*/
+            c.close();
+            db.close();
+            return jobs;
+
     }
 
     // *********************************        UPDATE METHODS      ****************************

@@ -18,6 +18,7 @@ public class JobTable {
     private static final String COL_TYPE = "TYPE";
     private static final String COL_EXPERIENCE = "EXPERIENCE";
     private static final String COL_JOBSCREATED= "JOBSCREATED";
+    private static final String COL_CATEGORY= "CATEGORY";
     private static final String COL_COMPANY_ID = "COMPANY_ID";
 
 
@@ -32,6 +33,7 @@ public class JobTable {
                 COL_TYPE + " TEXT NOT NULL, " +
                 COL_EXPERIENCE + " LONG, " +
                 COL_JOBSCREATED + " DATETIME DEFAULT CURRENT_TIMESTAMP, " +
+                COL_CATEGORY + " TEXT NOT NULL, " +
                 COL_COMPANY_ID + " INTEGER, " + " FOREIGN KEY(COMPANY_ID) REFERENCES company(id) )";
         return createJobTable;
     }
@@ -43,6 +45,7 @@ public class JobTable {
         values.put(COL_DESCRIPTION, job.getDescription());
         values.put(COL_TYPE, job.getType());
         values.put(COL_EXPERIENCE, job.getExperience());
+        values.put(COL_CATEGORY, job.getCategory());
         values.put(COL_COMPANY_ID, job.getCompany().getId());
         return values;
     }
@@ -79,5 +82,7 @@ public class JobTable {
         return COL_TYPE;
     }
 
-
+    public static String getColCategory() {
+        return COL_CATEGORY;
+    }
 }
