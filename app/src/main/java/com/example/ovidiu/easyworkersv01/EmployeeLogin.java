@@ -360,18 +360,15 @@ public class EmployeeLogin extends AppCompatActivity implements LoaderCallbacks<
                     }
                 } else if(entityKey.equalsIgnoreCase("COMPANY")){
                     // TODO: CREATE A METHOD FOR COMPANY LOGIN AND RETURN NULL OR A COMP OBJ
-//                    Company company = myDb.companyLogin(mEmail, mPassword);
-//                    if(company != null){
-//                        this.mName = company.getName();
-//                        return true;
-//                    } else {
-//                        return false;
-//                    }
+                Company company = myDb.companyLogin(mEmail, mPassword);
+                    if(company != null){
+                        this.mName = company.getName();
+                    }
+                       return true;
+                 } else {
+                       return false;
+                   }
                     //delete this after you created
-                    return false;
-                } else {
-                    return false;
-                }
             } catch (InterruptedException e) {
                 return false;
             }
@@ -397,9 +394,8 @@ public class EmployeeLogin extends AppCompatActivity implements LoaderCallbacks<
                     startActivity(empProfIntent);
                 } else if(entityKey.equalsIgnoreCase("COMPANY")){
                     Toast.makeText(EmployeeLogin.this, "User " + mName + " successfully logged in!", Toast.LENGTH_SHORT).show();
-                    // TODO: ADD YOUR INTENT ACTIVITY AFTER A COMPANY IS LOGGED IN (SOMETHING WITH CREATE JOBS)
-//                    Intent compProfIntent = new Intent(EmployeeLogin.this, CompanyProfil.class);
-//                    startActivity(compProfIntent);
+                   Intent compProfIntent = new Intent(EmployeeLogin.this, CompanyProfile.class);
+                  startActivity(compProfIntent);
                     finish();
                 }
             } else {

@@ -75,7 +75,7 @@ public class CompanyTable {
         return COL_PHONE_NO;
     }
 
-    public static String getColStatus() {
+    public static String getColPassword() {
         return COL_PASSWORD;
     }
 

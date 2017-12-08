@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.media.Image;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.net.ConnectivityManagerCompat;
 import android.util.Log;
 
 import com.example.ovidiu.easyworkersv01.Tables.CompanyTable;
@@ -81,12 +82,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 e.printStackTrace();
                 return false;
             }
-
-//            if (result == -1) {
-//                return false;
-//            } else {
-//                return true;
-//            }
         } else {
             return false;
         }
@@ -170,6 +165,33 @@ public class DatabaseManager extends SQLiteOpenHelper {
             }
             db.close();
             return employee;
+        } else {
+            db.close();
+            return null;
+        }
+
+    }
+
+    public Company  companyLogin(String email, String password){
+        SQLiteDatabase db = getReadableDatabase();
+        String query = "SELECT * FROM " + compTable.getTableName() + " WHERE " + compTable.getColEmail() + "=\'" + email +
+                "\' AND " + compTable.getColPassword() + "= \'" + password + "\';";
+        Company company = new Company();
+        Cursor c = db.rawQuery(query, null);
+
+        if(c.getCount() > 0) {
+            while (c.moveToNext()) {
+                company.setId(c.getInt(c.getColumnIndex(compTable.getColId())));
+                company.setName(c.getString(c.getColumnIndex(compTable.getColName())).toString());
+                company.setRegNum(c.getString(c.getColumnIndex(compTable.getColRegnum())).toString());
+                company.setAddress(c.getString(c.getColumnIndex(compTable.getColAddress())).toString());
+                company.setPhoneNum(c.getString(c.getColumnIndex(compTable.getColPhoneNo())).toString());
+                company.setEmail(c.getString(c.getColumnIndex(compTable.getColEmail())).toString());
+                company.setPassword(c.getString(c.getColumnIndex(compTable.getColPassword())).toString());
+
+            }
+            db.close();
+            return company;
         } else {
             db.close();
             return null;
