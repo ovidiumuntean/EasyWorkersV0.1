@@ -254,7 +254,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 company.setAddress(c.getString(c.getColumnIndex(compTable.getColAddress())).toString());
                 company.setPhoneNum(c.getString(c.getColumnIndex(compTable.getColPhoneNo())).toString());
                 company.setEmail(c.getString(c.getColumnIndex(empTable.getColEmail())).toString());
-
             }
         } else {
             db.close();
@@ -303,21 +302,26 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
 
     //Get all jobs
-    public ArrayList<Job> getJob() {
-        String query = "SELECT * FROM " + jobTable.getTableName();
+    public ArrayList<Job> getJob(Company comp) {
+        String query = "SELECT * FROM " + jobTable.getTableName() + " WHERE COMPANY_ID=" + comp.getId();
         ArrayList<Job> jobs = new ArrayList<Job>();
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.rawQuery(query, null);
- /*
+
         if (c.getCount() > 0) {
             c.moveToFirst();
-       /*     do {
+            Company company;
+            do {
+                company = new Company(c.getInt(7));
                 jobs.add(new Job(c.getInt(0), c.getString(1).toString(), c.getString(2).toString(),
-                        c.getInt(3), c.getLong(4), new Date(c.getString(3).toString()), c.getString(6).toString());
+                        c.getInt(3), c.getLong(4), new Date(c.getString(5).toString()), c.getString(6), comp));
             } while (c.moveToNext());
-        }*/
+        }
             c.close();
             db.close();
+//        for(Job j : jobs){
+//            j.setCompany(searchCompanyByEmail(j.getCompany().getId()));
+//        }
             return jobs;
 
     }

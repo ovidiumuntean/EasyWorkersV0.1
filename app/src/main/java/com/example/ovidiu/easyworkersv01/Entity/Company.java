@@ -18,7 +18,11 @@ public class Company {
 
     }
 
-    public Company(int id, String regNum, String name, String phoneNum, String address, String email,String password){
+    public Company(int id) {
+        this.id = id;
+    }
+
+    public Company(int id, String regNum, String name, String phoneNum, String address, String email, String password){
         this.id = id;
         this.regNum = regNum;
         this.name = name;
