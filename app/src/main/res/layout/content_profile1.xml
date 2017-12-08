@@ -346,6 +346,8 @@
 
         </RelativeLayout>
 
+        <include layout="@layout/item_divider" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -396,6 +398,73 @@
 
             <ToggleButton
                 android:id="@+id/chkAddressE"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:background="@android:drawable/ic_menu_edit"
+                android:checked="true"
+                android:padding="6dp"
+                android:visibility="invisible"
+                android:textOff=""
+                android:textOn="" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:padding="@dimen/activity_horizontal_margin">
+
+            <ImageView
+                android:id="@+id/ivAddressItemE1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:src="@drawable/ic_location_on_black"
+                android:visibility="invisible"/>
+
+            <EditText
+                android:id="@+id/addressProfE1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_toEndOf="@id/ivAddressItemE1"
+                android:layout_toLeftOf="@+id/chkAddressE1"
+                android:layout_toRightOf="@id/ivAddressItemE1"
+                android:layout_toStartOf="@+id/chkAddressE1"
+                android:enabled="false"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:inputType="textCapWords"
+                android:hint="@string/updateField"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#212121" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/addressProfE1"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@id/ivAddressItemE1"
+                android:layout_toRightOf="@id/ivAddressItemE1"
+                android:text="@string/prompt_address"
+                android:editable="false"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="#727272" />
+
+            <ToggleButton
+                android:id="@+id/chkAddressE1"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"

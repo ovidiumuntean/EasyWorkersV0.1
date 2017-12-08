@@ -58,6 +58,7 @@ public class EmployeeProfile1 extends AppCompatActivity {
     private EditText mBirthDayView;
     private DatePickerDialog datePickerDialog;
     private EditText mAddressView;
+    private EditText mAddressView1;
     private TextView mIdView;
     private TextView mStatusView;
     private RadioGroup mGenderRadioGroup;
@@ -126,6 +127,7 @@ public class EmployeeProfile1 extends AppCompatActivity {
         //Setting the Employee view Data
         this.setEmpProfileData();
 
+        // Adding DATE Picker To Birthday EditText
         mBirthDayView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -271,6 +273,7 @@ public class EmployeeProfile1 extends AppCompatActivity {
         mSurnameView = (EditText) findViewById(R.id.surnameProfE);
         mBirthDayView = (EditText) findViewById(R.id.birthdayProfE);
         mAddressView = (EditText) findViewById(R.id.addressProfE);
+        mAddressView1 = (EditText) findViewById(R.id.addressProfE1);
         mStatusView = (TextView) findViewById(R.id.statusProfE);
         RadioButton maleRadio = (RadioButton) findViewById(R.id.radioButtonMaleProfE);
         RadioButton femaleRadio = (RadioButton) findViewById(R.id.radioButtonFemaleProfE);
@@ -287,7 +290,17 @@ public class EmployeeProfile1 extends AppCompatActivity {
             femaleRadio.setChecked(true);
         }
         if (!employee.getAddress().equals("")) {
-            mAddressView.setText(employee.getAddress());
+            String[] address = employee.getAddress().split(",");
+            for(int i = 0; i < address.length; i++) {
+                if (i == 1) {
+                    mAddressView.setText(address[0]);
+                    mAddressView1.setText(address[1]);
+                } else if(i == 0) {
+                    mAddressView.setText(address[0]);
+                } else {
+                    mAddressView1.setText(mAddressView1.getText() + ", " + address[i]);
+                }
+            }
         }
         mPhoneNoView.setText(employee.getPhone_no());
         mEmailView.setText(employee.getEmail());
@@ -414,21 +427,37 @@ public class EmployeeProfile1 extends AppCompatActivity {
 
     public void onEditAddressE(View v) {
         if (v == null)
-            v = findViewById(R.id.chkAddressE);
-        if (mAddressView.isEnabled()) {
-            v.setBackgroundResource(android.R.drawable.ic_menu_edit);
-            mAddressView.setEnabled(false);
-            String newValue = mAddressView.getText().toString();
-            if (!employee.getAddress().equals(newValue)) {
-                employee.setAddress(newValue);
-                empUpdate = true;
-                values.put(empTable.getColAddress(), newValue);
+            v = findViewById(R.id.chkAddressE1);
+        String newValue = mAddressView.getText().toString().trim();
+        String newValue1 = mAddressView1.getText().toString().trim();
+        if (mAddressView.isEnabled() || mAddressView1.isEnabled()) {
+            if(newValue.length() > 0) {
+                v.setBackgroundResource(android.R.drawable.ic_menu_edit);
+                mAddressView.setEnabled(false);
+                mAddressView1.setEnabled(false);
+
+                if (newValue.charAt(newValue.length() - 1) != ',') {
+                    newValue += ",";
+                }
+                if (!employee.getAddress().equals(newValue + newValue1) ) {
+                    employee.setAddress(newValue + newValue1);
+                    empUpdate = true;
+                    values.put(empTable.getColAddress(), newValue + newValue1);
+                }
+            } else {
+                mAddressView.requestFocus();
+                mAddressView.setError(getString(R.string.error_field_required));
             }
         } else {
             v.setBackgroundResource(android.R.drawable.ic_menu_save);
             v.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
             mAddressView.setEnabled(true);
-            mAddressView.requestFocus();
+            mAddressView1.setEnabled(true);
+            if(newValue.length() == 0) {
+                mAddressView.requestFocus();
+            } else {
+                mAddressView1.requestFocus();
+            }
         }
     }
 
@@ -459,33 +488,6 @@ public class EmployeeProfile1 extends AppCompatActivity {
             mEmailView.requestFocus();
         }
     }
-
-//    private void disableEditTexts(Boolean... params){
-//        int length = params.length;
-//        int j = 0;
-//        if (length == 1 ){
-//            length = 5;
-//        }
-//        for(int i = 0; i < length; i++){
-//            switch (i){
-//                case 1:
-//                    mFirstNameView.setEnabled(params[j]);
-//                    break;
-//                case 2:
-//                    mSurnameView.setEnabled(params[j]);
-//                    break;
-//                case 3:
-//                    mBirthDayView.setEnabled(params[j]);
-//                    break;
-//                case 4:
-//                    mAddressView.setEnabled(params[j]);
-//                    break;
-//                case 5:
-//
-//            }
-//        }
-//
-//    }
 
     private void checkEditTexts() {
         if (mFirstNameView.isEnabled()) {
