@@ -86,11 +86,24 @@ public class EmployeeProfile1 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.employee_profile1);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarProfE);
         setSupportActionBar(toolbar);
 
-        imageViewLoad = (CircleImageView) findViewById(R.id.profile_image);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        if (getSupportActionBar() != null) {
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        }
+
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Toolbar Clicked", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+        imageViewLoad = (CircleImageView) findViewById(R.id.profile_imageE);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -186,6 +199,12 @@ public class EmployeeProfile1 extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onDestroy();
+        return true;
     }
 
     @Override

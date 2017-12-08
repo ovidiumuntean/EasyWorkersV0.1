@@ -12,13 +12,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.media.Image;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.net.ConnectivityManagerCompat;
 import android.util.Log;
 
+import com.example.ovidiu.easyworkersv01.Entity.Qualification;
 import com.example.ovidiu.easyworkersv01.Tables.CompanyTable;
 import com.example.ovidiu.easyworkersv01.Tables.EmployeeTable;
 import com.example.ovidiu.easyworkersv01.Entity.Company;
 import com.example.ovidiu.easyworkersv01.Entity.Employee;
+import com.example.ovidiu.easyworkersv01.Tables.QualificationTable;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 3;
     private static final EmployeeTable empTable = new EmployeeTable();
     private static final CompanyTable compTable = new CompanyTable();
+    private static final QualificationTable qualTable = new QualificationTable();
 
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -67,6 +69,25 @@ public class DatabaseManager extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    //******************************         ADD METHODS        ************************************
+
+    // ADD PICTURE TO EMP
+    public int addEmpPicture(int id, byte[] img){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(empTable.getColPicture(), img);
+        int res = -10;
+        try {
+            res = db.update(empTable.getTableName(), values, empTable.getColId() + "=?", new String[]{"" + id});
+        } catch (SQLiteBlobTooBigException e){
+            db.close();
+            return -1;
+        }
+        db.close();
+        return res;
+    }
+
+    //ADD EMPLOYEE
     public boolean addEmployee(Employee employee) { // can haveparameters if needed
         Employee emp = searchEmployeeByEmail(employee.getEmail());
         if(emp == null) {
@@ -82,12 +103,14 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 e.printStackTrace();
                 return false;
             }
+
         } else {
             return false;
         }
 
     }
 
+    //ADD COMPANY
     public boolean addCompany(Company company) { // can haveparameters if needed
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = compTable.addCompany(company);
@@ -101,17 +124,36 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     }
 
-    //Delete a employee from the database
+    //ADD QUALIFICATION
+    public boolean addQualification(Qualification qualification){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = qualTable.createInsertValues(qualification);
+        try {
+            db.insert(qualTable.getTableName(), null, values);
+            db.close();
+            return true;
+        }catch (SQLException e){
+            db.close();
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // *******************************   DELETE METHODS  *******************************************
+    //DELETE EMPLOYEE BY EMAIL
     public void deleteEmployee(String employeeEmail){
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + empTable.getTableName() + " WHERE " + empTable.getColEmail() + "=\'" + employeeEmail + "\';");
     }
 
+    //DELETE COMPANY BY EMAIL
     public void deleteCompany(String companyEmail){
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + compTable.getTableName() + " WHERE " + compTable.getColEmail() + "=\'" + companyEmail + "\';");
     }
 
+
+    // **************************    SEARCH METHODS       ************************************
     //Search Employee by email
     public Employee  searchEmployeeByEmail(String email){
         SQLiteDatabase db = getReadableDatabase();
@@ -141,7 +183,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         }
     }
 
-    //Search Employee by email
+    //Search Employee by email and password
     public Employee  employeeLogin(String email, String password){
         SQLiteDatabase db = getReadableDatabase();
         String query = "SELECT * FROM " + empTable.getTableName() + " WHERE " + empTable.getColEmail() + "=\'" + email +
@@ -172,66 +214,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     }
 
-    public Company  companyLogin(String email, String password){
-        SQLiteDatabase db = getReadableDatabase();
-        String query = "SELECT * FROM " + compTable.getTableName() + " WHERE " + compTable.getColEmail() + "=\'" + email +
-                "\' AND " + compTable.getColPassword() + "= \'" + password + "\';";
-        Company company = new Company();
-        Cursor c = db.rawQuery(query, null);
 
-        if(c.getCount() > 0) {
-            while (c.moveToNext()) {
-                company.setId(c.getInt(c.getColumnIndex(compTable.getColId())));
-                company.setName(c.getString(c.getColumnIndex(compTable.getColName())).toString());
-                company.setRegNum(c.getString(c.getColumnIndex(compTable.getColRegnum())).toString());
-                company.setAddress(c.getString(c.getColumnIndex(compTable.getColAddress())).toString());
-                company.setPhoneNum(c.getString(c.getColumnIndex(compTable.getColPhoneNo())).toString());
-                company.setEmail(c.getString(c.getColumnIndex(compTable.getColEmail())).toString());
-                company.setPassword(c.getString(c.getColumnIndex(compTable.getColPassword())).toString());
-
-            }
-            db.close();
-            return company;
-        } else {
-            db.close();
-            return null;
-        }
-
-    }
-
-    public int addEmpPicture(int id, byte[] img){
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(empTable.getColPicture(), img);
-        int res = -10;
-        try {
-            res = db.update(empTable.getTableName(), values, empTable.getColId() + "=?", new String[]{"" + id});
-        } catch (SQLiteBlobTooBigException e){
-            db.close();
-            return -1;
-        }
-        db.close();
-        return res;
-    }
-
-    public boolean updateEmployee(ContentValues values, int id){
-        SQLiteDatabase db = getWritableDatabase();
-        try {
-            return (db.update(empTable.getTableName(), values, empTable.getColId() + "=?", new String[]{"" + id}) > 0);
-        } catch (Exception e){
-            return false;
-        }
-    }
-
-    public boolean updateCompany(ContentValues values, int id){
-        SQLiteDatabase db = getWritableDatabase();
-        try {
-            return (db.update(compTable.getTableName(), values, compTable.getColId() + "=?", new String[]{"" + id}) > 0);
-        } catch (Exception e){
-            return false;
-        }
-    }
-
+    //SEARCH COMPANY BY EMAIL
     public Company  searchCompanyByEmail(String email){
         SQLiteDatabase db = getReadableDatabase();
         String query = "SELECT * FROM " + compTable.getTableName() + " WHERE " + compTable.getColEmail() + "='" + email+ "';";
@@ -292,6 +276,25 @@ public class DatabaseManager extends SQLiteOpenHelper {
         c.close();
         db.close();
         return companies;
+    }
+
+    // *********************************        UPDATE METHODS      ****************************
+    public boolean updateEmployee(ContentValues values, int id){
+        SQLiteDatabase db = getWritableDatabase();
+        try {
+            return (db.update(empTable.getTableName(), values, empTable.getColId() + "=?", new String[]{"" + id}) > 0);
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    public boolean updateCompany(ContentValues values, int id){
+        SQLiteDatabase db = getWritableDatabase();
+        try {
+            return (db.update(compTable.getTableName(), values, compTable.getColId() + "=?", new String[]{"" + id}) > 0);
+        } catch (Exception e){
+            return false;
+        }
     }
 
     //Print out the database as a String

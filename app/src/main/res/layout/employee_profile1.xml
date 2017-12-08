@@ -31,28 +31,28 @@
                 <!--app:layout_collapseParallaxMultiplier="0.7"-->
                 <!--android:contentDescription="" />-->
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/profile_image"
-                android:clickable="true"
-                app:civ_border_width="3dp"
-                app:civ_border_color="#FFFFFFFF"
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_imageE"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/header_profile_cover_image"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:clickable="true"
                 android:elevation="5dp"
                 android:padding="10dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/man"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_alignBottom="@+id/header_profile_cover_image" />
+                app:civ_border_color="#FFFFFFFF"
+                app:civ_border_width="3dp" />
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/toolbarProfE"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:navigationIcon="?android:attr/homeAsUpIndicator" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
