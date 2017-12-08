@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -216,36 +218,62 @@ public class CompanyProfile extends AppCompatActivity {
     }
 
     public void onEditNameC(View v) {
+        if (v == null)
+            v = findViewById(R.id.chkName);
         if (mNameView.isEnabled()) {
-            mNameView.setEnabled(false);
             String newName = mNameView.getText().toString();
-            if (!company.getName().equals(newName)) {
-                company.setName(newName);
-                compUpdate = true;
-                values.put(compTable.getColName(), newName);
+            if(newName.trim().equals("") || newName == null){
+                mNameView.requestFocus();
+                mNameView.setText("");
+                mNameView.setError(getString(R.string.error_field_required));
+            } else {
+                mNameView.setEnabled(false);
+                v.setBackgroundResource(android.R.drawable.ic_menu_edit);
+                if (!company.getName().equals(newName)) {
+                    company.setName(newName);
+                    compUpdate = true;
+                    values.put(compTable.getColName(), newName);
+                }
             }
         } else {
+            v.setBackgroundResource(android.R.drawable.ic_menu_save);
+            v.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
             mNameView.setEnabled(true);
             mNameView.requestFocus(company.getName().length());
         }
     }
 
     public void onEditRegNoC(View v) {
+        if (v == null)
+            v = findViewById(R.id.regnumState);
         if (mRegView.isEnabled()) {
-            mRegView.setEnabled(false);
-            String newValue = mRegView.getText().toString();
-            if (!company.getRegNum().equals(newValue)) {
-                company.setRegNum(newValue);
-                compUpdate = true;
+            String newName = mRegView.getText().toString();
+            if(newName.trim().equals("") || newName == null){
+                mRegView.requestFocus();
+                mRegView.setText("");
+                mRegView.setError(getString(R.string.error_field_required));
+            } else {
+                mRegView.setEnabled(false);
+                v.setBackgroundResource(android.R.drawable.ic_menu_edit);
+                if (!company.getName().equals(newName)) {
+                    company.setName(newName);
+                    compUpdate = true;
+                    values.put(compTable.getColRegnum(), newName);
+                }
             }
         } else {
+            v.setBackgroundResource(android.R.drawable.ic_menu_save);
+            v.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
             mRegView.setEnabled(true);
-            mRegView.requestFocus();
+            mRegView.requestFocus(company.getRegNum().length());
         }
     }
 
     public void onEditAddressC(View v) {
+        if (v == null)
+            v = findViewById(R.id.chkAddress);
         if (mAddressView.isEnabled()) {
+            v.setBackgroundResource(android.R.drawable.ic_menu_edit);
             mAddressView.setEnabled(false);
             String newValue = mAddressView.getText().toString();
             if (!company.getAddress().equals(newValue)) {
@@ -254,27 +282,36 @@ public class CompanyProfile extends AppCompatActivity {
                 values.put(compTable.getColAddress(), newValue);
             }
         } else {
+            v.setBackgroundResource(android.R.drawable.ic_menu_save);
+            v.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
             mAddressView.setEnabled(true);
             mAddressView.requestFocus();
         }
     }
 
     public void onEditEmailC(View v) {
+        if (v == null)
+            v = findViewById(R.id.chkEmail);
         if (mEmailView.isEnabled()) {
-            mEmailView.setEnabled(false);
             String newValue = mEmailView.getText().toString();
             EmailValidator emailValidator = new EmailValidator();
             if (emailValidator.validate(newValue)) {
+                v.setBackgroundResource(android.R.drawable.ic_menu_edit);
+                mEmailView.setEnabled(false);
                 if (!company.getAddress().equals(newValue)) {
                     company.setAddress(newValue);
                     compUpdate = true;
                     values.put(compTable.getColEmail(), newValue);
                 }
             } else {
+                v.setBackgroundResource(android.R.drawable.ic_menu_save);
+                v.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
                 mEmailView.setError(getString(R.string.error_invalid_email));
                 mEmailView.requestFocus();
             }
         } else {
+            v.setBackgroundResource(android.R.drawable.ic_menu_save);
+            v.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
             mEmailView.setEnabled(true);
             mEmailView.requestFocus();
         }
@@ -283,7 +320,7 @@ public class CompanyProfile extends AppCompatActivity {
     public void onUpdateEmp(View v) {
         AlertDialogManager alert = new AlertDialogManager();
         if (compUpdate) {
-            if (myDb.updateEmployee(values, company.getId())) {
+            if (myDb.updateCompany(values, company.getId())) {
                 this.setEmpProfileData();
                 alert.showAlertDialog(this, "Update Successfully..", "New data was added to your profile!", true);
                 compUpdate = false;

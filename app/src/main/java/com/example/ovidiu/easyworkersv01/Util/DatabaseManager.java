@@ -201,6 +201,15 @@ public class DatabaseManager extends SQLiteOpenHelper {
         }
     }
 
+    public boolean updateCompany(ContentValues values, int id){
+        SQLiteDatabase db = getWritableDatabase();
+        try {
+            return (db.update(compTable.getTableName(), values, compTable.getColId() + "=?", new String[]{"" + id}) > 0);
+        } catch (Exception e){
+            return false;
+        }
+    }
+
     public Company  searchCompanyByEmail(String email){
         SQLiteDatabase db = getReadableDatabase();
         String query = "SELECT * FROM " + compTable.getTableName() + " WHERE " + compTable.getColEmail() + "='" + email+ "';";

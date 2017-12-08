@@ -159,7 +159,7 @@
                 android:layout_toEndOf="@id/ivRegNumContactItem"
                 android:layout_toRightOf="@id/ivRegNumContactItem"
                 android:hint="@string/updateField"
-                android:editable="false"
+                android:enabled="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
 
@@ -226,6 +226,7 @@
                 android:layout_toRightOf="@id/ivAddressItem"
                 android:layout_toStartOf="@+id/chkAddress"
                 android:ellipsize="end"
+                android:enabled="false"
                 android:maxLines="1"
                 android:hint="@string/updateField"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
