@@ -32,11 +32,6 @@
         <activity
             android:name=".EmployeeRegister"
             android:label="@string/title_activity_employee_register" />
-        <activity android:name=".EmployeeProfile" />
-        <activity
-            android:name=".EmployeeProfile1"
-            android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CompanyRegister"
             android:label="@string/title_activity_company_register" />
@@ -49,8 +44,23 @@
             android:label="@string/title_activity_company_tabs"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddJobActivity"
-            android:label="@string/title_activity_add_job"></activity>
+            android:name=".EmployeeMain"
+            android:label="@string/title_activity_employee_main"
+            android:parentActivityName=".EmployeeLogin"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ovidiu.easyworkersv01.EmployeeLogin" />
+        </activity>
+        <activity
+            android:name=".EmployeeProfile"
+            android:label="@string/title_activity_employee_profile"
+            android:parentActivityName=".EmployeeMain"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ovidiu.easyworkersv01.EmployeeMain" />
+        </activity>
     </application>
 
 </manifest>
