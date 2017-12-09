@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import com.example.ovidiu.easyworkersv01.Entity.Company;
 import com.example.ovidiu.easyworkersv01.Entity.Employee;
+import com.example.ovidiu.easyworkersv01.Tables.CompanyTable;
 import com.example.ovidiu.easyworkersv01.Util.AlertDialogManager;
 import com.example.ovidiu.easyworkersv01.Util.DatabaseManager;
 import com.example.ovidiu.easyworkersv01.Util.EmailValidator;
@@ -52,6 +53,7 @@ public class EmployeeLogin extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
+    static String email;
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -387,6 +389,7 @@ public class EmployeeLogin extends AppCompatActivity implements LoaderCallbacks<
                     session.logoutUser();
                 }
                 session.createLoginSession(mName, mEmail);
+                email = mEmail;
                 if(entityKey.equalsIgnoreCase("EMPLOYEE")) {
                     //Toast.makeText(EmployeeLogin.this, "User " + mName + " successfully logged in!", Toast.LENGTH_SHORT).show();
                     //alert.showAlertDialog(EmployeeLogin.this, "Login successfully..", "User " + mName + " successfully registered!", true);
@@ -394,7 +397,7 @@ public class EmployeeLogin extends AppCompatActivity implements LoaderCallbacks<
                     startActivity(empProfIntent);
                 } else if(entityKey.equalsIgnoreCase("COMPANY")){
                     Toast.makeText(EmployeeLogin.this, "User " + mName + " successfully logged in!", Toast.LENGTH_SHORT).show();
-                   Intent compProfIntent = new Intent(EmployeeLogin.this, CompanyProfile.class);
+                   Intent compProfIntent = new Intent(EmployeeLogin.this, CompanyTabs.class);
                   startActivity(compProfIntent);
                     finish();
                 }

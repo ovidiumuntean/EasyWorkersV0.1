@@ -134,4 +134,5 @@
     <string name="title_activity_company_profile1">CompanyProfile1</string>
     <string name="title_activity_company_tabs">CompanyTabs</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_add_job">AddJobActivity</string>
 </resources>

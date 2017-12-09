@@ -263,6 +263,32 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return company;
     }
 
+    public Company companyLogin(String email, String password){
+        SQLiteDatabase db = getReadableDatabase();
+        String query = "SELECT * FROM " + compTable.getTableName() + " WHERE " + compTable.getColEmail() + "=\'" + email +
+                "\' AND " + empTable.getColPassword() + "= \'" + password + "\';";
+        Company company = new Company();
+        Cursor c = db.rawQuery(query, null);
+
+        if(c.getCount() > 0) {
+            while (c.moveToNext()) {
+                company.setId(c.getInt(c.getColumnIndex(compTable.getColId())));
+                company.setName(c.getString(c.getColumnIndex(compTable.getColName())).toString());
+                company.setRegNum(c.getString(c.getColumnIndex(compTable.getColRegnum())).toString());
+                company.setAddress(c.getString(c.getColumnIndex(compTable.getColAddress())).toString());
+                company.setPhoneNum(c.getString(c.getColumnIndex(compTable.getColPhoneNo())).toString());
+                company.setEmail(c.getString(c.getColumnIndex(empTable.getColEmail())).toString());
+                company.setPassword(c.getString(c.getColumnIndex(empTable.getColPassword())).toString());;
+            }
+            db.close();
+            return company;
+        } else {
+            db.close();
+            return null;
+        }
+
+    }
+
     //Get all Employees
     public ArrayList<Employee> getEmployees(){
         String query = "SELECT * FROM " + empTable.getTableName();
@@ -312,16 +338,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
             c.moveToFirst();
             Company company;
             do {
-                company = new Company(c.getInt(7));
                 jobs.add(new Job(c.getInt(0), c.getString(1).toString(), c.getString(2).toString(),
                         c.getInt(3), c.getLong(4), new Date(c.getString(5).toString()), c.getString(6), comp));
             } while (c.moveToNext());
         }
             c.close();
             db.close();
-//        for(Job j : jobs){
-//            j.setCompany(searchCompanyByEmail(j.getCompany().getId()));
-//        }
             return jobs;
 
     }
@@ -344,6 +366,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
             return false;
         }
     }
+
+
 
     //Print out the database as a String
     public String databaseToString(){

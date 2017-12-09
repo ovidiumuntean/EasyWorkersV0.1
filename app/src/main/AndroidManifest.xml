@@ -47,7 +47,10 @@
         <activity
             android:name=".CompanyTabs"
             android:label="@string/title_activity_company_tabs"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AddJobActivity"
+            android:label="@string/title_activity_add_job"></activity>
     </application>
 
 </manifest>

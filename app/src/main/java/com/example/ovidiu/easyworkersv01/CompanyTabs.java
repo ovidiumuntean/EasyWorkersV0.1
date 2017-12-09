@@ -1,5 +1,6 @@
 package com.example.ovidiu.easyworkersv01;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+
+import com.example.ovidiu.easyworkersv01.Entity.Company;
 
 public class CompanyTabs extends AppCompatActivity {
 
@@ -78,8 +81,9 @@ public class CompanyTabs extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_addJobs) {
+            Intent addJobIntent = new Intent(CompanyTabs.this, AddJobActivity.class);
+            startActivity(addJobIntent);
         }
 
         return super.onOptionsItemSelected(item);
