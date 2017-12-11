@@ -36,6 +36,9 @@
             android:name=".CompanyRegister"
             android:label="@string/title_activity_company_register" />
         <activity
+            android:name=".AddJobActivity"
+            android:label="Add Jobs" />
+        <activity
             android:name=".CompanyProfile"
             android:label="@string/title_activity_company_profile"
             android:theme="@style/AppTheme.NoActionBar" />
