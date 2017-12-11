@@ -61,6 +61,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.ovidiu.easyworkersv01.EmployeeMain" />
         </activity>
+        <activity android:name=".ApplicationsTab" />
+        <activity android:name=".PostedJobsTabs"></activity>
     </application>
 
 </manifest>
