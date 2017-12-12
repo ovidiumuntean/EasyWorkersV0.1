@@ -15,14 +15,14 @@ public class Job {
     private long experience;
     private String category;
     private Company company;
-   // private Date jobcreated;
+    private Date jobcreated;
 
 
 
     public Job() {
     }
 
-    public Job(int id, String title, String description, int type, long experience, String category,  Company company){
+    public Job(int id, String title, String description, int type, long experience, Date jobcreated, String category, Company company){
         this.id = id;
         this.title = title;
         this.description = description;
@@ -30,7 +30,7 @@ public class Job {
         this.experience = experience;
         this.category = category;
         this.company = company;
-       // this.jobcreated = jobcreated;
+        this.jobcreated = jobcreated;
     }
 
     public void setId(int id) {
@@ -87,13 +87,13 @@ public class Job {
         this.type = type;
     }
 
- /*   public Date getJobcreated() {
+    public Date getJobcreated() {
         return jobcreated;
     }
 
     public void setJobcreated(Date jobcreated) {
         this.jobcreated = jobcreated;
-    }*/
+    }
 
     public void setCategory(String category) {
         this.category = category;

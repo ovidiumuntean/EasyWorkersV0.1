@@ -17,7 +17,7 @@ public class JobTable {
     private static final String COL_DESCRIPTION = "DESCRIPTION";
     private static final String COL_TYPE = "TYPE";
     private static final String COL_EXPERIENCE = "EXPERIENCE";
-   // private static final String COL_JOBSCREATED= "JOBSCREATED";
+    private static final String COL_JOBSCREATED= "JOBSCREATED";
     private static final String COL_CATEGORY= "CATEGORY";
     private static final String COL_COMPANY_ID = "COMPANY_ID";
 
@@ -32,21 +32,21 @@ public class JobTable {
                 COL_DESCRIPTION + " TEXT NOT NULL, " +
                 COL_TYPE + " TEXT NOT NULL, " +
                 COL_EXPERIENCE + " LONG, " +
-           //     COL_JOBSCREATED + " DATETIME, " +
+                COL_JOBSCREATED + " DATETIME DEFAULT CURRENT_TIMESTAMP, " +
                 COL_CATEGORY + " TEXT NOT NULL, " +
                 COL_COMPANY_ID + " INTEGER, " + " FOREIGN KEY(COMPANY_ID) REFERENCES company(id) )";
         return createJobTable;
     }
 
-    public ContentValues createValues(Job job) {
+    public ContentValues createValues(Job jobEntity) {
         UsefullyFunctions util = new UsefullyFunctions();
         ContentValues values = new ContentValues();
-        values.put(COL_TITLE, job.getTitle());
-        values.put(COL_DESCRIPTION, job.getDescription());
-        values.put(COL_TYPE, job.getType());
-        values.put(COL_EXPERIENCE, job.getExperience());
-        values.put(COL_CATEGORY, job.getCategory());
-        values.put(COL_COMPANY_ID, job.getCompany().getId());
+        values.put(COL_TITLE, jobEntity.getTitle());
+        values.put(COL_DESCRIPTION, jobEntity.getDescription());
+        values.put(COL_TYPE, jobEntity.getType());
+        values.put(COL_EXPERIENCE, jobEntity.getExperience());
+        values.put(COL_CATEGORY, jobEntity.getCategory());
+        values.put(COL_COMPANY_ID, jobEntity.getCompany().getId());
         return values;
     }
 
@@ -70,9 +70,9 @@ public class JobTable {
         return COL_EXPERIENCE;
     }
 
-   // public static String getColJobscreated() {
-      //  return COL_JOBSCREATED;
-    //}
+    public static String getColJobscreated() {
+        return COL_JOBSCREATED;
+    }
 
     public static String getColTitle() {
         return COL_TITLE;
