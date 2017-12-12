@@ -361,15 +361,26 @@ public class DatabaseManager extends SQLiteOpenHelper {
         Cursor c = db.rawQuery(query, null);
 
         if (c.getCount() > 0) {
+            SimpleDateFormat sd = new SimpleDateFormat(
+                    "yyyy-MM-dd HH:mm:ss");
+            Date date = null;
             c.moveToFirst();
             do {
+                try {
+                    date = sd.parse(c.getString(5));
+                } catch (ParseException e){
+                    return null;
+                }
                 jobs.add(new Job(c.getInt(0), c.getString(1).toString(), c.getString(2).toString(),
-                        c.getInt(3), c.getLong(4), c.getString(5), comp));
+                        c.getInt(3), c.getLong(4), date, c.getString(6), comp));
             } while (c.moveToNext());
         }
-            c.close();
-            db.close();
-            return jobs;
+        c.close();
+        db.close();
+        for(Job b:jobs){
+            b.setCompany(searchCompanyById(b.getCompany().getId()));
+        }
+        return jobs;
 
     }
 
