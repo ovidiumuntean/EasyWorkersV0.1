@@ -98,7 +98,6 @@ public class EmployeeProfile extends AppCompatActivity {
                 startActivityForResult(intent, IMG_RESULT);
             }
         });
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Session Manager
         session = new SessionManager(getApplicationContext());
@@ -184,7 +183,7 @@ public class EmployeeProfile extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        onDestroy();
+        this.finish();
         return true;
     }
 
@@ -240,10 +239,8 @@ public class EmployeeProfile extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        session.logoutUser();
+        this.finish();
         super.onDestroy();
-        Intent mainAct = new Intent(this, MainActivity.class);
-        startActivity(mainAct);
     }
 
     @Override
@@ -253,7 +250,7 @@ public class EmployeeProfile extends AppCompatActivity {
                 onDestroy();
                 return true;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     private void setEmpProfileData() {

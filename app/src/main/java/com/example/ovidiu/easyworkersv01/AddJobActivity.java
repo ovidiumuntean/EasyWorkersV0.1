@@ -115,8 +115,6 @@ public class AddJobActivity extends AppCompatActivity {
      */
     private void attemptAddJob() {
 
-
-
         // Store values at the time of the login attempt.
 
         String title = mTitleView.getText().toString();

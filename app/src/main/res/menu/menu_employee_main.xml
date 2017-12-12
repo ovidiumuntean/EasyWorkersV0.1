@@ -2,9 +2,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.ovidiu.easyworkersv01.EmployeeMain">
+
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_addQualification"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/action_add_qualification"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_empProfile"
+        android:orderInCategory="100"
+        android:title="@string/action_employee_profile"
         app:showAsAction="never" />
 </menu>

@@ -51,9 +51,10 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_about) {
             Intent loginIntent = new Intent(this, EmployeeLogin.class);
             startActivity(loginIntent);
+            return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     public void onCompany(View v){

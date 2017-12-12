@@ -11,7 +11,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -69,7 +69,11 @@
         <activity
             android:name=".EmployeeMain2"
             android:label="@string/title_activity_employee_main2"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:parentActivityName=".EmployeeLogin"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ovidiu.easyworkersv01.EmployeeLogin" />
         </activity>
     </application>
 

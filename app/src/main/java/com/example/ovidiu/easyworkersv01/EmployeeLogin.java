@@ -92,8 +92,8 @@ public class EmployeeLogin extends AppCompatActivity implements LoaderCallbacks<
 
         // Session Manager
         session = new SessionManager(getApplicationContext());
-        if(session.isLoggedIn() && entityKey.equals("EMPLOYEE")){
-            Intent empProfIntent = new Intent(EmployeeLogin.this, EmployeeMain2.class);
+        if (session.isLoggedIn() && entityKey.equals("EMPLOYEE")) {
+            Intent empProfIntent = new Intent(EmployeeLogin.this, EmployeeMain.class);
             startActivity(empProfIntent);
         }
         //Database Manager
@@ -307,7 +307,7 @@ public class EmployeeLogin extends AppCompatActivity implements LoaderCallbacks<
 
     }
 
-    public void onForgotPassword(View v){
+    public void onForgotPassword(View v) {
         Toast.makeText(this, "Clicked on Forgot Password!", Toast.LENGTH_SHORT).show();
         // TODO: CREATE THE FORGOT PASSWORD ACCLIVITY AND CALL IT
     }
@@ -341,7 +341,7 @@ public class EmployeeLogin extends AppCompatActivity implements LoaderCallbacks<
         private final String mEmail;
         private final String mPassword;
 
-        UserLoginTask( String email, String password) {
+        UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
         }
@@ -352,31 +352,30 @@ public class EmployeeLogin extends AppCompatActivity implements LoaderCallbacks<
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
-                if(entityKey.equalsIgnoreCase("EMPLOYEE")){
+                if (entityKey.equalsIgnoreCase("EMPLOYEE")) {
                     Employee emp1 = myDb.employeeLogin(mEmail, mPassword);
-                    if(emp1 != null){
+                    if (emp1 != null) {
                         this.mName = emp1.getFirst_name();
                         return true;
                     } else {
                         return false;
                     }
-                } else if(entityKey.equalsIgnoreCase("COMPANY")){
+                } else if (entityKey.equalsIgnoreCase("COMPANY")) {
                     // TODO: CREATE A METHOD FOR COMPANY LOGIN AND RETURN NULL OR A COMP OBJ
-                Company company = myDb.companyLogin(mEmail, mPassword);
-                    if(company != null){
+                    Company company = myDb.companyLogin(mEmail, mPassword);
+                    if (company != null) {
                         this.mName = company.getName();
                         return true;
                     } else {
                         return false;
                     }
-                 } else {
-                       return false;
-                   }
-                    //delete this after you created
+                } else {
+                    return false;
+                }
+                //delete this after you created
             } catch (InterruptedException e) {
                 return false;
             }
-
 
 
         }
@@ -387,20 +386,20 @@ public class EmployeeLogin extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
             AlertDialogManager alert = new AlertDialogManager();
             if (success) {
-                if(session.isLoggedIn()){
+                if (session.isLoggedIn()) {
                     session.logoutUser();
                 }
                 session.createLoginSession(mName, mEmail);
                 email = mEmail;
-                if(entityKey.equalsIgnoreCase("EMPLOYEE")) {
+                if (entityKey.equalsIgnoreCase("EMPLOYEE")) {
                     //Toast.makeText(EmployeeLogin.this, "User " + mName + " successfully logged in!", Toast.LENGTH_SHORT).show();
                     //alert.showAlertDialog(EmployeeLogin.this, "Login successfully..", "User " + mName + " successfully registered!", true);
-                    Intent empProfIntent = new Intent(EmployeeLogin.this, EmployeeMain2.class);
+                    Intent empProfIntent = new Intent(EmployeeLogin.this, EmployeeMain.class);
                     startActivity(empProfIntent);
-                } else if(entityKey.equalsIgnoreCase("COMPANY")){
+                } else if (entityKey.equalsIgnoreCase("COMPANY")) {
                     Toast.makeText(EmployeeLogin.this, "User " + mName + " successfully logged in!", Toast.LENGTH_SHORT).show();
-                   Intent compProfIntent = new Intent(EmployeeLogin.this, CompanyTabs.class);
-                  startActivity(compProfIntent);
+                    Intent compProfIntent = new Intent(EmployeeLogin.this, CompanyTabs.class);
+                    startActivity(compProfIntent);
                     finish();
                 }
             } else {
