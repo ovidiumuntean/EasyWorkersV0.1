@@ -156,12 +156,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     //ADD JOB APPLICATION
     //Job Status --> 0 = not Applied, 1 = Applied , 2 = Accepted, 3 = Rejected
-    public boolean rejectJobApplications(int jobId) {
+    public boolean rejectJobApplications(int jobId, int employeeId) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         long result;
         values.put(jobAppTable.getColStatus(), 3);
-        result = db.update(jobAppTable.getTableName(), values, "JOB_ID=?", new String[]{String.valueOf(jobId)});
+        result = db.update(jobAppTable.getTableName(), values, "JOB_ID=? AND EMPLOYEE_ID!=?", new String[]{String.valueOf(jobId), String.valueOf(employeeId)});
 
 
         db.close();
@@ -223,6 +223,35 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public Employee searchEmployeeByEmail(String email) {
         SQLiteDatabase db = getReadableDatabase();
         String query = "SELECT * FROM " + empTable.getTableName() + " WHERE " + empTable.getColEmail() + "=\'" + email + "\' AND " + empTable.getColStatus() + " = 1;";
+        Employee employee = new Employee();
+        Cursor c = db.rawQuery(query, null);
+
+        if (c.getCount() > 0) {
+            while (c.moveToNext()) {
+                employee.setId(c.getInt(c.getColumnIndex(empTable.getColId())));
+                employee.setFirst_name(c.getString(c.getColumnIndex(empTable.getColFirstName())).toString());
+                employee.setSurname(c.getString(c.getColumnIndex(empTable.getColSurname())).toString());
+                employee.setBirthday(new Date(c.getString(c.getColumnIndex(empTable.getColBirthday())).toString()));
+                employee.setGender(c.getInt(c.getColumnIndex(empTable.getColGender())));
+                employee.setAddress(c.getString(c.getColumnIndex(empTable.getColAddress())).toString());
+                employee.setPhone_no(c.getString(c.getColumnIndex(empTable.getColPhoneNo())).toString());
+                employee.setEmail(c.getString(c.getColumnIndex(empTable.getColEmail())).toString());
+                employee.setPassword(c.getString(c.getColumnIndex(empTable.getColPassword())).toString());
+                employee.setStatus(c.getInt(c.getColumnIndex(empTable.getColStatus())));
+                employee.setImage(c.getBlob(c.getColumnIndex(empTable.getColPicture())));
+            }
+            db.close();
+            return employee;
+        } else {
+            db.close();
+            return null;
+        }
+    }
+
+    //Search Employee by ID
+    public Employee searchEmployeeById(int id) {
+        SQLiteDatabase db = getReadableDatabase();
+        String query = "SELECT * FROM " + empTable.getTableName() + " WHERE " + empTable.getColId() + "=" + id + " AND " + empTable.getColStatus() + " = 1;";
         Employee employee = new Employee();
         Cursor c = db.rawQuery(query, null);
 
@@ -477,13 +506,26 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
         if (c.getCount() > 0) {
             c.moveToFirst();
+            Job job = new Job();
+            Employee emp = new Employee();
+
             do {
-                jobApplications.add(new JobApplication(c.getInt(0), c.getInt(1), c.getInt(2)));
+                job.setId(c.getInt(0));
+                emp.setId(c.getInt(1));
+                jobApplications.add(new JobApplication(job, emp, c.getInt(2)));
             } while (c.moveToNext());
         }
         c.close();
         db.close();
-        return jobApplications;
+        if(jobApplications.size() > 0){
+            for (JobApplication j: jobApplications){
+                j.setJob(searchJobById(j.getJob().getId()));
+                j.setEmployee(searchEmployeeById(j.getEmployee().getId()));
+            }
+            return jobApplications;
+        } else {
+            return null;
+        }
 
     }
 
@@ -501,12 +543,21 @@ public class DatabaseManager extends SQLiteOpenHelper {
         JobApplication jobApp = null;
         if (c.getCount() > 0) {
             c.moveToFirst();
+            Job job = new Job();
+            Employee emp = new Employee();
             do {
-                jobApp = new JobApplication(c.getInt(0), c.getInt(1), c.getInt(2));
+                job.setId(c.getInt(0));
+                emp.setId(c.getInt(1));
+                jobApp = new JobApplication(job, emp, c.getInt(2));
             } while (c.moveToNext());
         }
         c.close();
         db.close();
+
+        if(jobApp != null){
+            jobApp.setJob(searchJobById(jobApp.getJob().getId()));
+            jobApp.setEmployee(searchEmployeeById(jobApp.getEmployee().getId()));
+        }
         return jobApp;
 
     }
