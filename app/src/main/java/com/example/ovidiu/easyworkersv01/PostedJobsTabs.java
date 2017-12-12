@@ -1,6 +1,7 @@
 package com.example.ovidiu.easyworkersv01;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -102,23 +103,24 @@ public class PostedJobsTabs extends Fragment {
                 dialog.dismiss();
             }
         });
-       /* Button deleteButton = (Button) dialog.findViewById(R.id.dialogButtonDelete);
-        dialogButton.setOnClickListener(new View.OnClickListener() {
+        Button deleteButton = (Button) dialog.findViewById(R.id.dialogButtonDelete);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 deleteJob(j);
+                startActivity(new Intent(getContext(), CompanyTabs.class));
             }
         });
 
-        */
+
 
         dialog.show();
 
     }
+    public void deleteJob(Job job){
+        myDb.deleteJob(job.getId());
 
-   // public void deleteJob(Job job){
 
-
-   // }
+    }
 }

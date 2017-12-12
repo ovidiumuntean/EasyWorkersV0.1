@@ -458,6 +458,18 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return dbString;
     }
 
+    // *********************************        Delete METHODS      ****************************
+
+    public void deleteJob(int jobId){
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.execSQL("DELETE FROM " + jobTable.getTableName() + " WHERE " + jobTable.getColId() + "= '" + jobId + "'");
+        database.close();
+
+    }
+
+
+
+
     /**
      * Checks if the app has permission to write to device storage
      *
