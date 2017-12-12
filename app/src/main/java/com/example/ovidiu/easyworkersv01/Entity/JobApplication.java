@@ -5,33 +5,33 @@ package com.example.ovidiu.easyworkersv01.Entity;
  */
 
 public class JobApplication {
-    private int jobId;
-    private int employeeId;
+    private Job job;
+    private Employee employee;
     private int status;
 
     public JobApplication() {
     }
 
-    public JobApplication(int jobId, int employeeId, int status) {
-        this.jobId = jobId;
-        this.employeeId = employeeId;
+    public JobApplication(Job job, Employee employee, int status) {
+        this.job = job;
+        this.employee = employee;
         this.status = status;
     }
 
-    public int getJobId() {
-        return jobId;
+    public Job getJob() {
+        return job;
     }
 
-    public void setJobId(int jobId) {
-        this.jobId = jobId;
+    public void setJob(Job job) {
+        this.job = job;
     }
 
-    public int getEmployeeId() {
-        return employeeId;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public int getStatus() {
