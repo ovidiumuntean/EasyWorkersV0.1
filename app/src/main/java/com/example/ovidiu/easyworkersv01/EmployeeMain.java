@@ -46,6 +46,7 @@ public class EmployeeMain extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMainE);
         setSupportActionBar(toolbar);
 
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabMainE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
