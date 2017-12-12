@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.ovidiu.easyworkersv01.Adapters.SectionsPageAdapter;
+
 public class CompanyTabs extends AppCompatActivity {
 
     private static final String TAG = "Tab Activity";

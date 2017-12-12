@@ -1,6 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Job:" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:text="Delete" />
+
+    <TextView
+        android:id="@+id/jobTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Title"
+        android:textSize="25dp" />
+
+    <TextView
+        android:id="@+id/jobDescription"
+        android:layout_width="402dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Description"
+        android:textSize="25dp" />
+
+    <TextView
+        android:id="@+id/jobCategory"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Category"
+        android:textSize="25dp" />
+
+
+    <TextView
+        android:id="@+id/jobExperience"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="experience"
+        android:textSize="25dp" />
+
+
 
 </LinearLayout>

@@ -339,7 +339,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             Company company;
             do {
                 jobs.add(new Job(c.getInt(0), c.getString(1).toString(), c.getString(2).toString(),
-                        c.getInt(3), c.getLong(4), new Date(c.getString(5).toString()), c.getString(6), comp));
+                        c.getInt(3), c.getLong(4), c.getString(5), comp));
             } while (c.moveToNext());
         }
             c.close();

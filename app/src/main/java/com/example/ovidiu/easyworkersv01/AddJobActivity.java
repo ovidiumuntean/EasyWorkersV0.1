@@ -145,7 +145,7 @@ public class AddJobActivity extends AppCompatActivity {
 
             Company company = myDb.searchCompanyByEmail(EmployeeLogin.email);
             Date d = new Date();
-            job = new Job(0 , title, description, type, experience, d, category, company);
+            job = new Job(0 , title, description, type, experience, category, company);
             myDb.addJob(job);
             Toast.makeText(AddJobActivity.this, "Job added successfully", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, CompanyTabs.class));
