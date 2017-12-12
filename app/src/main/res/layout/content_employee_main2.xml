@@ -1,37 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.ovidiu.easyworkersv01.EmployeeMain"
-    tools:showIn="@layout/activity_employee_main">
+    tools:context="com.example.ovidiu.easyworkersv01.EmployeeMain2"
+    tools:showIn="@layout/activity_employee_main2">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="395dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="8dp">
 
         <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="?attr/selectableItemBackground"-->
-            <!--android:clickable="true"-->
-            <!--android:padding="@dimen/activity_horizontal_margin">-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="?attr/selectableItemBackground"-->
+        <!--android:clickable="true"-->
+        <!--android:padding="@dimen/activity_horizontal_margin">-->
 
-            <!--<SearchView-->
-                <!--android:id="@+id/searchView1"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:background="@drawable/textview_border"-->
-                <!--android:iconifiedByDefault="false"-->
-                <!--android:padding="2dp"-->
-                <!--android:queryHint="Search...." />-->
+        <!--<SearchView-->
+        <!--android:id="@+id/searchView1"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:background="@drawable/textview_border"-->
+        <!--android:iconifiedByDefault="false"-->
+        <!--android:padding="2dp"-->
+        <!--android:queryHint="Search...." />-->
         <!--</RelativeLayout>-->
 
         <RelativeLayout
+            android:id="@+id/topSearchId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -46,12 +49,13 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                android:visibility="visible"
-                android:padding="2dp"
-                android:iconifiedByDefault="false"
-                android:queryHint="@string/prompt_search"
                 android:background="@android:color/transparent"
+                android:iconifiedByDefault="false"
+                android:orientation="horizontal"
+                android:padding="2dp"
+                android:queryHint="@string/prompt_search"
+                android:visibility="visible"
+                android:onClick="onSearchMainE"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -68,7 +72,7 @@
             android:padding="@dimen/activity_horizontal_margin">
 
             <Spinner
-                android:id="@+id/apLocationsMainE"
+                android:id="@+id/spLocationsMainE"
                 style="@android:style/Widget.Holo.Light.Spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,20 +107,13 @@
 
         <include layout="@layout/item_divider" />
 
+
         <ListView
             android:id="@+id/jobsListView"
-            android:layout_width="match_parent"
-            android:layout_height="468dp"
-            android:layout_marginBottom="0dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toTopOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp" />
     </LinearLayout>
 
-</android.support.v4.widget.NestedScrollView>
+</android.support.constraint.ConstraintLayout>

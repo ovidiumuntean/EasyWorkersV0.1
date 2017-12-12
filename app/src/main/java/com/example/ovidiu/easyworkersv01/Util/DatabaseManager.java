@@ -24,6 +24,7 @@ import com.example.ovidiu.easyworkersv01.Tables.JobTable;
 import com.example.ovidiu.easyworkersv01.Tables.QualificationTable;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.zip.DataFormatException;
@@ -35,12 +36,12 @@ import java.util.zip.DataFormatException;
 public class DatabaseManager extends SQLiteOpenHelper {
     // define constants related to DB schema such as DB name,
     private static final String DATABASE_NAME = "EasyWorkers.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private static final EmployeeTable empTable = new EmployeeTable();
     private static final CompanyTable compTable = new CompanyTable();
     private static final QualificationTable qualTable = new QualificationTable();
     private static final JobTable jobTable = new JobTable();
-
+    private static UsefullyFunctions util = new UsefullyFunctions();
 
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -242,7 +243,32 @@ public class DatabaseManager extends SQLiteOpenHelper {
     //SEARCH COMPANY BY EMAIL
     public Company  searchCompanyByEmail(String email){
         SQLiteDatabase db = getReadableDatabase();
-        String query = "SELECT * FROM " + compTable.getTableName() + " WHERE " + compTable.getColEmail() + "='" + email+ "';";
+        String query = "SELECT * FROM " + compTable.getTableName() + " WHERE " + compTable.getColEmail() + "=\'" + email+ "\';";
+        Company company = new Company();
+        Cursor c = db.rawQuery(query, null);
+
+        if(c.getCount() > 0) {
+            while (c.moveToNext()) {
+                company.setId(c.getInt(c.getColumnIndex(compTable.getColId())));
+                company.setName(c.getString(c.getColumnIndex(compTable.getColName())).toString());
+                company.setRegNum(c.getString(c.getColumnIndex(compTable.getColRegnum())).toString());
+                company.setAddress(c.getString(c.getColumnIndex(compTable.getColAddress())).toString());
+                company.setPhoneNum(c.getString(c.getColumnIndex(compTable.getColPhoneNo())).toString());
+                company.setEmail(c.getString(c.getColumnIndex(empTable.getColEmail())).toString());
+            }
+        } else {
+            c.close();
+            db.close();
+            return null;
+        }
+        c.close();
+        db.close();
+        return company;
+    }
+
+    public Company  searchCompanyById(int id){
+        SQLiteDatabase db = getReadableDatabase();
+        String query = "SELECT * FROM " + compTable.getTableName() + " WHERE " + compTable.getColId() + "=" + id+ ";";
         Company company = new Company();
         Cursor c = db.rawQuery(query, null);
 
@@ -336,7 +362,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
         if (c.getCount() > 0) {
             c.moveToFirst();
-            Company company;
             do {
                 jobs.add(new Job(c.getInt(0), c.getString(1).toString(), c.getString(2).toString(),
                         c.getInt(3), c.getLong(4), new Date(c.getString(5).toString()), c.getString(6), comp));
@@ -345,6 +370,38 @@ public class DatabaseManager extends SQLiteOpenHelper {
             c.close();
             db.close();
             return jobs;
+
+    }
+
+    public ArrayList<Job> getAllJobs(){
+        String query = "SELECT * FROM " + jobTable.getTableName();
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<Job> jobs = new ArrayList<Job>();
+        Cursor c = db.rawQuery(query, null);
+
+
+        if (c.getCount() > 0) {
+            SimpleDateFormat sd = new SimpleDateFormat(
+                    "yyyy-MM-dd HH:mm:ss");
+            Date date = null;
+            c.moveToFirst();
+            Company comp = new Company(c.getInt(7));
+            do {
+                try {
+                    date = sd.parse(c.getString(5));
+                } catch (ParseException e){
+                    return null;
+                }
+                jobs.add(new Job(c.getInt(0), c.getString(1).toString(), c.getString(2).toString(),
+                        c.getInt(3), c.getLong(4), date, c.getString(6), comp));
+            } while (c.moveToNext());
+        }
+        c.close();
+        db.close();
+        for(Job b:jobs){
+            b.setCompany(searchCompanyById(b.getCompany().getId()));
+        }
+        return jobs;
 
     }
 

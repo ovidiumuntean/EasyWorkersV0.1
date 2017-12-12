@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--NAME FIELDS WITH ID-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:padding="@dimen/activity_horizontal_margin">
+
+    <ImageView
+        android:id="@+id/ivJobContactItemE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:src="@android:drawable/ic_menu_info_details"
+        android:tint="@color/colorPrimary"
+        android:tintMode="multiply" />
+
+    <TextView
+        android:id="@+id/jobNameMainE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_toEndOf="@id/ivJobContactItemE"
+        android:layout_toRightOf="@id/ivJobContactItemE"
+        android:enabled="false"
+        android:hint="@string/updateField"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#212121" />
+
+    <TextView
+        android:id="@+id/compNameJob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/jobNameMainE"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@id/ivJobContactItemE"
+        android:layout_toRightOf="@id/ivJobContactItemE"
+        android:text="@string/prompt_employeeId"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="#727272" />
+
+    <TextView
+        android:id="@+id/compLocJobMainE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/compNameJob"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@id/ivJobContactItemE"
+        android:layout_toRightOf="@id/ivJobContactItemE"
+        android:drawableLeft="@drawable/ic_location_on_black"
+        android:text="@string/prompt_employeeId"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="#727272" />
+
+    <ToggleButton
+        android:id="@+id/chkJobNameMainE"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:background="@android:drawable/star_big_off"
+        android:checked="false"
+        android:padding="6dp"
+        android:textOff=""
+        android:textOn="" />
+
+</RelativeLayout>

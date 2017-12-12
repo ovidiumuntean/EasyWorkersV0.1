@@ -65,7 +65,12 @@
                 android:value="com.example.ovidiu.easyworkersv01.EmployeeMain" />
         </activity>
         <activity android:name=".ApplicationsTab" />
-        <activity android:name=".PostedJobsTabs"></activity>
+        <activity android:name=".PostedJobsTabs" />
+        <activity
+            android:name=".EmployeeMain2"
+            android:label="@string/title_activity_employee_main2"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>

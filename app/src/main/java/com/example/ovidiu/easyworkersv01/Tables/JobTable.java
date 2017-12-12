@@ -2,16 +2,16 @@ package com.example.ovidiu.easyworkersv01.Tables;
 
 import android.content.ContentValues;
 
-import com.example.ovidiu.easyworkersv01.Entity.JobEntity;
+import com.example.ovidiu.easyworkersv01.Entity.Job;
 import com.example.ovidiu.easyworkersv01.Util.UsefullyFunctions;
 
 /**
  * Created by ovidiu on 01/12/2017.
  */
 
-public class Job {
+public class JobTable {
 
-    private static final String TABLE_NAME = "JobEntity";
+    private static final String TABLE_NAME = "Job";
     private static final String COL_ID = "ID";
     private static final String COL_TITLE = "TITLE";
     private static final String COL_DESCRIPTION = "DESCRIPTION";
@@ -22,7 +22,7 @@ public class Job {
     private static final String COL_COMPANY_ID = "COMPANY_ID";
 
 
-    public Job() {
+    public JobTable() {
     }
 
     public String createTableQuery() {
@@ -38,7 +38,7 @@ public class Job {
         return createJobTable;
     }
 
-    public ContentValues createValues(JobEntity jobEntity) {
+    public ContentValues createValues(Job jobEntity) {
         UsefullyFunctions util = new UsefullyFunctions();
         ContentValues values = new ContentValues();
         values.put(COL_TITLE, jobEntity.getTitle());

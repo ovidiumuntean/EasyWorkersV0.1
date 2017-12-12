@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by anamali on 08/12/2017.
  */
 
-public class JobEntity {
+public class Job {
     private int id;
     private String title;
     private String description;
@@ -19,10 +19,10 @@ public class JobEntity {
 
 
 
-    public JobEntity() {
+    public Job() {
     }
 
-    public JobEntity(int id, String title, String description, int type, long experience, Date jobcreated, String category, Company company){
+    public Job(int id, String title, String description, int type, long experience, Date jobcreated, String category, Company company){
         this.id = id;
         this.title = title;
         this.description = description;

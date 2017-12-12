@@ -93,7 +93,7 @@ public class EmployeeLogin extends AppCompatActivity implements LoaderCallbacks<
         // Session Manager
         session = new SessionManager(getApplicationContext());
         if(session.isLoggedIn() && entityKey.equals("EMPLOYEE")){
-            Intent empProfIntent = new Intent(EmployeeLogin.this, EmployeeProfile.class);
+            Intent empProfIntent = new Intent(EmployeeLogin.this, EmployeeMain2.class);
             startActivity(empProfIntent);
         }
         //Database Manager
@@ -365,8 +365,10 @@ public class EmployeeLogin extends AppCompatActivity implements LoaderCallbacks<
                 Company company = myDb.companyLogin(mEmail, mPassword);
                     if(company != null){
                         this.mName = company.getName();
+                        return true;
+                    } else {
+                        return false;
                     }
-                       return true;
                  } else {
                        return false;
                    }
@@ -393,7 +395,7 @@ public class EmployeeLogin extends AppCompatActivity implements LoaderCallbacks<
                 if(entityKey.equalsIgnoreCase("EMPLOYEE")) {
                     //Toast.makeText(EmployeeLogin.this, "User " + mName + " successfully logged in!", Toast.LENGTH_SHORT).show();
                     //alert.showAlertDialog(EmployeeLogin.this, "Login successfully..", "User " + mName + " successfully registered!", true);
-                    Intent empProfIntent = new Intent(EmployeeLogin.this, EmployeeProfile.class);
+                    Intent empProfIntent = new Intent(EmployeeLogin.this, EmployeeMain2.class);
                     startActivity(empProfIntent);
                 } else if(entityKey.equalsIgnoreCase("COMPANY")){
                     Toast.makeText(EmployeeLogin.this, "User " + mName + " successfully logged in!", Toast.LENGTH_SHORT).show();

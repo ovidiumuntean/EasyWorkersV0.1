@@ -143,12 +143,16 @@ public class AddJobActivity extends AppCompatActivity {
         });
 
 
-            Company company = myDb.searchCompanyByEmail(EmployeeLogin.email);
+            Company company = myDb.searchCompanyByEmail(session.getUserDetails().get(SessionManager.KEY_EMAIL));
             Date d = new Date();
             job = new Job(0 , title, description, type, experience, d, category, company);
-            myDb.addJob(job);
-            Toast.makeText(AddJobActivity.this, "Job added successfully", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, CompanyTabs.class));
+            if(myDb.addJob(job)) {
+                Toast.makeText(AddJobActivity.this, "Job added successfully", Toast.LENGTH_SHORT).show();
+                this.finish();
+            } else {
+                Toast.makeText(AddJobActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                this.finish();
+            }
 
         }
 }
