@@ -448,7 +448,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     //Get Company job applications
     public ArrayList<JobApplication> getCompJobApplication(Company comp) {
-        String query = "SELECT * FROM " + jobAppTable.getTableName() + " WHERE JOB_ID IN (SELECT JOB_ID FROM " +
+        String query = "SELECT * FROM " + jobAppTable.getTableName() + " WHERE STATUS =1 AND JOB_ID IN (SELECT JOB_ID FROM " +
                 jobTable.getTableName() + " WHERE COMPANY_ID=" + comp.getId() + ");";
         ArrayList<JobApplication> jobApplications = new ArrayList<JobApplication>();
         SQLiteDatabase db = getReadableDatabase();

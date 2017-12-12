@@ -93,7 +93,7 @@ public class EmployeeMain extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(this, "No friends available in the database!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No jobs available in the database!", Toast.LENGTH_SHORT).show();
         }
         locSpinner = (Spinner) findViewById(R.id.spLocationsMainE);
         catSpinner = (Spinner) findViewById(R.id.spCategoriesMainE);

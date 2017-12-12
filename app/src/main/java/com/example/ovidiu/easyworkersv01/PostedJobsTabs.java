@@ -43,9 +43,9 @@ public class PostedJobsTabs extends Fragment {
         myDb = new DatabaseManager(this.getContext(), null, null, 1);
         final ListView listView = (ListView) view.findViewById(R.id.listView);
         Company company = myDb.searchCompanyByEmail(EmployeeLogin.email);
-
-        mJobList = myDb.getJob(company);
-
+        if(company != null) {
+            mJobList = myDb.getJob(company);
+        }
         if(mJobList.size() > 0) {
 
             // Assign adapter to ListView
