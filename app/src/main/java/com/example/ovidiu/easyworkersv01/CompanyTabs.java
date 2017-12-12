@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.ovidiu.easyworkersv01.Adapters.SectionsPageAdapter;
+import com.example.ovidiu.easyworkersv01.Entity.Company;
 
 public class CompanyTabs extends AppCompatActivity {
 
@@ -60,6 +61,11 @@ public class CompanyTabs extends AppCompatActivity {
         if (id == R.id.action_addJobs) {
             Intent addJobIntent = new Intent(CompanyTabs.this, AddJobActivity.class);
             startActivity(addJobIntent);
+        }
+
+        if (id == R.id.action_goToProfile) {
+            Intent goToProfileIntent = new Intent(CompanyTabs.this, CompanyProfile.class);
+            startActivity(goToProfileIntent);
         }
 
 

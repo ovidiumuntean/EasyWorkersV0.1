@@ -369,7 +369,7 @@ public class CompanyRegister extends AppCompatActivity implements LoaderCallback
                     Toast.makeText(CompanyRegister.this, "User " + company.getName() + " successfully logged in!", Toast.LENGTH_SHORT).show();
                     //alert.showAlertDialog(EmployeeRegister.this, "Registration successfully..", "User " + employee.getFirst_name() + " successfully registered!", false);
 
-                    Intent compRegIntent = new Intent(CompanyRegister.this, CompanyProfile.class);
+                    Intent compRegIntent = new Intent(CompanyRegister.this, CompanyTabs.class);
                     startActivity(compRegIntent);
                 } else {
                     mConfPasswordView.requestFocus();
