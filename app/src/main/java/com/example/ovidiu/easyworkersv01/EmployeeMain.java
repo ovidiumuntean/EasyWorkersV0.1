@@ -141,6 +141,8 @@ public class EmployeeMain extends AppCompatActivity {
             return true;
         } else if (id == R.id.action_addQualification) {
 
+        } else if (id == android.R.id.home){
+            session.logoutUser();
         }
 
         return true;
@@ -176,10 +178,18 @@ public class EmployeeMain extends AppCompatActivity {
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(myDb.addJobApplication(job.getId(), employee.getId())){
-                    alert.showAlertDialog(EmployeeMain.this, "SUCCESS..", "Job application added successfully!", true);
+                if(employee != null) {
+                    if (myDb.searchJobApplication(job.getId(), employee.getId()) == null) {
+                        if (myDb.addUpdateJobApplication(job.getId(), employee.getId())) {
+                            alert.showAlertDialog(EmployeeMain.this, "SUCCESS..", "Job application added successfully!", true);
+                        } else {
+                            alert.showAlertDialog(EmployeeMain.this, "ERROR..", "Error in adding the job application!", false);
+                        }
+                    } else {
+                        alert.showAlertDialog(EmployeeMain.this, "APPLIED..", "You already applied for this job!", true);
+                    }
                 } else {
-                    alert.showAlertDialog(EmployeeMain.this, "ERROR..", "Error in adding the job application!", false);
+                    alert.showAlertDialog(EmployeeMain.this, "ERROR..", "Employee not found!", false);
                 }
                 dialog.dismiss();
             }

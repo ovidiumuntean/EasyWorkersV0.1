@@ -78,7 +78,7 @@ public class EmployeeProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_profile);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarProfE);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
@@ -247,7 +247,7 @@ public class EmployeeProfile extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onDestroy();
+                this.finish();
                 return true;
         }
         return true;

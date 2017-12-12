@@ -38,7 +38,7 @@ import java.util.zip.DataFormatException;
 public class DatabaseManager extends SQLiteOpenHelper {
     // define constants related to DB schema such as DB name,
     private static final String DATABASE_NAME = "EasyWorkers.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
     private static final EmployeeTable empTable = new EmployeeTable();
     private static final CompanyTable compTable = new CompanyTable();
     private static final QualificationTable qualTable = new QualificationTable();
@@ -66,13 +66,14 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL(empTable.createTableQuery());
         db.execSQL(compTable.createCompanyTable());
         db.execSQL(jobTable.createTableQuery());
+        db.execSQL(jobAppTable.createTableQuery());
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop old table if it exists and create new tables, or alter table
-        db.execSQL("DROP TABLE IF EXISTS " + empTable.getTableName());
-        db.execSQL("DROP TABLE IF EXISTS " + compTable.getTableName());
+//        db.execSQL("DROP TABLE IF EXISTS " + empTable.getTableName());
+//        db.execSQL("DROP TABLE IF EXISTS " + compTable.getTableName());
         onCreate(db);
     }
 
@@ -132,11 +133,19 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
 
     //ADD JOB APPLICATION
-    //Changing the job Status --> 0 = not Applied, 1 = Applied , 2 = Accepted, 3 = Rejected
-    public boolean addJobApplication(int jobId, int employeeId) {
+    //Job Status --> 0 = not Applied, 1 = Applied , 2 = Accepted, 3 = Rejected
+    public boolean addUpdateJobApplication(int jobId, int employeeId, Integer... status) {
         SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = jobAppTable.createValues(jobId, employeeId, 1);
-        long result = db.insert(jobAppTable.getTableName(), null, values);
+        ContentValues values = new ContentValues();
+        long result;
+        if(status.length == 1){
+            values.put(jobAppTable.getColStatus(), status[0]);
+            result = db.update(jobAppTable.getTableName(), values, "JOB_ID=? AND EMPLOYEE_ID=?", new String[]{String.valueOf(jobId), String.valueOf(employeeId)});
+        } else {
+            values = jobAppTable.createValues(jobId, employeeId, 1);
+            result = db.insert(jobAppTable.getTableName(), null, values);
+        }
+
         db.close();
         if (result == -1) {
             return false;
@@ -454,6 +463,30 @@ public class DatabaseManager extends SQLiteOpenHelper {
         c.close();
         db.close();
         return jobApplications;
+
+    }
+
+
+    // Searching for job application by jobId, empId and optional status
+    // Job Status --> 0 = not Applied, 1 = Applied , 2 = Accepted, 3 = Rejected
+    public JobApplication searchJobApplication(int jobId, int employeeId, Integer... status) {
+        String query = "SELECT * FROM " + jobAppTable.getTableName() + " WHERE JOB_ID=" +
+                jobId + " AND EMPLOYEE_ID=" + employeeId;
+        if(status.length == 1) {
+            query += " AND STATUS=" + status[0];
+        }
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(query, null);
+        JobApplication jobApp = null;
+        if (c.getCount() > 0) {
+            c.moveToFirst();
+            do {
+                jobApp = new JobApplication(c.getInt(0), c.getInt(1), c.getInt(2));
+            } while (c.moveToNext());
+        }
+        c.close();
+        db.close();
+        return jobApp;
 
     }
 

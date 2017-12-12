@@ -9,6 +9,9 @@ public class JobApplication {
     private int employeeId;
     private int status;
 
+    public JobApplication() {
+    }
+
     public JobApplication(int jobId, int employeeId, int status) {
         this.jobId = jobId;
         this.employeeId = employeeId;

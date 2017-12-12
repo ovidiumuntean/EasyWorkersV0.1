@@ -23,7 +23,7 @@ public class JobApplicationTable {
 
     public String createTableQuery() {
         String createJobTable = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( " +
-                COL_JOB_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ," +
+                COL_JOB_ID + " INTEGER NOT NULL, " +
                 COL_EMPLOYEE_ID + " INTEGER NOT NULL, " +
                 COL_STATUS + " TEXT NOT NULL, " +
                 "FOREIGN KEY(JOB_ID) REFERENCES job(id) , " +

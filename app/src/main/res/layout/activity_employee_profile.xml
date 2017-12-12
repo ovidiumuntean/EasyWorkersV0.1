@@ -27,8 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:navigationIcon="?android:attr/homeAsUpIndicator"/>
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_imageE"
