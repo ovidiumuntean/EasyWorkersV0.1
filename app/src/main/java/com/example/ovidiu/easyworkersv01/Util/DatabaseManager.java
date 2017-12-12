@@ -154,6 +154,26 @@ public class DatabaseManager extends SQLiteOpenHelper {
         }
     }
 
+    //ADD JOB APPLICATION
+    //Job Status --> 0 = not Applied, 1 = Applied , 2 = Accepted, 3 = Rejected
+    public boolean rejectJobApplications(int jobId) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        long result;
+        values.put(jobAppTable.getColStatus(), 3);
+        result = db.update(jobAppTable.getTableName(), values, "JOB_ID=?", new String[]{String.valueOf(jobId)});
+
+
+        db.close();
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+
     //ADD QUALIFICATION
     public boolean addQualification(Qualification qualification) {
         SQLiteDatabase db = getWritableDatabase();
@@ -447,8 +467,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
 
     //Get Company job applications
+    // Job Status --> 0 = not Applied, 1 = Applied , 2 = Accepted, 3 = Rejected
     public ArrayList<JobApplication> getCompJobApplication(Company comp) {
-        String query = "SELECT * FROM " + jobAppTable.getTableName() + " WHERE STATUS =1 AND JOB_ID IN (SELECT JOB_ID FROM " +
+        String query = "SELECT * FROM " + jobAppTable.getTableName() + " WHERE STATUS=1 AND JOB_ID IN (SELECT JOB_ID FROM " +
                 jobTable.getTableName() + " WHERE COMPANY_ID=" + comp.getId() + ");";
         ArrayList<JobApplication> jobApplications = new ArrayList<JobApplication>();
         SQLiteDatabase db = getReadableDatabase();
