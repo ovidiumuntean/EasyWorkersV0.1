@@ -45,33 +45,33 @@ public class PostedJobsTabs extends Fragment {
         Company company = myDb.searchCompanyByEmail(EmployeeLogin.email);
         if(company != null) {
             mJobList = myDb.getJob(company);
-        }
-        if(mJobList.size() > 0) {
 
-            // Assign adapter to ListView
-            final JobAdapter myadapter = new
-                    JobAdapter(this.getContext(), R.layout.list_job_row, mJobList);
-            listView.setAdapter(myadapter);
-            //ListView Item Click Listener
-           listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view,
-                                        int position, long id) {
-                  int itemPosition = position;
-                    Job obj = (Job) listView.getItemAtPosition(position);
-                    listView.getItemAtPosition(position).toString();
-                    String itemValue = obj.getTitle();
-                    showDialog(obj);
+            if (mJobList != null) {
 
-                //    Toast.makeText(getContext(), itemPosition, Toast.LENGTH_SHORT).show();
+                // Assign adapter to ListView
+                final JobAdapter myadapter = new
+                        JobAdapter(this.getContext(), R.layout.list_job_row, mJobList);
+                listView.setAdapter(myadapter);
+                //ListView Item Click Listener
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
+                        int itemPosition = position;
+                        Job obj = (Job) listView.getItemAtPosition(position);
+                        listView.getItemAtPosition(position).toString();
+                        String itemValue = obj.getTitle();
+                        showDialog(obj);
 
-                }
-            });
+                        //    Toast.makeText(getContext(), itemPosition, Toast.LENGTH_SHORT).show();
+
+                    }
+                });
 
 
-
-        } else{
-            Toast.makeText(this.getContext(), "No jobs available in the database!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this.getContext(), "No jobs available in the database!", Toast.LENGTH_SHORT).show();
+            }
         }
         return view;
     }

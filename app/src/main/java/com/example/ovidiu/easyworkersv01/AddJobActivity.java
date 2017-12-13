@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.example.ovidiu.easyworkersv01.Entity.Company;
 import com.example.ovidiu.easyworkersv01.Entity.Employee;
 import com.example.ovidiu.easyworkersv01.Entity.Job;
+import com.example.ovidiu.easyworkersv01.Tables.CompanyTable;
 import com.example.ovidiu.easyworkersv01.Tables.JobTable;
 import com.example.ovidiu.easyworkersv01.Util.AlertDialogManager;
 import com.example.ovidiu.easyworkersv01.Util.DatabaseManager;
@@ -146,6 +147,7 @@ public class AddJobActivity extends AppCompatActivity {
             job = new Job(0 , title, description, type, experience, d, category, company);
             if(myDb.addJob(job)) {
                 Toast.makeText(AddJobActivity.this, "Job added successfully", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(AddJobActivity.this, CompanyTabs.class));
                 this.finish();
             } else {
                 Toast.makeText(AddJobActivity.this, "Error", Toast.LENGTH_SHORT).show();
