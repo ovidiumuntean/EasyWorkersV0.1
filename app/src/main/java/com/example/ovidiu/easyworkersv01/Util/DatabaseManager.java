@@ -38,7 +38,7 @@ import java.util.zip.DataFormatException;
 public class DatabaseManager extends SQLiteOpenHelper {
     // define constants related to DB schema such as DB name,
     private static final String DATABASE_NAME = "EasyWorkers.db";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
     private static final EmployeeTable empTable = new EmployeeTable();
     private static final CompanyTable compTable = new CompanyTable();
     private static final QualificationTable qualTable = new QualificationTable();
@@ -72,8 +72,10 @@ public class DatabaseManager extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop old table if it exists and create new tables, or alter table
-//        db.execSQL("DROP TABLE IF EXISTS " + empTable.getTableName());
-//        db.execSQL("DROP TABLE IF EXISTS " + compTable.getTableName());
+      db.execSQL("DROP TABLE IF EXISTS " + empTable.getTableName());
+       db.execSQL("DROP TABLE IF EXISTS " + compTable.getTableName());
+        db.execSQL("DROP TABLE IF EXISTS " + jobTable.getTableName());
+        db.execSQL("DROP TABLE IF EXISTS " + jobAppTable.getTableName());
         onCreate(db);
     }
 
