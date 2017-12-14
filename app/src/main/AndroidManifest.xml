@@ -75,6 +75,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.ovidiu.easyworkersv01.EmployeeLogin" />
         </activity>
+        <activity
+            android:name=".SearchedJob"
+            android:label="@string/title_activity_searched_job"
+            android:parentActivityName=".EmployeeMain"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ovidiu.easyworkersv01.EmployeeMain" />
+        </activity>
+        <activity
+            android:name=".EmployeeJobs"
+            android:label="@string/title_activity_employee_jobs"
+            android:parentActivityName=".EmployeeMain"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ovidiu.easyworkersv01.EmployeeMain" />
+        </activity>
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package com.example.ovidiu.easyworkersv01;
 
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ public class ApplicationsTab extends Fragment {
     private ArrayList<Job> mJobList;
     private JobApplicationAdapter myadapter = null;
     private Company company;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,7 +45,7 @@ public class ApplicationsTab extends Fragment {
         myDb = new DatabaseManager(this.getContext(), null, null, 1);
         final ListView listView = (ListView) view.findViewById(R.id.listView);
         company = myDb.searchCompanyByEmail(EmployeeLogin.email);
-        if(company != null) {
+        if (company != null) {
             mJobApplicationList = myDb.getCompJobApplication(company);
 
             if (mJobApplicationList != null) {
@@ -71,7 +73,7 @@ public class ApplicationsTab extends Fragment {
         return view;
     }
 
-    public void showDialog(final JobApplication jobApplication) {
+    public void showDialog(JobApplication jobApplication) {
         final Dialog dialog = new Dialog(this.getContext());
         dialog.setContentView(R.layout.custom);
         dialog.setTitle("Job Applications");
@@ -84,58 +86,75 @@ public class ApplicationsTab extends Fragment {
         TextView CategoryView = (TextView) dialog.findViewById(R.id.jobCategory);
         CategoryView.setText(jobApplication.getJob().getCategory());
         TextView typeView = (TextView) dialog.findViewById(R.id.jobType);
-        if(typeView.getText().toString().equalsIgnoreCase("0")){
+        if (typeView.getText().toString().equalsIgnoreCase("0")) {
             typeView.setText("Part Time");
-        }else
+        } else
             typeView.setText("Full Time");
         TextView createdView = (TextView) dialog.findViewById(R.id.createdOn);
         createdView.setText(String.valueOf(jobApplication.getJob().getJobcreated()));
-
+        final JobApplication jobAppFinal = jobApplication;
         //Getting the action buttons and adding click listeners
         Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+
         dialogButton.setText("Accept");
-        dialogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(jobApplication.getEmployee() != null) {
-                        if (myDb.addUpdateJobApplication(jobApplication.getJob().getId(), jobApplication.getEmployee().getId(), 2)) {
-                            alert.showAlertDialog(getContext(), "SUCCESS..", "Job application accepted successfully!", true);
-                            myDb.rejectJobApplications(jobApplication.getJob().getId(), jobApplication.getEmployee().getId());
+        Button deleteButton = (Button) dialog.findViewById(R.id.dialogButtonDelete);
+        deleteButton.setText("Reject");
+        if (jobAppFinal.getEmployee() != null) {
+            TextView empHeadingView = (TextView) dialog.findViewById(R.id.employeeNameHeading);
+            TextView empNameView = (TextView) dialog.findViewById(R.id.employeeName);
+            empHeadingView.setVisibility(View.VISIBLE);
+            empNameView.setVisibility(View.VISIBLE);
+            empNameView.setText(jobAppFinal.getEmployee().getFull_name());
+            dialogButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (myDb.addUpdateJobApplication(jobAppFinal.getJob().getId(), jobAppFinal.getEmployee().getId(), 2)) {
+                        ContentValues values = new ContentValues();
+                        values.put("STATUS", 1);
+                        if(myDb.updateEmployee(values, jobAppFinal.getEmployee().getId())){
+                            alert.showAlertDialog(getContext(), "SUCCESS..", "Employee employed successfully!", true);
+                        } else {
+                            alert.showAlertDialog(getContext(), "ERROR..", "Employee not employed!", false);
+                        }
+                        alert.showAlertDialog(getContext(), "SUCCESS..", "Job application accepted successfully!", true);
+                        myDb.rejectJobApplications(jobAppFinal.getJob().getId(), jobAppFinal.getEmployee().getId());
+                        mJobApplicationList = myDb.getCompJobApplication(company);
+                        myadapter.clear();
+                        if(mJobApplicationList != null) {
+                            myadapter.addAll(mJobApplicationList);
+                        }
+                        myadapter.notifyDataSetChanged();
+                    } else {
+                        alert.showAlertDialog(getContext(), "ERROR..", "Error in accepting the job application!", false);
+                    }
+
+                    dialog.dismiss();
+                }
+            });
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (jobAppFinal.getEmployee() != null) {
+                        if (myDb.addUpdateJobApplication(jobAppFinal.getJob().getId(), jobAppFinal.getEmployee().getId(), 3)) {
                             mJobApplicationList = myDb.getCompJobApplication(company);
                             myadapter.clear();
                             myadapter.addAll(mJobApplicationList);
                             myadapter.notifyDataSetChanged();
+                            alert.showAlertDialog(getContext(), "SUCCESS..", "Job application rejected successfully!", true);
                         } else {
-                            alert.showAlertDialog(getContext(), "ERROR..", "Error in accepting the job application!", false);
+                            alert.showAlertDialog(getContext(), "ERROR..", "Error in rejected the job application!", false);
                         }
-                } else {
-                    alert.showAlertDialog(getContext(), "ERROR..", "Employee not found!", false);
-                };
-                dialog.dismiss();
-            }
-        });
-        Button deleteButton = (Button) dialog.findViewById(R.id.dialogButtonDelete);
-        deleteButton.setText("Reject");
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(jobApplication.getEmployee() != null) {
-                    if (myDb.addUpdateJobApplication(jobApplication.getJob().getId(), jobApplication.getEmployee().getId(), 3)) {
-                        mJobApplicationList = myDb.getCompJobApplication(company);
-                        myadapter.clear();
-                        myadapter.addAll(mJobApplicationList);
-                        myadapter.notifyDataSetChanged();
-                        alert.showAlertDialog(getContext(), "SUCCESS..", "Job application rejected successfully!", true);
                     } else {
-                        alert.showAlertDialog(getContext(), "ERROR..", "Error in rejected the job application!", false);
+                        alert.showAlertDialog(getContext(), "ERROR..", "Employee not found!", false);
                     }
-                } else {
-                    alert.showAlertDialog(getContext(), "ERROR..", "Employee not found!", false);
+                    dialog.dismiss();
                 }
-                dialog.dismiss();
-            }
-        });
-
+            });
+        } else {
+            alert.showAlertDialog(getContext(), "ERROR..", "Employee not found!", false);
+        }
+        ;
 
 
         dialog.show();

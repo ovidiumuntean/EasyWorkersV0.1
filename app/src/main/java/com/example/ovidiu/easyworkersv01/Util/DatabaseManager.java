@@ -38,7 +38,7 @@ import java.util.zip.DataFormatException;
 public class DatabaseManager extends SQLiteOpenHelper {
     // define constants related to DB schema such as DB name,
     private static final String DATABASE_NAME = "EasyWorkers.db";
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 8;
     private static final EmployeeTable empTable = new EmployeeTable();
     private static final CompanyTable compTable = new CompanyTable();
     private static final QualificationTable qualTable = new QualificationTable();
@@ -72,11 +72,20 @@ public class DatabaseManager extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop old table if it exists and create new tables, or alter table
-      db.execSQL("DROP TABLE IF EXISTS " + empTable.getTableName());
-       db.execSQL("DROP TABLE IF EXISTS " + compTable.getTableName());
+        db.execSQL("DROP TABLE IF EXISTS " + empTable.getTableName());
+        db.execSQL("DROP TABLE IF EXISTS " + compTable.getTableName());
         db.execSQL("DROP TABLE IF EXISTS " + jobTable.getTableName());
         db.execSQL("DROP TABLE IF EXISTS " + jobAppTable.getTableName());
         onCreate(db);
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        if (!db.isReadOnly()) {
+            // Enable foreign key constraints
+            db.execSQL("PRAGMA foreign_keys=ON;");
+        }
     }
 
     //******************************         ADD METHODS        ************************************
@@ -103,11 +112,14 @@ public class DatabaseManager extends SQLiteOpenHelper {
         if (emp == null) {
             SQLiteDatabase db = getWritableDatabase();
             ContentValues values = empTable.createValues(employee);
-            long result;
             try {
-                db.insert(empTable.getTableName(), null, values);
+                long result = db.insert(empTable.getTableName(), null, values);
                 db.close();
-                return true;
+                if(result == -1){
+                    return false;
+                } else {
+                    return true;
+                }
             } catch (SQLException e) {
                 db.close();
                 e.printStackTrace();
@@ -140,7 +152,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         long result;
-        if(status.length == 1){
+        if (status.length == 1) {
             values.put(jobAppTable.getColStatus(), status[0]);
             result = db.update(jobAppTable.getTableName(), values, "JOB_ID=? AND EMPLOYEE_ID=?", new String[]{String.valueOf(jobId), String.valueOf(employeeId)});
         } else {
@@ -173,7 +185,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
             return true;
         }
     }
-
 
 
     //ADD QUALIFICATION
@@ -224,7 +235,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     //Search Employee by email
     public Employee searchEmployeeByEmail(String email) {
         SQLiteDatabase db = getReadableDatabase();
-        String query = "SELECT * FROM " + empTable.getTableName() + " WHERE " + empTable.getColEmail() + "=\'" + email + "\' AND " + empTable.getColStatus() + " = 1;";
+        String query = "SELECT * FROM " + empTable.getTableName() + " WHERE " + empTable.getColEmail() + "=\'" + email + "\';";
         Employee employee = new Employee();
         Cursor c = db.rawQuery(query, null);
 
@@ -253,7 +264,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     //Search Employee by ID
     public Employee searchEmployeeById(int id) {
         SQLiteDatabase db = getReadableDatabase();
-        String query = "SELECT * FROM " + empTable.getTableName() + " WHERE " + empTable.getColId() + "=" + id + " AND " + empTable.getColStatus() + " = 1;";
+        String query = "SELECT * FROM " + empTable.getTableName() + " WHERE " + empTable.getColId() + "=" + id + ";";
         Employee employee = new Employee();
         Cursor c = db.rawQuery(query, null);
 
@@ -283,7 +294,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public Employee employeeLogin(String email, String password) {
         SQLiteDatabase db = getReadableDatabase();
         String query = "SELECT * FROM " + empTable.getTableName() + " WHERE " + empTable.getColEmail() + "=\'" + email +
-                "\' AND " + empTable.getColPassword() + "= \'" + password + "\' AND " + empTable.getColStatus() + " = 1;";
+                "\' AND " + empTable.getColPassword() + "= \'" + password + "\';";
         Employee employee = new Employee();
         Cursor c = db.rawQuery(query, null);
 
@@ -372,9 +383,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             Date date = null;
             c.moveToFirst();
             compId = c.getInt(c.getColumnIndex(jobTable.getColCompanyId()));
-
-
-            while (c.moveToNext()) {
+            do{
                 try {
                     date = sd.parse(c.getString(c.getColumnIndex(jobTable.getColJobscreated())).toString());
                 } catch (ParseException e) {
@@ -387,13 +396,13 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 job.setExperience(c.getLong(c.getColumnIndex(jobTable.getColExperience())));
                 job.setCategory(c.getString(c.getColumnIndex(jobTable.getColCategory())).toString());
                 job.setJobcreated(date);
-            }
+            }while (c.moveToNext());
         } else {
             db.close();
             return null;
         }
         db.close();
-        if(comp.length == 1){
+        if (comp.length == 1) {
             job.setCompany(comp[0]);
         } else {
             job.setCompany(searchCompanyById(compId));
@@ -508,10 +517,10 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
         if (c.getCount() > 0) {
             c.moveToFirst();
-            Job job = new Job();
-            Employee emp = new Employee();
 
             do {
+                Job job = new Job();
+                Employee emp = new Employee();
                 job.setId(c.getInt(0));
                 emp.setId(c.getInt(1));
                 jobApplications.add(new JobApplication(job, emp, c.getInt(2)));
@@ -519,8 +528,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
         }
         c.close();
         db.close();
-        if(jobApplications.size() > 0){
-            for (JobApplication j: jobApplications){
+        if (jobApplications.size() > 0) {
+            for (JobApplication j : jobApplications) {
                 j.setJob(searchJobById(j.getJob().getId()));
                 j.setEmployee(searchEmployeeById(j.getEmployee().getId()));
             }
@@ -531,13 +540,48 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     }
 
+    public ArrayList<JobApplication> getEmpJobApplication(String email) {
+
+        Employee emp = searchEmployeeByEmail(email);
+        if(emp != null){
+            SQLiteDatabase db = getReadableDatabase();
+            String query = "SELECT * FROM " + jobAppTable.getTableName() + " WHERE " +
+                    jobAppTable.getColEmployeeId() + "=" + emp.getId() + ";";
+            ArrayList<JobApplication> jobApplications = new ArrayList<JobApplication>();
+
+            Cursor c = db.rawQuery(query, null);
+
+            if (c.getCount() > 0) {
+                c.moveToFirst();
+
+
+                do {
+                    Job job = new Job();
+                    job.setId(c.getInt(0));
+                    jobApplications.add(new JobApplication(job, emp, c.getInt(2)));
+                } while (c.moveToNext());
+            }
+            c.close();
+            db.close();
+            if (jobApplications.size() > 0) {
+                for (JobApplication j : jobApplications) {
+                    j.setJob(searchJobById(j.getJob().getId()));
+                }
+                return jobApplications;
+            } else {
+                return null;
+            }
+        } else{
+            return null;
+        }
+    }
 
     // Searching for job application by jobId, empId and optional status
     // Job Status --> 0 = not Applied, 1 = Applied , 2 = Accepted, 3 = Rejected
     public JobApplication searchJobApplication(int jobId, int employeeId, Integer... status) {
         String query = "SELECT * FROM " + jobAppTable.getTableName() + " WHERE JOB_ID=" +
                 jobId + " AND EMPLOYEE_ID=" + employeeId;
-        if(status.length == 1) {
+        if (status.length == 1) {
             query += " AND STATUS=" + status[0];
         }
         SQLiteDatabase db = getReadableDatabase();
@@ -545,9 +589,10 @@ public class DatabaseManager extends SQLiteOpenHelper {
         JobApplication jobApp = null;
         if (c.getCount() > 0) {
             c.moveToFirst();
-            Job job = new Job();
-            Employee emp = new Employee();
+
             do {
+                Job job = new Job();
+                Employee emp = new Employee();
                 job.setId(c.getInt(0));
                 emp.setId(c.getInt(1));
                 jobApp = new JobApplication(job, emp, c.getInt(2));
@@ -556,7 +601,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         c.close();
         db.close();
 
-        if(jobApp != null){
+        if (jobApp != null) {
             jobApp.setJob(searchJobById(jobApp.getJob().getId()));
             jobApp.setEmployee(searchEmployeeById(jobApp.getEmployee().getId()));
         }
@@ -576,8 +621,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
                     "yyyy-MM-dd HH:mm:ss");
             Date date = null;
             c.moveToFirst();
-            comp = new Company(c.getInt(7));
             do {
+                comp = new Company(c.getInt(7));
                 try {
                     date = sd.parse(c.getString(5));
                 } catch (ParseException e) {
@@ -592,7 +637,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
         for (Job b : jobs) {
             comp = searchCompanyById(b.getCompany().getId());
-            if(comp != null)
+            if (comp != null)
                 b.setCompany(comp);
             else
                 return null;
@@ -604,12 +649,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
     //Searching jobs byLocations, cattergory and query
     public ArrayList<Job> searchJobs(String query, String location, String category) {
 
-        String query1 = "SELECT * FROM " + jobTable.getTableName() + " WHERE " + jobTable.getColTitle() + " LIKE %" +
-                query + "% AND " + jobTable.getColCategory() + " LIKE %" + category + "% AND " + jobTable.getColCompanyId()
-                + " IN ( SELECT COMPANY_ID FROM Company WHERE ADDRESS LIKE %" + location + "%);";
+        String query1 = "SELECT * FROM " + jobTable.getTableName() + " WHERE " + jobTable.getColTitle() + " LIKE '%" +
+                query + "%' AND " + jobTable.getColCategory() + " LIKE '%" + category + "%' AND " + jobTable.getColCompanyId()
+                + " = (SELECT COMPANY_ID FROM Company WHERE ADDRESS LIKE '%" + location + "%');";
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<Job> jobs = new ArrayList<Job>();
-        Cursor c = db.rawQuery(query, null);
+        Cursor c = db.rawQuery(query1, null);
 
         Company comp = null;
         if (c.getCount() > 0) {
@@ -617,8 +662,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
                     "yyyy-MM-dd HH:mm:ss");
             Date date = null;
             c.moveToFirst();
-            comp = new Company(c.getInt(7));
             do {
+                comp = new Company(c.getInt(7));
                 try {
                     date = sd.parse(c.getString(5));
                 } catch (ParseException e) {
@@ -627,13 +672,17 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 jobs.add(new Job(c.getInt(0), c.getString(1).toString(), c.getString(2).toString(),
                         c.getInt(3), c.getLong(4), date, c.getString(6), comp));
             } while (c.moveToNext());
+        } else {
+            c.close();
+            db.close();
+            return null;
         }
         c.close();
         db.close();
         for (Job b : jobs) {
             comp = searchCompanyById(b.getCompany().getId());
-            if(comp != null)
-            b.setCompany(comp);
+            if (comp != null)
+                b.setCompany(comp);
             else
                 return null;
         }

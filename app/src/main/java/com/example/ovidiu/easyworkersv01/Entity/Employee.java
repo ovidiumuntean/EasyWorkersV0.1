@@ -121,4 +121,8 @@ public class Employee {
     public void setImage(byte[] image) {
         this.image = image;
     }
+
+    public String getFull_name() {
+        return first_name + " " + surname;
+    }
 }

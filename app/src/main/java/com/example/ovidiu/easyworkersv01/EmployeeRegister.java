@@ -421,7 +421,7 @@ public class EmployeeRegister extends AppCompatActivity implements LoaderCallbac
                     Toast.makeText(EmployeeRegister.this, "User " + employee.getFirst_name() + " successfully registered!", Toast.LENGTH_SHORT).show();
                     //alert.showAlertDialog(EmployeeRegister.this, "Registration successfully..", "User " + employee.getFirst_name() + " successfully registered!", false);
                     //EmployeeRegister.super.onDestroy();
-                    Intent empProfIntent = new Intent(EmployeeRegister.this, EmployeeProfile.class);
+                    Intent empProfIntent = new Intent(EmployeeRegister.this, EmployeeMain.class);
                     startActivity(empProfIntent);
                 } else {
                     mConfPasswordView.requestFocus();

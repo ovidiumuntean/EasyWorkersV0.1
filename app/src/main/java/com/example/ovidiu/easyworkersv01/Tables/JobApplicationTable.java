@@ -25,7 +25,7 @@ public class JobApplicationTable {
         String createJobTable = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( " +
                 COL_JOB_ID + " INTEGER NOT NULL, " +
                 COL_EMPLOYEE_ID + " INTEGER NOT NULL, " +
-                COL_STATUS + " TEXT NOT NULL, " +
+                COL_STATUS + " INTEGER NOT NULL, " +
                 "FOREIGN KEY(JOB_ID) REFERENCES job(id) , " +
                 "FOREIGN KEY(EMPLOYEE_ID) REFERENCES employee(id) , " +
                 "PRIMARY KEY (JOB_ID, EMPLOYEE_ID));";

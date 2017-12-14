@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -19,8 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ovidiu.easyworkersv01.Adapters.JobAdapter;
-import com.example.ovidiu.easyworkersv01.Adapters.MyAdapter;
-import com.example.ovidiu.easyworkersv01.Entity.Company;
 import com.example.ovidiu.easyworkersv01.Entity.Employee;
 import com.example.ovidiu.easyworkersv01.Entity.Job;
 import com.example.ovidiu.easyworkersv01.Util.AlertDialogManager;
@@ -89,7 +88,7 @@ public class EmployeeMain extends AppCompatActivity {
                             "Position :" + itemPosition + " ListItem : " +
                                     itemValue, Toast.LENGTH_LONG)
                             .show();
-                    showDialog(obj);
+                    showDialogMain(obj);
 
                 }
             });
@@ -104,10 +103,25 @@ public class EmployeeMain extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                String location = locSpinner.getSelectedItem().toString();
-                String category = catSpinner.getSelectedItem().toString();
-                ArrayList<Job> jobs1 = myDb.searchJobs(query, location, category);
-                return true;
+                if(TextUtils.isEmpty(query.trim())){
+                    searchJobView.setFocusable(true);
+                    searchJobView.setIconified(true);
+                    return false;
+                } else {
+                    searchJobView.setIconified(false);
+                    String location = locSpinner.getSelectedItem().toString();
+                    String category = catSpinner.getSelectedItem().toString();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("CHOICE", "Search");
+                    bundle.putString("TITLE_KEY", query);
+                    bundle.putString("CATEGORY_KEY", category);
+                    bundle.putString("LOCATION_KEY", location);
+                    //ArrayList<Job> jobs1 = myDb.searchJobs(query, location, category);
+                    Intent searchJobIntent = new Intent(EmployeeMain.this, SearchedJob.class);
+                    searchJobIntent.putExtras(bundle);
+                    startActivity(searchJobIntent);
+                    return true;
+                }
             }
 
             @Override
@@ -141,7 +155,13 @@ public class EmployeeMain extends AppCompatActivity {
             startActivity(empProfIntent);
             return true;
         } else if (id == R.id.action_addQualification) {
-
+            Toast.makeText(this, "Feature available soon!", Toast.LENGTH_SHORT).show();
+        } else if(id == R.id.action_empJobsApp){
+            Bundle bundle = new Bundle();
+            bundle.putString("CHOICE", "Applications");
+            Intent showJobAppIntent = new Intent(EmployeeMain.this, SearchedJob.class);
+            showJobAppIntent.putExtras(bundle);
+            startActivity(showJobAppIntent);
         } else if (id == android.R.id.home){
             session.logoutUser();
         }
@@ -149,7 +169,7 @@ public class EmployeeMain extends AppCompatActivity {
         return true;
     }
 
-    public void showDialog(final Job job){
+    private void showDialogMain(final Job job){
         final Job j = job;
         final Dialog dialog = new Dialog(EmployeeMain.this);
         dialog.setContentView(R.layout.custom);

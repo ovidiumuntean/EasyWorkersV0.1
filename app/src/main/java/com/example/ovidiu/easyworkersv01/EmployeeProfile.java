@@ -381,6 +381,7 @@ public class EmployeeProfile extends AppCompatActivity {
                 if (!employee.getSurname().equals(newValue)) {
                     employee.setSurname(newValue);
                     empUpdate = true;
+                    values.put(empTable.getColSurname(), newValue);
                 }
             }
         } else {

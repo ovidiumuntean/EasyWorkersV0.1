@@ -10,10 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.ovidiu.easyworkersv01.Entity.Job;
+
 import com.example.ovidiu.easyworkersv01.Entity.JobApplication;
 import com.example.ovidiu.easyworkersv01.R;
-import com.example.ovidiu.easyworkersv01.Util.DatabaseManager;
 
 import java.util.ArrayList;
 
@@ -25,7 +24,6 @@ import java.util.ArrayList;
 public class JobApplicationAdapter extends ArrayAdapter<JobApplication> {
     private Context ctx = null;
     private ArrayList<JobApplication> mDataSource;
-    private DatabaseManager myDb;
 
     // override other abstract methods here
     public JobApplicationAdapter(@NonNull Context context, @LayoutRes int resource, ArrayList<JobApplication>

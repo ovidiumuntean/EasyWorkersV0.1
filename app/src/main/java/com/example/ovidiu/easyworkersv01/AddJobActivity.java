@@ -28,6 +28,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +62,7 @@ public class AddJobActivity extends AppCompatActivity {
     // UI references.
     private EditText mTitleView;
     private EditText mDescriptionView;
-    private EditText mCategoryView;
+    private Spinner mCategorySpinner;
     private EditText mExperienceView;
     private RadioGroup mTypeRadioGroup;
     static JobTable jobTable;
@@ -90,7 +91,7 @@ public class AddJobActivity extends AppCompatActivity {
 
         mTitleView = (EditText) findViewById(R.id.title);
         mDescriptionView = (EditText) findViewById(R.id.Description);
-        mCategoryView = (EditText) findViewById(R.id.category);
+        mCategorySpinner = (Spinner) findViewById(R.id.spCategoriesAddJC);
         mExperienceView = (EditText) findViewById(R.id.experience);
         mTypeRadioGroup = (RadioGroup) findViewById(R.id.type);
 
@@ -120,7 +121,7 @@ public class AddJobActivity extends AppCompatActivity {
 
         String title = mTitleView.getText().toString();
         String description = mDescriptionView.getText().toString();
-        String category = mCategoryView.getText().toString();
+        String category = mCategorySpinner.getSelectedItem().toString();
         long experience = Long.parseLong(mExperienceView.getText().toString());
 
 

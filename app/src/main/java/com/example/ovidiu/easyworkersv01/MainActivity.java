@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.ovidiu.easyworkersv01.Util.SessionManager;
+
 public class MainActivity extends AppCompatActivity {
 
     public static String ENTITY_KEY;
@@ -83,6 +85,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onRegister(View v){
+        SessionManager session = new SessionManager(getApplicationContext());
+        if(session.isLoggedIn()){
+            session.logoutUser();
+        }
         if(empBool) {
             Intent empRegIntent = new Intent(this, EmployeeRegister.class);
             startActivity(empRegIntent);

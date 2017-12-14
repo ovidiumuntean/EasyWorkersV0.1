@@ -12,23 +12,28 @@ import android.view.MenuItem;
 
 import com.example.ovidiu.easyworkersv01.Adapters.SectionsPageAdapter;
 import com.example.ovidiu.easyworkersv01.Entity.Company;
+import com.example.ovidiu.easyworkersv01.Util.SessionManager;
 
 public class CompanyTabs extends AppCompatActivity {
 
     private static final String TAG = "Tab Activity";
     private SectionsPageAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-
+    private SessionManager session;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_tabs);
         Log.d(TAG, "on Create: Starting ");
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCompTabs);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mSectionsPagerAdapter = new SectionsPageAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.container);
         setupViewPager(mViewPager);
+
+        session = new SessionManager(getApplicationContext());
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
@@ -61,13 +66,12 @@ public class CompanyTabs extends AppCompatActivity {
         if (id == R.id.action_addJobs) {
             Intent addJobIntent = new Intent(CompanyTabs.this, AddJobActivity.class);
             startActivity(addJobIntent);
-        }
-
-        if (id == R.id.action_goToProfile) {
+        } else if (id == R.id.action_goToProfile) {
             Intent goToProfileIntent = new Intent(CompanyTabs.this, CompanyProfile.class);
             startActivity(goToProfileIntent);
+        } else if(id == android.R.id.home){
+            session.logoutUser();
         }
-
 
         return super.onOptionsItemSelected(item);
     }

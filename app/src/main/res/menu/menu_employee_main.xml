@@ -13,4 +13,9 @@
         android:orderInCategory="100"
         android:title="@string/action_employee_profile"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_empJobsApp"
+        android:orderInCategory="100"
+        android:title="@string/action_employee_applications"
+        app:showAsAction="never" />
 </menu>
