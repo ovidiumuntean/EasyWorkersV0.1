@@ -16,6 +16,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.KeyListener;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -72,8 +73,13 @@ public class CompanyProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_profile);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarProfC);
         setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         //imageViewLoad = (CircleImageView) findViewById(R.id.profile_image);
 
@@ -110,7 +116,7 @@ public class CompanyProfile extends AppCompatActivity {
          * */
         session.checkLogin();
         //Setting the Employee view Data
-        this.setEmpProfileData();
+        this.setCompProfileData();
 
     }
 
@@ -145,7 +151,7 @@ public class CompanyProfile extends AppCompatActivity {
                     fis.read(image);
                     int dbRes = myDb.addEmpPicture(company.getId(), image);
                     if(dbRes > 0){
-                        this.setEmpProfileData();
+                        this.setCompProfileData();
                     }
                     fis.close();
                 } catch (IOException e) {
@@ -165,14 +171,28 @@ public class CompanyProfile extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        session.logoutUser();
-        super.onDestroy();
-        Intent mainAct = new Intent(this, MainActivity.class);
-        startActivity(mainAct);
+    public boolean onSupportNavigateUp() {
+        this.finish();
+        return true;
     }
 
-    private void setEmpProfileData() {
+    @Override
+    protected void onDestroy() {
+        this.finish();
+        super.onDestroy();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return true;
+    }
+
+    private void setCompProfileData() {
         // Get user Details from DB
         company= myDb.searchCompanyByEmail(session.getUserDetails().get(SessionManager.KEY_EMAIL));
         if (company != null && session.isLoggedIn()) {
@@ -321,7 +341,7 @@ public class CompanyProfile extends AppCompatActivity {
         AlertDialogManager alert = new AlertDialogManager();
         if (compUpdate) {
             if (myDb.updateCompany(values, company.getId())) {
-                this.setEmpProfileData();
+                this.setCompProfileData();
                 alert.showAlertDialog(this, "Update Successfully..", "New data was added to your profile!", true);
                 compUpdate = false;
                 values.clear();

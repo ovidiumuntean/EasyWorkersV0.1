@@ -182,12 +182,6 @@ public class EmployeeProfile extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        this.finish();
-        return true;
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         try {
@@ -235,6 +229,12 @@ public class EmployeeProfile extends AppCompatActivity {
             Toast.makeText(this, "Please try again", Toast.LENGTH_LONG)
                     .show();
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        this.finish();
+        return true;
     }
 
     @Override
